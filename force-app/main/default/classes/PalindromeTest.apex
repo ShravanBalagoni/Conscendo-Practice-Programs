@@ -1,0 +1,1 @@
+System.debug(Palindrome.isPalindrome('151'));
