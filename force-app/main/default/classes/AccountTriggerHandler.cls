@@ -3,33 +3,25 @@ public  class AccountTriggerHandler {
 
     }
     public static void handleAfterUpdate(List<Account> newAccounts, Map<Id, Account> oldAccountMap) {
-       
-       Map<Id,String> accountToPrimaryContactMap = new Map<Id,String>();
-   
-       for(Account acc: newAccounts){
-        Account oldAcc = oldAccountMap.get(acc.Id);
-        if(acc.Description!=oldAcc.Description)
-        {   
-            accountToPrimaryContactMap.put(acc.Id,acc.Description);
         
+        Map<Id,Account> accountToPrimaryContactMap = new Map<Id,Account>();
+        for(Account acc: newAccounts){
+            Account oldAcc = oldAccountMap.get(acc.Id);
+            if(acc.Description!=oldAcc.Description && acc.Contacts.size()>0 )  
+                accountToPrimaryContactMap.put(acc.Id,acc);
         }
-}
-    List<Contact> conList = [Select Id,LastName,Description from COntact Where AccountId in:accountToPrimaryContactMap.keyset()];
-    List<Contact> toUpdateconList = new List<Contact>();
-    for(Id accIds:accountToPrimaryContactMap.keySet())
-    {
-        for(Contact con: conList)
+        List<Contact> toUpdateconList = new List<Contact>();
+        for(Contact con: [Select AccountId,Description from Contact 
+                          Where AccountId in:accountToPrimaryContactMap.keyset()])
         {
-            if(con.AccountId==accIds)
+            if(accountToPrimaryContactMap.containsKey(con.AccountId))
             {
-                con.Description = accountToPrimaryContactMap.get(accIds);
+                con.Description = accountToPrimaryContactMap.get(con.AccountId).description;
                 toUpdateconList.add(con);
             }
         }
-    }
-
-       if (!toUpdateconList.isEmpty()) {
+        if (!toUpdateconList.isEmpty())
             update toUpdateconList;
-       }
+        
     }
 }
