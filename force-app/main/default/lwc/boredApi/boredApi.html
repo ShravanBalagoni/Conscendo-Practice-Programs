@@ -1,0 +1,23 @@
+<template>
+    <lightning-card title="Random Bored API Activity">
+        <div class="slds-p-around_medium">
+            <template if:true={data}>
+                <p><strong>Activity:</strong> {data.activity}</p>
+                <p><strong>Type:</strong> {data.type}</p>
+                <p><strong>Participants:</strong> {data.participants}</p>
+                <p><strong>Price:</strong> {data.price}</p>
+                <!-- any other fields you want to display -->
+            </template>
+
+            <template if:true={error}>
+                <p class="slds-text-color_error">Error: {error}</p>
+            </template>
+
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+            </template>
+
+            <lightning-button label="Get New Fact" onclick={handleFetch} class="slds-m-top_medium"></lightning-button>
+        </div>
+    </lightning-card>
+</template>
