@@ -5,14 +5,34 @@ public with sharing class PincodeAPIController {
     req.setMethod('GET');
     Http h = new Http();
     HttpResponse res = h.send(req);
-    List<Object> responselist = (List<Object>)JSON.deserializeUntyped(res.getBody());
-    Map<String,Object> responseMap = (Map<String,Object>) responselist[0];
-    List<Object> postOfficeList = (List<Object>)responseMap.get('PostOffice');
-    for(Object obj : postOfficeList){
-        Map<String,Object> postofficeMap = (Map<String,Object>) obj;
-        System.debug(postofficeMap.get('')); // NOTE: The key here appears to be an empty string, which is unusual.
+    WrapperClass wrapper = (WrapperClass)JSON.deserializeUntyped(res.getBody(),WrapperClass.class);
+    
+    //Map<String,Object> responseMap = (Map<String,Object>) responselist[0];
+    //List<Object> postOfficeList = (List<Object>)responseMap.get('PostOffice');
+    for(innerWrapperClass wrp : wrapper.PostOffice){
+        Map<String,Object> postofficeMap = (Map<String,Object>) wrp;
+        System.debug(postofficeMap.get('BranchType')); // NOTE: The key here appears to be an empty string, which is unusual.
     }
 }
+    public class WrapperClass{
+        public String Message;
+        public String Status;
+        public List<innerWrapperClass> PostOffice;
+ 
+    }
+    
+    public class  innerWrapperClass{
+            public String Name;
+            public String BranchType;
+            public String DeliveryStatus;
+            public String District;
+            public String Division;
+            public String Region;
+            public String Block;
+            public String State;
+            public String Country;
+            public Integer Pincode;
 
-//System.debug(wrapper.id+10);
+        }
+
 }
