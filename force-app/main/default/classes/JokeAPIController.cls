@@ -6,7 +6,9 @@ public  class JokeAPIController {
         Http http = new Http();
         HttpResponse response = http.send(request);
         ResponseWrapper wrapper = (ResponseWrapper) JSON.deserialize(response.getBody(),ResponseWrapper.class);
-        System.debug(wrapper);
+       // Map<String,Object> result = (Map<String,Object>) JSON.deserializeUntyped(response.getBody());
+        //System.debug(result.getStatusCode());
+       
         System.debug(wrapper.id+10);
 
     }
