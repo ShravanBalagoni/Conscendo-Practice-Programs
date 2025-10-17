@@ -5,8 +5,8 @@ public with sharing class ApiPincode {
         req.setMethod('GET');
         Http h = new Http();
         HttpResponse res = h.send(req);
-         System.debug('Raw response: ' + res.getBody());
-        List<Wrapper> wrapperList = (List<Wrapper>) JSON.deserialize(body, List<Wrapper>.class);
+        System.debug('Raw response: ' + res.getBody());
+        List<Wrapper> wrapperList = (List<Wrapper>) JSON.deserialize(res.getBody(), List<Wrapper>.class);
         if (wrapperList == null || wrapperList.isEmpty()) {
             System.debug('No data found');
             return;
@@ -22,7 +22,7 @@ public with sharing class ApiPincode {
         public String Message;
         public String Status;
     }
-     public class PostOfficeEntry {
+    public class PostOfficeEntry {
         public String BranchType;
         
     }
