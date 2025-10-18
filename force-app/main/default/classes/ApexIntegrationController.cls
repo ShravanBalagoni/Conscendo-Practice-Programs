@@ -48,4 +48,19 @@ public class ApexIntegrationController {
             System.debug('Authentication failed with status code: ' + authRes.getStatusCode());
         }
     }
+    //Butterfly_Org
+     public static void hitSalesforceUsingNC(){
+         List<Map<String, String>> accounts = new List<Map<String, String>>();
+        accounts.add(new Map<String, String>{'Name' => 'Sudheer Rupam 14', 'salesRep' => 'Test 14'});
+        accounts.add(new Map<String, String>{'Name' => 'Sudheer Rupam 15', 'salesRep' => 'Test 15'});
+        String requestBody = JSON.serialize(accounts);
+        HttpRequest req = new HttpRequest();
+        req.setHeader('Content-Type', 'application/json');
+        req.setMethod('POST');
+        req.setEndpoint('callout:Butterfly_Org/services/apexrest/accountCRUD');
+        req.setBody(requestBody);
+        Http http2 = new Http();
+        HttpResponse endRes = http2.send(req);
+        System.debug('endRes Code: '+endRes.getStatusCode());
+    }
 }
