@@ -60,3 +60,28 @@ global with sharing class AccountCRUD {
         return resp;
     }
 }
+/*@RestResource(urlMapping='/butterfly/AccountCRUD/*')
+global with sharing class AccountCRUD {
+
+    global class AccountRequest {
+        public String name;
+        public String phone;
+    }
+
+    @HttpPost
+    global static void createAccounts() {
+        RestRequest req = RestContext.request;
+        List<AccountRequest> acctReqList = (List<AccountRequest>) JSON.deserialize(req.requestBody.toString(), List<AccountRequest>.class);
+
+        List<Account> newAccounts = new List<Account>();
+        for (AccountRequest acctReq : acctReqList) {
+            Account newAcc = new Account();
+            newAcc.Name = acctReq.name;
+            newAcc.Phone = acctReq.phone;
+            newAccounts.add(newAcc);
+        }
+
+        insert newAccounts;
+    }
+}
+ */
