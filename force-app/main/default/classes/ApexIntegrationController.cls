@@ -17,7 +17,7 @@ public class ApexIntegrationController {
         HttpRequest authReq = new HttpRequest();
         authReq.setEndpoint(authUrl);
         authReq.setMethod('POST');
-        authReq.setHeader('Content-Type', 'application/x-www-form-urlencoded');
+        authReq.setHeader('Content-Type', 'application/json');
         authReq.setBody(authBody);
         Http http = new Http();
         HTTPResponse authRes = http.send(authReq);
