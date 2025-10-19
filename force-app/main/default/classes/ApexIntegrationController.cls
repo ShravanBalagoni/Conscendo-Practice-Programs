@@ -57,7 +57,7 @@ public class ApexIntegrationController {
         HttpRequest req = new HttpRequest();
         req.setHeader('Content-Type', 'application/json');
         req.setMethod('POST');
-        req.setEndpoint('callout:Butterfly_Org/services/butterfly/AccountCRUD/');
+        req.setEndpoint('callout:Butterfly_Org/services/apexrest/butterfly/AccountCRUD/');
         req.setBody(requestBody);
         Http http2 = new Http();
         HttpResponse endRes = http2.send(req);
