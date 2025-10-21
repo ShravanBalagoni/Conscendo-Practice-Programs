@@ -37,4 +37,7 @@ public with sharing class ApexIntegrationController {
                 System.debug('End Response code:'+authResp.getStatusCode());
             }
     }
+    public static void hitSalesforceusingNC(){
+        
+    }
 }
