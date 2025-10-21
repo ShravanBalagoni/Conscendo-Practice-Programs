@@ -1,4 +1,4 @@
-@RestResource(urlMapping='/butterfly/AccountCRUD/*')
+/*@RestResource(urlMapping='/butterfly/AccountCRUD/*')
 global with sharing class AccountCRUD {
 
     // Inner class to represent incoming JSON for account creation
@@ -59,8 +59,8 @@ global with sharing class AccountCRUD {
 
         return resp;
     }
-}
-/*@RestResource(urlMapping='/butterfly/AccountCRUD/*')
+}*/
+@RestResource(urlMapping='/butterfly/AccountCRUD/*')
 global with sharing class AccountCRUD {
 
     global class AccountRequest {
@@ -84,4 +84,4 @@ global with sharing class AccountCRUD {
         insert newAccounts;
     }
 }
- */
+
