@@ -7,7 +7,7 @@ Global with sharing class AccountCRUD {
     @HttpPost
     global static void createAccount(){
         RestRequest req= RestContext.request;
-        List<AccountRequest> accReqList = (List<AccountRequest>)JSON.deserialize(req.requestBody.toString(),List<AccountRequest>.class);
+        List<AccountRequest> accReqList = (List<AccountRequest>)JSON.deserializeUntyped(req.requestBody.toString(),List<AccountRequest>.class);
         List<Account> newAccounts = new List<Account>();
         for(AccountRequest acc:accReqList){
             Account newAcc = new Account();
