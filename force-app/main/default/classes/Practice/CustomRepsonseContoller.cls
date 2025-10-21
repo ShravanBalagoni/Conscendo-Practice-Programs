@@ -23,9 +23,9 @@ global class CustomResponseController{
 				(Select Id,LastName,Phone,Email 
 				from Contacts) 
 				from Account Where Id=:recordId];
-		customerData cData = new customerData();
-		cData.customerName = acnt.Name;
-		cData.customerPhoneNumber = acnt.Phone;
+		    customerData cData = new customerData();
+		    cData.customerName = acnt.Name;
+		    cData.customerPhoneNumber = acnt.Phone;
 		
 		List<customerContact> cContactsList = new List<customerContact>();
 		for(Contact con:acnt.Contacts)
