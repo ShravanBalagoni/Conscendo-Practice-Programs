@@ -20,8 +20,8 @@ Global with sharing class AccountRelatedContactsWrapper {
         for(Contact con:acnt.Contacts){
             CustomerContact cCon = new CustomerContact();
             cCon.contactLastName = con.LastName;
-            cCon.contactPhone = con.Phone;
             cCon.contactEmail = con.Email;
+            cCon.contactPhone = con.Phone;
             cContactList.add(cCon);
         }
         cData.customerContacts = cContactList;
