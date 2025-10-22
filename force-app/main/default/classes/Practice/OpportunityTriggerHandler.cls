@@ -26,5 +26,50 @@ public with sharing class OpportunityTriggerHandler {
             }
         }
     }
-    
+    public static void doCalculate(List<Opportunity> newOppList, Map<Id, Opportunity> oldOppMap){
+        //Collect the AccountIds of  Opportunities in a Set
+        set<Id> accountids  = new set<Id> ();
+        for(Opportunity opp:newOppList){
+            //Insert
+            if(opp.AccountId!=null &&oldOppMap==null ){
+                accountids.add(opp.AccountId);
+            }
+            //Update
+            else if(opp.AccountId!=null&& oldOppMap!=null){
+                Opportunity oldOpp = oldOppMap.get(opp.Id);
+                if(opp.AccountId!=null && opp.Amount!=oldOpp.Amount){
+                    accountids.add(opp.AccountId);
+                    accountids.add(oldOpp.AccountId);
+                }
+            }
+        }
+        // Include Account IDs if this is a delete operation
+        if (oldOppMap != null && newOppList == null) {
+            for (Opportunity oldOpp : oldOppMap.values()) {
+                if (oldOpp.AccountId != null) accountIds.add(oldOpp.AccountId);
+            }
+        }
+        
+        
+        List<AggregateResult> arVarList = [Select AccountId,Max(Amount) maxAmount,Min(Amount) minAmount
+                                           from Opportunity
+                                           Where AccountId in:accountids
+                                           Group By AccountId];
+        List<Account> toUpdateAccList = new List<Account>();
+        for(AggregateResult ar:arVarList){
+            Account acc = new Account();
+            acc.id = (Id) ar.get('AccountId');
+            if(acc.Id!=null){
+                acc.Max_Opp_Amount__c = (Decimal) ar.get('maxAmount');
+                acc.Min_Opp_Amount__c = (Decimal) ar.get('minAmount');
+                toUpdateAccList.add(acc);
+            }
+        }
+        if(!toUpdateAccList.isEmpty())
+        {
+            update toUpdateAccList;
+        }
+        
+    }
 }
+    
