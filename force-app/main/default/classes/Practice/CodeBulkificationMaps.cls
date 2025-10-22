@@ -22,5 +22,12 @@ public with sharing class CodeBulkificationMaps {
             system.debug('The Data of Map:'+value);
         }
     }
+    public static void dogetallAccountfromcontacts(){
+        Set<Id> accIdSet = new Set<Id>();
+        for(Contact con:[Select Id,AccountId,Phone from Contact Where AccountId!=null]){
+            accIdSet.add(con.AccountId);
+        } 
+        Map<Id,Account>acntMap = new Map<Id,Account>([Select Id,Name,Phone from Account Where Id In:accIdSet]);
+    }
 
 }
