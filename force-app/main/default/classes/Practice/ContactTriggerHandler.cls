@@ -14,4 +14,20 @@ public with sharing class ContactTriggerHandler {
             update accList;
         }
     }
+
+    public static void doCreateCase(List<Contact> newConsList,Map<Id,Contact> oldConsMap){
+        List<Case> csList = new List<Case>();
+        for(Contact con:newConsList){
+            if(con.AccountId!=null)
+            Case cs =new Case();
+            cs.AccountId = con.AccountId;
+            cs.ContactId = con.Id;
+
+            csList.add(cs);
+
+        }
+        if(!csList.isEmpty()){
+            insert csList;
+        }
+    }
 }
