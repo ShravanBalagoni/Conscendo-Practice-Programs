@@ -16,6 +16,20 @@ public class SwitchExample {
             when else {
                 System.debug('Unknown status.');
             }
-        }
+        }/*
+        switchonsobject{
+            whenAccounta{
+            System.debug('account'+a);
+            }
+            whenContactc{
+            System.debug('contact'+c);
+            }
+            whennull{
+            System.debug('null');
+            }
+            whenelse{
+            System.debug('default');
+            }
+ }*/
     }
 }
