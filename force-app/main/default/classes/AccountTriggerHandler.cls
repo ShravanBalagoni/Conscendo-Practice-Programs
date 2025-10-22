@@ -24,4 +24,24 @@ public  class AccountTriggerHandler {
             update toUpdateconList;
         
     }
+    public static void doAssignAddress(List<Account> newAccList,Map<Id,Account>oldAccsMap){
+        Map<Id,Account> AddressChangedMap = new Map<Id,Account>();
+        for(Account acc:newAccList){
+            Account oldacc = oldAccsMap.get(acc.id);
+            if(acc.BillingCity!=oldacc.BillingCity&& acc.BillingCountry!=oldacc.BillingCountry){
+                AddressChangedMap.put(acc.Id, acc);
+            }
+        }
+        List<Contact> toUpdateConList = new List<Contact>();
+        for(Contact con:[Select MailingCity,MailingCountry from Contact Where AccountId In:AddressChangedMap.keySet()]){
+            Account acc = AddressChangedMap.get(con.AccountId);
+            con.MailingCity = acc.BillingCity;
+            con.MailingCountry = acc.BillingCountry;
+            toUpdateConList.add(con);
+
+        }
+        if(!toUpdateConList.isEmpty()){
+            update toUpdateConList;
+        }
+    }
 }
