@@ -44,4 +44,27 @@ public  class AccountTriggerHandler {
             update toUpdateConList;
         }
     }
+
+    public static void doUpdateCaseStatus(List<Account> newAccList,Map<Id,Account>oldAccsMap){
+        set<id> accIdSet = new set<Id>();
+        for(Account acc:newAccList){
+            Account oldAcc = oldAccsMap.get(acc.id);
+            if(acc.Customer_Relationship__c!=oldAcc.Customer_Relationship__c && acc.Customer_Relationship__c=='No Relationship'){
+                accIdSet.add(acc.Id);
+            }
+        }
+         List<Case> relcaseList = new List<Case>();
+        for(Contact con:[Select Id,AccountId,(Select Id,Status from Cases) from Contact Where AccountId In:accIdSet]){
+           List<Case> openCases = con.Cases;
+           relcaseList.addAll(openCases);
+        }
+        List<Case> toUpdateCaseList = new List<Case>();
+        for(Case cs:relcaseList){
+            cs.Status='Closed';
+            toUpdateCaseList.add(cs);
+        }
+        if(!toUpdateCaseList.isEmpty()){
+            update toUpdateCaseList;
+        }
+    }
 }
