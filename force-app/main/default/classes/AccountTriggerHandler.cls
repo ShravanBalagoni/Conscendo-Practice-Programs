@@ -68,3 +68,21 @@ public  class AccountTriggerHandler {
         }
     }
 }
+/*Set<Id> accIdSet = new Set<Id>();
+for (Account acc : newAccList) {
+    Account oldAcc = oldAccsMap.get(acc.Id);
+    if (acc.Customer_Relationship__c != oldAcc.Customer_Relationship__c && acc.Customer_Relationship__c == 'No Relationship') {
+        accIdSet.add(acc.Id);
+    }
+}
+
+List<Case> toUpdateCaseList = [SELECT Id, Status FROM Case WHERE AccountId IN :accIdSet AND Status != 'Closed'];
+
+for (Case cs : toUpdateCaseList) {
+    cs.Status = 'Closed';
+}
+
+if (!toUpdateCaseList.isEmpty()) {
+    update toUpdateCaseList;
+}
+ */
