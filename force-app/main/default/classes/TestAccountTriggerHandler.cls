@@ -18,12 +18,18 @@ private class TestAccountTriggerHandler {
     @isTest
     static void TesthandleAfterUpdate() {
         // Retrieve the test Account and modify its description
-        Account acnt = [SELECT Id, Description FROM Account WHERE Name='Test Account' LIMIT 1];
-        acnt.Description = 'Modified Description';
-        Test.startTest();
-        update acnt;
-        AccountTriggerHandler.handleAfterUpdate(new List<Account>{acnt},new Map<Id,Account>{acnt.Id=>acnt});
-        Test.stopTest();
+       Account oldAcc = [SELECT Id, Description FROM Account WHERE Name='Test Account' LIMIT 1];
+Account acnt = oldAcc.clone(false, true, false, false); // clone to get a new instance for update
+acnt.Description = 'Modified Description';
+
+Test.startTest();
+update acnt;
+
+// Pass the correct old map to simulate after update
+Map<Id, Account> oldMap = new Map<Id, Account>{ oldAcc.Id => oldAcc };
+AccountTriggerHandler.handleAfterUpdate(new List<Account>{acnt}, oldMap);
+Test.stopTest();
+
 
         // Re-query the Contact records to get the updated Description
         List<Contact> consList = [SELECT Id, Description FROM Contact WHERE AccountId = :acnt.Id];
