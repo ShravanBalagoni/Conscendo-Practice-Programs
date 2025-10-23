@@ -7,7 +7,7 @@ public  class AccountTriggerHandler {
         Map<Id,Account> accountToPrimaryContactMap = new Map<Id,Account>();
         for(Account acc: newAccounts){
             Account oldAcc = oldAccountMap.get(acc.Id);
-            if(acc.Description!=oldAcc.Description && acc.Contacts.size()>0 )  
+            if(acc.Description!=oldAcc.Description  )  
                 accountToPrimaryContactMap.put(acc.Id,acc);
         }
         List<Contact> toUpdateconList = new List<Contact>();
