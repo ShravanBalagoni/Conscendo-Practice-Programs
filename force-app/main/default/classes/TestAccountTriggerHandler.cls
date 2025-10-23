@@ -30,4 +30,20 @@ private class TestAccountTriggerHandler {
             System.assertEquals('Modified Description', con.Description);
         }
     }
+    @isTest
+    static void TestdoAssignAddress(){
+        Account acnt =[Select Id,BillingCity,BillingCountry from Account Where Name='Test Account' Limit 1];
+        acnt.BillingCity='Hyderabad';
+        acnt.BillingCountry='India';
+        update acnt;
+        Test.startTest();
+        AccountTriggerHandler.doAssignAddress(new List<Account>{acnt},new Map<Id,Account>{acnt.Id=>acnt});
+        Test.stopTest();
+        List<Contact> consList = [SELECT Id,MailingCity,MailingCountry From Contact Where AccountId=:acnt.Id];
+        for(Contact con:consList){
+            System.assertEquals('Hyderabad', con.MailingCity);
+            System.assertEquals('India', con.MailingCountry);
+        }
+
+    }
 }
