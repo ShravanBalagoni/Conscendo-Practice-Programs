@@ -4,7 +4,7 @@ private class TestAccountTriggerHandler {
     @testSetup
     static void setup() {
         // Create a test Account
-        Account acc = new Account(Name='Test Account', Description='Initial Description');
+        Account acc = new Account(Name='Test Account', Description='Initial Description',BillingCity='Inital city',BillingCountry='Initial Country');
         insert acc;
 
         // Create related Contacts
