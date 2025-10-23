@@ -1,24 +1,4 @@
-/**
- * This class contains unit tests for validating the behavior of Apex classes
- * and triggers.
- *
- * Unit tests are class methods that verify whether a particular piece
- * of code is working properly. Unit test methods take no arguments,
- * commit no data to the database, and are flagged with the testMethod
- * keyword in the method definition.
- *
- * All test methods in an org are executed whenever Apex code is deployed
- * to a production org to confirm correctness, ensure code
- * coverage, and prevent regressions. All Apex classes are
- * required to have at least 75% code coverage in order to be deployed
- * to a production org. In addition, all triggers must have some code coverage.
- * 
- * The @isTest class annotation indicates this class only contains test
- * methods. Classes defined with the @isTest annotation do not count against
- * the org size limit for all Apex scripts.
- *
- * See the Apex Language Reference for more information about Testing and Code Coverage.
- */
+
 @isTest
 private class TestAccountTriggerHandler {
 
@@ -31,5 +11,16 @@ private class TestAccountTriggerHandler {
         Contact con1 = new Contact(FirstName = 'John', LastName = 'Doe', AccountId = acc.Id);
         Contact con2 = new Contact(FirstName = 'Jane', LastName = 'Doe', AccountId = acc.Id);
         insert new List<Contact>{con1,con2};
+    }
+    @isTest
+    static void TesthandleAfterUpdate(){
+        //Retreive the test Account and modify its description
+        Account acnt = [Select Id,Name,Description from Account Where Name='Test Account' Limit 1];
+        acnt.Description = 'Modified Description';
+        update acnt;
+        List<Contact> consList = [Select Id,Description from Contact Where AccountId=:acnt.Id];
+        for(Contact con:consList){
+            System.assertEquals('Modified Description', con.Description);
+        }
     }
 }
