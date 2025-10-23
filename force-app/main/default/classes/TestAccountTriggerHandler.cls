@@ -1,6 +1,6 @@
 
 @isTest
-private class TestAccountTriggerHandler {
+private class TestAccountTriggerHandler  {
 
     @testSetup
     static void setup() {
