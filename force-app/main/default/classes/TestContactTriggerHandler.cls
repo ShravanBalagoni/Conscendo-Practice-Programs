@@ -33,7 +33,7 @@ private class TestContactTriggerHandler {
         Contact newCon = [Select Id,AccountId,FirstName,LastName from Contact Where AccountId=:oldCon.AccountId];
         Test.startTest();
         insert newCon;
-        ContactTriggerHandler.doCreateCase(new List<newCon>, new Map<Id,Contact>{newCon.Id=>newCon});
+        ContactTriggerHandler.doCreateCase(new List<Contact>{newCon}, new Map<Id,Contact>{newCon.Id=>newCon});
         Case csList = [Select Id,AccountId,ContactId from Case Where AccountId=:acc.Id];
         System.assertEquals(newCon.Id, csList[0].ContactId);
 
