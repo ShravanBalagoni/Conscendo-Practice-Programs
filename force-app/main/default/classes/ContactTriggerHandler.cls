@@ -1,23 +1,21 @@
 public with sharing class ContactTriggerHandler {
-public static void updateDescription(){
-    
+public static void updateDescription(List<Contact> consList, Map<Id,Contact> oldConsMap){
     List<Account> accList = new List<Account>();
-    for(Contact con : Trigger.new){
-        Contact oldContact = trigger.oldMap.get(con.Id);
-        if(oldContact != null && con.Description!= oldContact.Description){
-            accList.add(con.AccountId);
-            Account accRecord = new Account();
-            accRecord.Id = con.AccountId;
-            accRecord.Description = con.Description;
-            accList.add(accRecord) ;
+    for(Contact con : consList){
+        Contact oldContact = oldConsMap.get(con.Id);
+        if(oldContact != null && con.Description != oldContact.Description && con.AccountId != null){
+            Account accRecord = new Account(
+                Id = con.AccountId,
+                Description = con.Description
+            );
+            accList.add(accRecord);
+        }
+    }
+    if(!accList.isEmpty()){
+        update accList;
     }
 }
-if(!accList.isEmpty()){
-    update accList; 
 
-
-}
-}
 public static void doCreateCase(List<Contact> consList,Map<Id,Contact> oldConsMap){
     List<Case> csList = new List<Case>();
     for(Contact con:consList)
