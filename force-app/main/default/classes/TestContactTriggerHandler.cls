@@ -10,12 +10,13 @@ private class TestContactTriggerHandler {
 
     }
     @isTest
-    static void myUnitTest() {
+
+    static void TestupdateDescription() {
        Contact oldCon = [SELECT Id, FirstName, LastName, Description, AccountId 
                   FROM Contact 
                   WHERE LastName='ClassContact' LIMIT 1];
 
-Contact newCon = [SELECT Id, FirstName, LastName, Description, AccountId 
+        Contact newCon = [SELECT Id, FirstName, LastName, Description, AccountId 
                   FROM Contact 
                   WHERE Id=:oldCon.Id];
         Test.startTest();
@@ -24,7 +25,10 @@ Contact newCon = [SELECT Id, FirstName, LastName, Description, AccountId
         ContactTriggerHandler.updateDescription(new List<Contact>{newCon}, new Map<Id,Contact> {oldCon.Id=>oldCon});
         Test.stopTest();
         
-         Account acnt = [SELECT Id, Description FROM Account WHERE Id=:newCon.AccountId];
+        Account acnt = [SELECT Id, Description FROM Account WHERE Id=:newCon.AccountId];
         System.assertEquals('Modified Description', acnt.Description);
+    }
+    static void TestdoCreateCase(){
+        
     }
 }
