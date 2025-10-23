@@ -56,7 +56,8 @@ public  class AccountTriggerHandler {
          List<Case> relcaseList = new List<Case>();
         for(Contact con:[Select Id,AccountId,(Select Id,Status from Cases) from Contact Where AccountId In:accIdSet]){
            List<Case> openCases = con.Cases;
-           relcaseList.addAll(openCases);
+            if(con.Cases != null && !con.Cases.isEmpty()){relcaseList.addAll(openCases);}
+           
         }
         List<Case> toUpdateCaseList = new List<Case>();
         for(Case cs:relcaseList){

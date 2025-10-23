@@ -1,23 +1,45 @@
-
 @isTest
 private class TestAccountHandler_UpdateCaseStatus {
+
     @TestSetup
     static void makeData(){
-        Account acnt = new Account(Name = 'Case Test Account',
-            Customer_Relationship__c = 'Active');
+        Account acnt = new Account(Name='Case Test Account', Customer_Relationship__c='Active');
         insert acnt;
-        Contact con = new Contact(LastName='Test User',AccountId=acnt.Id);
-        insert con;
 
-        Case cs = new Case(ContactId = con.Id,
-            AccountId = acc.Id, 
-            Status = 'New',
-            Origin = 'Phone');
-            insert cs;
+        Contact con1 = new Contact(LastName='User1', AccountId=acnt.Id);
+        Contact con2 = new Contact(LastName='User2', AccountId=acnt.Id);
+        insert new List<Contact>{con1, con2};
+
+        List<Case> caseList = new List<Case>{
+            new Case(ContactId=con1.Id, AccountId=acnt.Id, Status='New', Origin='Phone'),
+            new Case(ContactId=con2.Id, AccountId=acnt.Id, Status='New', Origin='Email')
+        };
+        insert caseList;
     }
+
     @isTest
     static void myUnitTest() {
-        Account acnt = [Select Name,Customer_Relationship__c from Account Where Name = 'Case Test Account' Limit 1];
+        Account oldAcc = [SELECT Id, Customer_Relationship__c FROM Account WHERE Name='Case Test Account' LIMIT 1];
 
+        Account newAcc = [SELECT Id, Customer_Relationship__c FROM Account WHERE Id=:oldAcc.Id];
+        newAcc.Customer_Relationship__c = 'No Relationship';
+        update newAcc;
+
+        Map<Id, Account> oldMap = new Map<Id, Account>{ oldAcc.Id => oldAcc };
+
+        Test.startTest();
+        AccountTriggerHandler.doUpdateCaseStatus(
+            new List<Account>{ newAcc },
+            oldMap
+        );
+        Test.stopTest();
+
+        // Query all Cases for the Account
+        List<Case> updatedCases = [SELECT Id, Status FROM Case WHERE AccountId=:oldAcc.Id];
+
+        // Assert all Cases updated
+        for(Case cs : updatedCases){
+            System.assertEquals('Closed', cs.Status, 'All Cases should be closed');
+        }
     }
 }
