@@ -33,7 +33,7 @@ public  class AccountTriggerHandler {
             }
         }
         List<Contact> toUpdateConList = new List<Contact>();
-        for(Contact con:[Select MailingCity,MailingCountry from Contact Where AccountId In:AddressChangedMap.keySet()]){
+        for(Contact con:[Select MailingCity,MailingCountry,AccountId from Contact Where AccountId In:AddressChangedMap.keySet()]){
             Account acc = AddressChangedMap.get(con.AccountId);
             con.MailingCity = acc.BillingCity;
             con.MailingCountry = acc.BillingCountry;

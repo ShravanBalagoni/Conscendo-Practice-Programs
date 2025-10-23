@@ -39,7 +39,7 @@ private class TestAccountTriggerHandler {
         Test.startTest();
         AccountTriggerHandler.doAssignAddress(new List<Account>{acnt},new Map<Id,Account>{acnt.Id=>acnt});
         Test.stopTest();
-        List<Contact> consList = [SELECT Id,MailingCity,MailingCountry From Contact Where AccountId=:acnt.Id];
+        List<Contact> consList = [SELECT Id,AccountId,MailingCity,MailingCountry From Contact Where AccountId=:acnt.Id];
         for(Contact con:consList){
             System.assertEquals('Hyderabad', con.MailingCity);
             System.assertEquals('India', con.MailingCountry);
