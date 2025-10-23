@@ -6,7 +6,7 @@ private class TestAccountTriggerHandler {
         // Create a test Account
         Account acc = new Account(Name='Test Account', Description='Initial Description',BillingCity='Inital city',BillingCountry='Initial Country');
         insert acc;
-
+        
         // Create related Contacts
         Contact con1 = new Contact(FirstName = 'John', LastName = 'Doe', AccountId = acc.Id);
         Contact con2 = new Contact(FirstName = 'Jane', LastName = 'Doe', AccountId = acc.Id);
@@ -22,6 +22,7 @@ private class TestAccountTriggerHandler {
         acnt.Description = 'Modified Description';
         Test.startTest();
         update acnt;
+        AccountTriggerHandler.handleAfterUpdate(new List<Account>{acnt},new Map<Id,Account>{acnt.Id=>acnt});
         Test.stopTest();
 
         // Re-query the Contact records to get the updated Description
