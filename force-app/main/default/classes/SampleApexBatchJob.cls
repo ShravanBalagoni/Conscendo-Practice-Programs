@@ -10,3 +10,6 @@ public with sharing class SampleApexBatchJob implements Database.Batchable<SObje
         System.debug('finish');
     }
 }
+/*SampleApexBatchJob job = new SampleApexBatchJob();
+Id jobId = Database.executeBatch(job);  
+ */
