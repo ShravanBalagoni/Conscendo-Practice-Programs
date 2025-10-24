@@ -45,5 +45,32 @@ private class TestAccountTriggerHandler {
 
         }
     }
+    @TestSetup
+    static void makeData(){
+        Account acntRec =new Account(Name='Test Account1',Customer_Relationship__c='Active');
+        insert acnt;
+        Contact conRec1= new Contact(LastName='TestCon1',AccountId=acntRec.Id);
+        Contact conRec2= new Contact(LastName='TestCon2',AccountId=acntRec.Id);
+        insert new List<Contact>{con1,con2};
+
+        Case cs1= new Case(Name='TestCase1',Status='New',AccountId=acntRec.Id,ContactId=conRec1.Id);
+        Case cs2= new Case(Name='TestCase2',Status='Working',AccountId=acntRec.Id,ContactId=conRec2.Id);
+        insert new List<Case>{cs1,cs2};
+    }
+    @isTest
+    static void TestUpdateCaseStatus(){
+        Account oldacnt = [Select Id,Name,Customer_Relationship__c from Account Where Name='Test Account1'];
+        Account newAcnt = [Select Id,Name,Customer_Relationship__c from Account Where Id=:oldacnt.Id];
+        newAcnt.Customer_Relationship__c = 'No Relationship';
+        Test.startTest();
+        update newAcnt;
+        AccountTriggerHandler.doUpdateCaseStatus(new List<Account>{newAcnt},new Map<Id,Account>{newAcnt.Id=>newAcnt});
+        Test.stopTest();
+        List<Case> csList = [Select Id,AccountId,ContactId,Status from Case Where AccountId In:newAcnt.Id];
+        for(Case cs:csList){
+            System.assertEquals('Closed', cs.Status);
+        }
+    }
+    
     
 }
