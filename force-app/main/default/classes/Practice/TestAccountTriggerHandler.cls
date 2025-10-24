@@ -41,11 +41,9 @@ private class TestAccountTriggerHandler {
         for(Contact con:cons){
             System.assertEquals('Hyderabad', con.MailingCity);
             System.assertEquals('India', con.MailingCountry);
+            
 
         }
     }
-    @isTest
-    static void TestdoUpdateCaseStatus(){
-        
-    }
+    
 }
