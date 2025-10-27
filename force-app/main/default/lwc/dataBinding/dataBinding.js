@@ -13,6 +13,6 @@ export default class DataBinding extends LightningElement {
         this.isShow=true;
     }
     getLiveData(event){
-        this.dynamicVar = event.target.value();
+        this.dynamicVar = event.target.value;
     }
 }
