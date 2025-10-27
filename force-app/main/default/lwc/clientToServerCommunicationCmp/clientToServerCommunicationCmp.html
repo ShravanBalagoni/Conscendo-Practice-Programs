@@ -1,4 +1,15 @@
 <template>
-    <b>DATA RECEIVED FROM APEX BY WIRE PROPERTY:</b>{personName.data}
-    <b>Contacts from Apex :{contacts.data}</b>
+    <lightning-card title="Apex to LWC Example">
+        <!-- ✅ Only show when data exists -->
+        <template if:true={personName.data}>
+            <p>Person Name: {personName.data}</p>
+        </template>
+
+        <!-- ✅ Contacts display -->
+        <template if:true={listOfContacts}>
+            <template for:each={listOfContacts} for:item="con">
+                <p key={con.Id}>{con.LastName}</p>
+            </template>
+        </template>
+    </lightning-card>
 </template>
