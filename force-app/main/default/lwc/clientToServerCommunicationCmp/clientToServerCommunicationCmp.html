@@ -1,7 +1,7 @@
 <template>
     <lightning-card variant="narrow" icon-name="standard:contact">
         <template if:true={personName.data}>
-            <b>DATA RECEIVED FROM APEX:</b>{personName}<br>
+            <b>DATA RECEIVED FROM APEX:</b>{personName.data}<br>
         </template>
         <b> Contact as variable</b>
         <template if:true={contacts.data}>
