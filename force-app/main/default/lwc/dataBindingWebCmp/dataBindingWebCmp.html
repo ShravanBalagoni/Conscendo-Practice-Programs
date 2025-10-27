@@ -9,6 +9,6 @@
             <p key = {bus.idx}>{bus}</p>
         </template>
     </template>
-    <lightning-input name="getLiveData" , variant= 'Standard' ,value={dynamicVar} onchange={getLiveData}></lightning-input>
+    <lightning-input type="text" variant="standard" name="name" label="Name"  value={dynamicVar} onchange={getLiveData}></lightning-input>
 
 </template>
