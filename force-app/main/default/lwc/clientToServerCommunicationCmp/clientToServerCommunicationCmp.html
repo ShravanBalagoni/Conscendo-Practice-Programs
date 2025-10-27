@@ -1,20 +1,21 @@
 <template>
-    <lightning-card variant="narrow" icon-name="standard:contact">
-        <template if:true={personName.data}>
-            <b>DATA RECEIVED FROM APEX:</b>{personName.data}<br>
+    <lightning-card variant="narrow" icon-name="standard:contact" title="">
+       <template if:true={personName.data}>
+            <b> The Data Received from the Apex:</b>{personName.data}<br>
+
+       </template>
+       <b>Wire Variable</b>
+       <template if:true={contacts.data}>
+        <template for:each={contacts.data} for:item="con">
+            <p key={con.Id}>{con.Id}--{con.LastName}</p>
         </template>
-        <b> Contact as variable</b>
-        <template if:true={contacts.data}>
-            <template for:each={contacts.data} for:item="con" >
-                <p key = {con.id}>{con.LastName}-{con.Phone}</p>
-            </template>
+       </template>
+       <b>Wire Function</b>
+       <template if:true={listOfContacts}>
+        <template for:each={listOfContacts} for:item="conx">
+            <p key ={conx.Id}>{conx.LastName}--{conx.Email}</p>
         </template>
-        <b> Contact as a function</b>
-        <template if:true={listofContacts}>
-            <template for:each={listofContacts} for:item="conx">
-                <p key={conx.Id}>{conx.Email}--{conx.LastName}</p>
-            </template>
-        </template>
+       </template>
     
 
     </lightning-card>
