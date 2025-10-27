@@ -8,7 +8,7 @@ export default class ClientToServerCommunicationCmp extends LightningElement {
    @wire(getContacts) contacts;
     @wire(getContacts) contactsFunction({error,data}){
         if(data){
-            this.data = this.listofContacts;
+            this.listofContacts = this.data;
         }
         else if(error){
             console.error('Error:'+error);
