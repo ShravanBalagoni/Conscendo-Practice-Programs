@@ -1,15 +1,21 @@
 <template>
-    <lightning-card title="Apex to LWC Example">
-        <!-- ✅ Only show when data exists -->
+    <lightning-card variant="narrow" icon-name="standard:contact">
         <template if:true={personName.data}>
-            <p>Person Name: {personName.data}</p>
+            <b>DATA RECEIVED FROM APEX:</b>{personName}<br>
         </template>
-
-        <!-- ✅ Contacts display -->
-        <template if:true={listOfContacts}>
-            <template for:each={listOfContacts} for:item="con">
-                <p key={con.Id}>{con.LastName}</p>
+        <b> Contact as variable</b>
+        <template if:true={contacts.data}>
+            <template for:each={contacts.data} for:item="con" >
+                <p key = {con.id}>{con.LastName}-{con.Phone}</p>
             </template>
         </template>
+        <b> Contact as a function</b>
+        <template if:true={listOfContacts}>
+            <template for:each={listOfContacts} for:item="conx">
+                <p key={conx.Id}>{conx.Email}--{conx.LastName}</p>
+            </template>
+        </template>
+    
+
     </lightning-card>
 </template>
