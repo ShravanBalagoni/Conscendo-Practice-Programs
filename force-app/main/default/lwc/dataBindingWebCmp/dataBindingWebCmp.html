@@ -1,6 +1,14 @@
 <template>
-    <b>{Name}</b>
-    <b>{Age}</b>
-    <b>{Businesses}</b>
-    
+    <b>Name:</b>{Name}</br>
+    <b>Age:</b>{Age}</br>
+    <b>Businesses:</b>{Businesses}</br>
+    <b>Live Data:</b>{dynamicVar}</br>
+    <lightning-button variant="brand" label="GetBusinesses" title="GetBusinesses" onclick={getBusinesses}></lightning-button>
+    <template if:true={isShow}>
+        <template for:each={Businesses} for:item="bus" for:index="idx">
+            <p key = {bus.idx}>{bus}</p>
+        </template>
+    </template>
+    <lightning-input name="getLiveData" , variant= 'Standard' ,value={dynamicVar} onchange={getLiveData}></lightning-input>
+
 </template>

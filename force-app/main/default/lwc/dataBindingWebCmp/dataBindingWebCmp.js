@@ -7,7 +7,7 @@ export default class DataBindingWebCmp extends LightningElement {
     Businesses = ['Textiles','Chemicals','Education','Hardware'];
     isShow = false;
     dynamicVar;
-    getAddress(event){
+    getBusinesses(event){
         this.Address = 'Noida';
         this.Businesses.push('Education');
         this.isShow=true;
