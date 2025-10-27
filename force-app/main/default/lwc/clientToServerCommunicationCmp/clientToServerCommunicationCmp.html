@@ -10,8 +10,8 @@
             </template>
         </template>
         <b> Contact as a function</b>
-        <template if:true={listOfContacts}>
-            <template for:each={listOfContacts} for:item="conx">
+        <template if:true={listofContacts}>
+            <template for:each={listofContacts} for:item="conx">
                 <p key={conx.Id}>{conx.Email}--{conx.LastName}</p>
             </template>
         </template>
