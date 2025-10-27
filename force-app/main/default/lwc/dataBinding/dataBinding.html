@@ -1,3 +1,14 @@
 <template>
-    
+    <b> Name:</b>{Name}</br>
+    <b> Phone:</b>{Phone}</br>
+    <b> Items:</b>{Items}</br>
+    <b> Live Data:</b>{dynamicVar}</br>
+    <b> Address:</b>{Address}
+    <lightning-button type="brand" label="Get Address" onclick={getLiveData}></lightning-button>
+    <template if:true={isShow}>
+        <template for:each={Items} for:item="itm" for:index="idx">
+            <p key = {itm.idx}>{itm}</p>
+        </template>
+    </template>
+    <lightning-input type="text" variant="standard" name="name" label="Name" value={dynamicVar} onchange={getLiveData}></lightning-input>
 </template>
