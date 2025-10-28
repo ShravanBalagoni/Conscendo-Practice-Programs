@@ -11,7 +11,7 @@ public with sharing class SampleApexLtngWebCmpnt {
     public static List<Account> getAccountIMP(){
         return [Select Id,Name,Industry,Rating from Account];
     }
-    @auraEnabled(cacheable=true)
+    @auraEnabled
     public static String doCreateAccount(String acntName){
         Account acnt = new Account();
         acnt.Name= acntName;

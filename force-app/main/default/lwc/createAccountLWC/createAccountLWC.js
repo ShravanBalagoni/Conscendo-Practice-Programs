@@ -9,8 +9,10 @@ export default class CreateAccountLWC extends LightningElement {
     createAccount(event){
         doCreateAccount({acntName:this.accountNameVar}).then(result=>{
             this.message = 'Account Inserted:'+result;
+            console.log(this.message+result);
         }).catch(error=>{
             this.message = 'Account Not Inserted:'+error.body.message;
+            console.log('Error'+error.body.message);
         })
     }
 }
