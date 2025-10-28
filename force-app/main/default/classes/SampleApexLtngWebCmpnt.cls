@@ -12,7 +12,7 @@ public with sharing class SampleApexLtngWebCmpnt {
         return [Select Id,Name,Industry,Rating from Account];
     }
     @auraEnabled
-    public static String doCreateAccount(String acntName){
+    public static Id doCreateAccount(String acntName){
         Account acnt = new Account();
         acnt.Name= acntName;
         insert acnt;
