@@ -1,3 +1,7 @@
 <template>
-    
+    <template if:true={relContacts}>
+        <template for:each={relContacts} for:item="relCon">
+            <p key={relCon.Id}>{relCon.LastName}</p>
+        </template>
+    </template>
 </template>
