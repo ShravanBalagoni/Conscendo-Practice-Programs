@@ -1,3 +1,16 @@
-<template>
-    
+
+    <template>
+        <lightning-button 
+                        variant="Success"
+                        label="Get All Accounts"
+                        title="'Accounts"
+                        onclick={fetchAllAccounts}>
+        </lightning-button>
+    <lightning-datatable
+                        data={accounts}
+                        columns={columnsList}
+                        key-field="Id"
+        
+    >
+    </lightning-datatable>
 </template>
