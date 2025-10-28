@@ -1,3 +1,15 @@
 <template>
-    
+    <lightning-card variant="Narrow" title="New Account" icon-name="standard:account">
+        <lightning-input type="text"
+                        variant="standard"
+                        name="name"
+                        label="Account Name"
+                        onchange={handleinput}>
+        </lightning-input>
+        <lightning-button variant="destruction"
+                            label="save"
+                            title="submit"
+                            onclick={createAccount}>
+        </lightning-button>
+    </lightning-card>
 </template>
