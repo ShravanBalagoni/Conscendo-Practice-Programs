@@ -34,6 +34,26 @@ public static void doCreateCase(List<Contact> consList,Map<Id,Contact> oldConsMa
         insert csList;
     }
 }
+public static void dopreventDuplicate(List<Contact> newConsList,Map<Id,Contact> oldConsMap){
+    Set<String> emailSet = new Set<String>();
+    for(Contact con:newConsList){
+        if(con.Email!=null){
+            emailSet.add(con.Email);
+        }
+    }
+    Set<String> existingEmailSet = new Set<String>();
+    Map<Id,Contact> accIdConMap = new Map<Id,Contact>();
+    for(Contact con:[Select Id,Email from Contact Where Email in:emailSet]){
+        existingEmailSet.add(con.Email);
+        accIdConMap.put(con.AccountId, con);
+    }
+    for(Contact con:newConsList){
+        if(existingEmailSet.contains(con.Email)&&accIdConMap.containsKey(con.AccountId)){
+            con.addError('Duplicate Email exists already');
+        }
+    }
+
+}
 }
 
 
