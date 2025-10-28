@@ -7,4 +7,8 @@ public with sharing class SampleApexLtngWebCmpnt {
     public static List<Contact> getContacts(){
         return [Select Id,LastName from Contact ];
     }
+    @auraEnabled
+    public static List<Account> getAccountIMP(){
+        return [Select Id,Name,Industry,Rating from Account];
+    }
 }
