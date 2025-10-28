@@ -1,14 +1,14 @@
 import { LightningElement,wire,api } from 'lwc';
-import getrelatedContacts from '@salesforce/apex/relatedContactsApex.getrelatedContacts';
+import getRelatedContacts from '@salesforce/apex/relatedContactsApex.getRelatedContacts';
 
 export default class ShowAllRelatedContacts extends LightningElement {
     @api recordId;
-    relContacts;
-    @wire(getrelatedContacts,{accountId:'$recordId'})
+    relatedContacts;
+    @wire(getRelatedContacts,{accountIdVar:'$recordId'})
     wiredData({error,data}){
         if(data){
-            console.log('DATA:',data);
-            this.relContacts = data;
+            console.log('DATA:'+data);
+            this.relatedContacts = data;
         }
         else if(error){
             console.error('Error:',error);

@@ -1,6 +1,6 @@
 public with sharing class relatedContactsApex {
-    @AuraEnabled(cacheable = true)
-    public static List<Contact> getrelatedContacts(String accountId){
-        return [Select Id,AccountId,LastName from Contact Where AccountId=:accountId];
-    }
+   @AuraEnabled(cacheable=true)
+   public static List<Contact> getRelatedContacts(String accountIdVar){
+    return [Select Id,AccountId,LastName,Email from Contact Where AccountId=:accountIdVar];
+   }
 }
