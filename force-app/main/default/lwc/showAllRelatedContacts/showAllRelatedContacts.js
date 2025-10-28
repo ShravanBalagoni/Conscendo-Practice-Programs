@@ -7,13 +7,13 @@ export default class ShowAllRelatedContacts extends LightningElement {
     @wire(getRelatedContacts,{accountIdVar:'$recordId'})
     wiredData({error,data}){
         if(data){
-            console.log('DATA:'+data);
-            this.relatedContacts = data;
+            this.relatedContacts=data;
         }
         else if(error){
-            console.error('Error:',error);
+            console.error('Error:'+error);
         }
     }
+
 
 
 }

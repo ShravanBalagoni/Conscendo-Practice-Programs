@@ -1,9 +1,9 @@
 <template>
       <lightning-card variant="narrow" icon-name="standard:contact" title="Related Contacts">
-        <template if:true={relatedContacts}>
-            <template for:each={relatedContacts} for:item="con">
-                <p key={con.Id}>{con.LastName}--{con.Email}</p>
-            </template>
+       <template if:true={relatedContacts}>
+        <template for:each={relatedContacts} for:item='con'>
+          <p  key={con.Id}>{con.LastName}</p>
         </template>
+       </template>
       </lightning-card>
 </template>
