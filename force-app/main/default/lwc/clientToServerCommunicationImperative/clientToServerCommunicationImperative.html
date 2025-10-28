@@ -1,11 +1,6 @@
 
     <template>
-        <lightning-button 
-                        variant="Success"
-                        label="Get All Accounts"
-                        title="'Accounts"
-                        onclick={fetchAllAccounts}>
-        </lightning-button>
+        
     <lightning-datatable
                         data={accounts}
                         columns={columnsList}
@@ -13,4 +8,10 @@
         
     >
     </lightning-datatable>
+    <lightning-button 
+                        variant="Success"
+                        label="Get All Accounts"
+                        title="'Accounts"
+                        onclick={fetchAllAccounts}>
+        </lightning-button>
 </template>
