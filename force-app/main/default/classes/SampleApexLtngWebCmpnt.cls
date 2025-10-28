@@ -18,4 +18,4 @@ public with sharing class SampleApexLtngWebCmpnt {
         insert acnt;
         return acnt.Id;
     }
-}
+} 
