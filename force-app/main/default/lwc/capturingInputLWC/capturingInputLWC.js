@@ -7,7 +7,7 @@ export default class CapturingInputLWC extends LightningElement {
         this.name =event.target.value;
     }
     handleClick(event){
-        this.message='HELO'+this.name;
+        this.message='HELO'+' '+this.name;
     }
 
 
