@@ -54,7 +54,7 @@ public static void dopreventDuplicate(List<Contact> newConsList,Map<Id,Contact> 
     }
 
 }
-public static void UpdateCaseDesc(Map<Id,Contact>conMap, LIst<Contact>conList){
+public static void UpdateCaseDesc(List<Contact>conList,Map<Id,Contact>conMap){
         Map<Id,String> contactToDescription = new Map<Id,String>();
         for(Contact con:conList){
             if(con.Description!=null && con.Description!=conMap.get(con.Id).Description){
