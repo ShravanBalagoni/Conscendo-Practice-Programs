@@ -55,43 +55,39 @@ public static void dopreventDuplicate(List<Contact> newConsList,Map<Id,Contact> 
 
 }
 public static void UpdateCaseDesc(Map<Id,Contact>conMap, LIst<Contact>conList){
-        Map<ID, String> ConDesc= new Map<Id, String>();
-        for (Contact con: ConList){
-            if (con.Description !=Null && con.Description !=conMap.get(Con.id).Description){
-                ConDesc.put(Con.Id,con.Description);
+        Map<Id,String> contactToDescription = new Map<Id,String>();
+        for(Contact con:conList){
+            if(con.Description!=null && con.Description!=conMap.get(con.Id).Description){
+                contactToDescription.put(con.Id,con.Description);
             }
         }
-        List<Case>csList= [select id,Status, Description, ContactID from Case where ContactID IN: ConDesc.keyset()];
-        // in CsList only the triggered Contact related Cases will be Stored only of the description changed
-        List<Case> CaseToBeUpdates=new List<Case>();// for to UPdate
-        List<Case> CaseToBeinsert=new List<Case>();  // for to Insert
-        //it is for to track that contacts which have open cases
-        set<Id> ConsWithOpenCase=new Set<Id>();
-        for (Case cs:csList){
-            //if (ConDesc.containskey(cs.ContactId)){
-            if (cs.Status!='Closed'){  //only open Cases
-                cs.Description=ConDesc.get(cs.ContactId);
-                ConsWithOpenCase.add(cs.ContactId);
-                CaseToBeUpdates.add(cs);	
+        List<Case> csList = [Select Id,Status from Case Where ContactId in:contactToDescription.keySet()];
+        List<Case>toUpdateCaseList = new List<Case>();
+        List<Case>toInsertCaseList = new List<Case>();
+        set<Id>consWithOpenCase = new Set<Id>();
+        for(Case cs:csList){
+            if(cs.Status!='Closed'){
+                cs.Description=contactToDescription.get(cs.ContactId);
+                consWithOpenCase.add(con.Id);
+                toUpdateCaseList.add(con);
             }
         }
-        for (Id ConIds:ConDesc.keyset()){
-            // it will execute only if the Contact Ids Does not Present in the set
-            if (!ConsWithOpenCase.Contains(ConIds)){
-                case newCase=new case();
-                newCase.Origin='Web';
-                newCase.Status='New';
-                newCase.ContactId=ConIds;
-                newCase.Description=ConDesc.get(ConIds);
-                CaseToBeinsert.add(newCase);
+        for(Id contactIds:contactToDescription.keySet()){
+            if(!consWithOpenCase.contains(contactIds)){
+                Case cs = new Case();
+                cs.Status='New';
+                cs.Description = contactToDescription.get(contactIds);
+                cs.ContactId = contactIds;
+                toInsertCaseList.add(cs);
             }
         }
-        if (!CaseToBeUpdates.isEmpty()){
-            Update CaseToBeUpdates;
+        if(!toUpdateCaseList.isEmpty()){
+            update toUpdateCaseList;
         }
-        if (!CaseToBeinsert.isEmpty()){
-            insert CaseToBeinsert;
+         if(!toInsertCaseList.isEmpty()){
+            update toInsertCaseList;
         }
+
     }
 }
 
