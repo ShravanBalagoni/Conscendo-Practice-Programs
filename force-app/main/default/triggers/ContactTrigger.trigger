@@ -1,3 +1,4 @@
-trigger ContactTrigger on SOBJECT (after insert) {
-    ContactTriggerHandler.doCreateCase(trigger.new,trigger.oldMap);
+trigger ContactTrigger on Contact (after update) {
+    //ContactTriggerHandler.doCreateCase(trigger.new,trigger.oldMap);
+    ContactTriggerHandler.doUpdateStatus(trigger.new,trigger.oldMap);
 }
