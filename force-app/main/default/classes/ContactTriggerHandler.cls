@@ -68,8 +68,8 @@ public static void UpdateCaseDesc(Map<Id,Contact>conMap, LIst<Contact>conList){
         for(Case cs:csList){
             if(cs.Status!='Closed'){
                 cs.Description=contactToDescription.get(cs.ContactId);
-                consWithOpenCase.add(con.Id);
-                toUpdateCaseList.add(con);
+                consWithOpenCase.add(cs.Id);
+                toUpdateCaseList.add(cs);
             }
         }
         for(Id contactIds:contactToDescription.keySet()){
