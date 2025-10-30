@@ -54,6 +54,22 @@ public static void dopreventDuplicate(List<Contact> newConsList,Map<Id,Contact> 
     }
 
 }
+public static void doUpdateStatus(List<Contact> newConsList,Map<Id,Contact> oldConsMap){
+    Set<Id> conIds = new Set<Id>();
+    for(Contact con:newConsList){
+        Contact oldCon = oldConsMap.get(con.Id);
+        if(con.Description!=oldCon.Description){
+            conIds.add(con.Id);
+        }
+    }
+    Map<Id,List<Case>> conIdCaseMap = new Map<Id,List<Case>>();
+
+    for(Case cs:[Select ContactId,Status from Case Where ContactIdId in:conIds]){
+        if(!conIdCaseMap.containsKey(cs.ContactId)){
+            conIdCaseMap.put(cs.ContactId,new List<Case>());
+        }
+    }
+}
 }
 
 
