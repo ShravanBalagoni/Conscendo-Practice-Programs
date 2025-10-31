@@ -3,7 +3,7 @@
     <apiVersion>65.0</apiVersion>
     <isExposed>true</isExposed>
     <targets>
-        <target>lightning_Tab</target>
+        <target>lightning__Tab</target>
         <target>lightning__RecordPage</target>
     </targets>
 </LightningComponentBundle>
