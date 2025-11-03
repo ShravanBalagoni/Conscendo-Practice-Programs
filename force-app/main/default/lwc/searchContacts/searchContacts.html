@@ -1,24 +1,24 @@
 <template>
     <lightning-card title="Contact Search">
         <div class="slds-m-around_medium">
-            <lightning-input label="Search Contacts" value={searchKey} onchange={handleKeyChange}>
-
+            <lightning-input 
+                label="Search Contacts" 
+                value={searchKey} 
+                onchange={handleKeyChange}>
             </lightning-input>
+
             <template if:true={contacts.data}>
-                <template for:each={contacts.data} for:item="con">
-                    <p key={con.Id}>
-                        <b> {con.Name}</b><br/>
-                        {con.Email}<br/>
-                       {con.Phone}<br/>
+                <template for:each={contacts.data} for:item="contact">
+                    <p key={contact.Id}>
+                        <b>{contact.Name}</b><br/>
+                        Email: {contact.Email}<br/>
+                        Phone: {contact.Phone}<br/><br/>
                     </p>
                 </template>
             </template>
+
             <template if:true={contacts.error}>
                 <p class="slds-text-color_error">Error loading contacts.</p>
-            </template>
-
-            <template if:true={contacts.data} if:false={contacts.data.length}>
-                <p>No contacts found.</p>
             </template>
         </div>
     </lightning-card>
