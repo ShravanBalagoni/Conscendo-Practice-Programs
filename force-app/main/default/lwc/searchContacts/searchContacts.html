@@ -13,6 +13,13 @@
                     </p>
                 </template>
             </template>
+            <template if:true={contacts.error}>
+                <p class="slds-text-color_error">Error loading contacts.</p>
+            </template>
+
+            <template if:true={contacts.data} if:false={contacts.data.length}>
+                <p>No contacts found.</p>
+            </template>
         </div>
     </lightning-card>
 </template>
