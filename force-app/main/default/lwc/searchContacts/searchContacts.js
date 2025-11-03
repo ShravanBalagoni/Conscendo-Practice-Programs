@@ -4,6 +4,9 @@ export default class SearchContacts extends LightningElement {
     @track searchKey = '';
     @wire(getContacts,{searchKey:'$searchKey'})
     contacts;
-    han
+    handleKeyChange(event){
+        this.searchKey = event.target.value;
+        
+    }
 
 }
