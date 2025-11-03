@@ -8,8 +8,8 @@
                 <template for:each={contacts.data} for:item="con">
                     <p key={con.Id}>
                         <b> {con.Name}</b><br/>
-                        Email:{con.Email}<br/>
-                        Phone:{con.Phone}<br/>
+                        {con.Email}<br/>
+                       {con.Phone}<br/>
                     </p>
                 </template>
             </template>
