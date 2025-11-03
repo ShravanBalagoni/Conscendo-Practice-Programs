@@ -1,3 +1,14 @@
 <template>
+    <lightning-card variant="Narrow" title="LDS Record New Form" icon-name="standard:account">
+        <lightning-record-edit-form id="recordviewForm" record-id={recordId} 
+                    object-api-name="Account" onsubmit={handleSubmitAction}>
+        <lightning-input-field field-name="Name"></lightning-input-field> 
+        <lightning-input-field field-name="Phone"></lightning-input-field>    
+        <lightning-input-field field-name="Rating"></lightning-input-field>    
+        <lightning-input-field field-name="Industry"></lightning-input-field>    
+        <lightning-input-field field-name="Fax"></lightning-input-field>      
+        <lightning-button type="Submit" label="Update Record"></lightning-button>         
+        </lightning-record-edit-form>
+    </lightning-card>
     
 </template>
