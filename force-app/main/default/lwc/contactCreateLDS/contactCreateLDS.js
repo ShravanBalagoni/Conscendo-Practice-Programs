@@ -14,7 +14,7 @@ export default class ContactCreateLDS extends LightningElement {
         else if(inputTagName==='phn'){
             this.phone=event.target.value;
         }
-        else if(inputTagName==='bData'){
+        else if(inputTagName==='bDate'){
             this.birthdate=event.target.value;
         }
         else if(inputTagName==='pCode'){

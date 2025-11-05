@@ -1,3 +1,31 @@
 <template>
+    <lightning-card variant="Narrow" title="Contact with LDS Ui Record API" icon-name="standard:contact">
+        <p class="slds-p-horizontal_small">
+            <lightning-input type="text" 
+                            variant="standard"
+                            name="lname"
+                            label="LastName"
+                            onchange={captureData}>
+            </lightning-input>
+            <lightning-input type="text" 
+                            variant="standard"
+                            name="phn"
+                            label="Phone"
+                            onchange={captureData}>
+            </lightning-input>
+            <lightning-input type="text" 
+                            variant="standard"
+                            name="bDate"
+                            label="Birthdate"
+                            onchange={captureData}>
+            </lightning-input>
+            <lightning-input type="text" 
+                            variant="standard"
+                            name="pCode"
+                            label="Pincode"
+                            onchange={captureData}>
+            </lightning-input>
+        </p>
+    </lightning-card>
     
 </template>
