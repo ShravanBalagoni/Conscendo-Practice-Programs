@@ -1,11 +1,13 @@
-import { LightningElement,api } from 'lwc';
+import { LightningElement, api } from 'lwc';
 
 export default class Childcmp extends LightningElement {
-   @api childreceivervar = '';
-   passToparent = 'Hello this msg is coming from child to Parent';
-   fireEventAction(event){
-    const custEvnt=new CustomEvent('childeventname',{detail:{message:this.passToparent}})
-    this.dispatchEvent(custEvnt);
-   }
+  @api childReceiverVar = '';
+  passToParent = 'Hello this msg is coming from child to Parent';
 
-}   
+  fireEventAction() {
+    const custEvnt = new CustomEvent('childeventname', {
+      detail: { message: this.passToParent }
+    });
+    this.dispatchEvent(custEvnt);
+  }
+}
