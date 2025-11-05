@@ -5,6 +5,7 @@ export default class Childcmp extends LightningElement {
     passToparent ='Hello this msg is from child to parent ';
     fireEventAction(event){
         const custEvent = new CustomEvent('childeventname',{detail:{message:this.passToparent}})
+         this.dispatchEvent(custEvent);
     }
 
 }   
