@@ -30,9 +30,9 @@ export default class ContactCreateLDS extends LightningElement {
         };
         const recordData = {apiName:'contact',fields};
         createRecord(recordData).then(response=>{
-            alert('Record Saved....!'+response.id);
+            alert('Record Saved....! '+response.id);
         }).catch(error=>{
-            alert('Record Not Saved..!'+error.body.message);
+            alert('Record Not Saved..! '+error.body.message);
         });
     }
 
