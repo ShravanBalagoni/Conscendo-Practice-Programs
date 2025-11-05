@@ -1,3 +1,11 @@
 <template>
-    
+    <div>
+        <p><b>Hello I am Child Lwc Component</b></p>
+        Received Value from Parent:{childreceivervar}
+    </div>   
+     <lightning-button  variant="destructive"
+                        label="Pass info to Parent"
+                        title="Pass info to Parent" 
+                        onclick={fireEventAction}>
+    </lightning-button>
 </template>
