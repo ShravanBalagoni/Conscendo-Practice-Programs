@@ -1,7 +1,7 @@
 <template>
     <lightning-card variant="Narrow" title="Related Opportunities" icon-name="standard-opportunity">
-        <template if:true={opps.data}>
-            <template for:each={opps.data} for:item="opp">
+        <template if:true={opps}>
+            <template for:each={opps} for:item="opp">
                 <p key={opp.Id}>{opp.Name}--{opp.AccountId}--{opp.Stage}</p>
             </template>
         </template>
