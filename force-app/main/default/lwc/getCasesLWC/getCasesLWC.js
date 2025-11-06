@@ -5,7 +5,7 @@ const columns = [{label:'CaseNo', fieldName:'CaseNumber'},
                 {label:'CaseOrigin', fieldName:'Origin'}];
 export default class GetCasesLWC extends LightningElement {
     cases;
-    columns=columnsList;
+    columnsList=columns;
     fetchAllCases(event){
         getCases().then(result=>{
             this.cases = result;

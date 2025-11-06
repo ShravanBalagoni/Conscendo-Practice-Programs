@@ -1,3 +1,12 @@
 <template>
+    <lightning-datatable data={cases}
+                            columns={columnsList}
+                            key-field="Id">
+    </lightning-datatable>
+    <br/>
+    <lightning-button variant="brand"
+                        title="Get Cases"
+                        onclick={fetchAllCases}>
+                    </lightning-button>
     
 </template>
