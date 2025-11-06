@@ -3,9 +3,6 @@ public with sharing class SampleApexLtngWebCmpnt {
     public static String getPersonName(){
         return 'Shravan Balagoni';
     }
-     
-    
-    
     @auraEnabled
     public static List<Account> getAccountIMP(){
         return [Select Id,Name,Industry,Rating from Account];
