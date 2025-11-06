@@ -3,11 +3,8 @@ public with sharing class SampleApexLtngWebCmpnt {
     public static String getPersonName(){
         return 'Shravan Balagoni';
     }
-     @auraEnabled(cacheable =true)
-    public static List<Contact> getContacts(){
-        String key = '%' + searchKey + '%';
-        return [SELECT Id, Name, Email, Phone FROM Contact WHERE Name LIKE :key LIMIT 20];
-    }
+     
+    
     
     @auraEnabled
     public static List<Account> getAccountIMP(){
