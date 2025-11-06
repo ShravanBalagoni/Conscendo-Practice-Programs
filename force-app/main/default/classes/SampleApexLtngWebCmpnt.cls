@@ -5,8 +5,10 @@ public with sharing class SampleApexLtngWebCmpnt {
     }
      @auraEnabled(cacheable =true)
     public static List<Contact> getContacts(){
-        return [Select Id,LastName from Contact ];
+        String key = '%' + searchKey + '%';
+        return [SELECT Id, Name, Email, Phone FROM Contact WHERE Name LIKE :key LIMIT 20];
     }
+    
     @auraEnabled
     public static List<Account> getAccountIMP(){
         return [Select Id,Name,Industry,Rating from Account];
