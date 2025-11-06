@@ -18,4 +18,8 @@ public with sharing class SampleApexLtngWebCmpnt {
         insert acnt;
         return acnt.Id;
     }
+    @AuraEnabled(cacheable=true)
+    public static List<Opportunity> getRelatedOpps(String accIdVar){
+        return[Select AccountId,Name,StageName from Opportunity where AccountId=:accIdVar];
+    }
 } 
