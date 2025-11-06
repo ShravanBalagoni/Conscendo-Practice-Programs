@@ -7,4 +7,4 @@ public with sharing class searchContacts {
         String key = '%' + searchKey + '%';
         return [SELECT Id, Name, Email, Phone FROM Contact WHERE Name LIKE :key LIMIT 20];
     }
-}
+} 
