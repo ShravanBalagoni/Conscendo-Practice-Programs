@@ -1,5 +1,5 @@
 public with sharing class searchOpportunitiesApex {
-    @AuraEnabled
+    @AuraEnabled(cacheable=true)
     public static List<Opportunity> getOpps(String searchKey){
         String key='%'+searchKey+'%';
        /* if(String.isBlank(key)){
