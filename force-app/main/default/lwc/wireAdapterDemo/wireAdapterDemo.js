@@ -11,6 +11,6 @@ export default class WireAdapterDemo extends LightningElement {
         return this.record.data ? getFieldValue(this.record.data,NAME_FIELD):'';
     }
     get phone(){
-        return this.record.data ? getFieldValue(this.record.data.PHONE_FIELD):'';
+        return this.record.data ? getFieldValue(this.record.data,PHONE_FIELD):'';
     }
 }
