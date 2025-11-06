@@ -21,4 +21,8 @@ public with sharing class SampleApexLtngWebCmpnt {
     public static List<Opportunity> getRelatedOpps(String accIdVar){
         return[Select AccountId,Name,StageName from Opportunity where AccountId=:accIdVar];
     }
+    @auraEnabled
+    public static List<Case> getCases(){
+        return [Select Id,CaseNumber,Priority from Case Limit 25];
+    }
 } 
