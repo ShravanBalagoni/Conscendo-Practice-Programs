@@ -20,6 +20,6 @@ public with sharing class SampleApexLtngWebCmpnt {
     }
     @auraEnabled
     public static List<Case> getCases(){
-        return [Select Id,CaseNumber,Priority from Case Limit 25];
+        return [Select Id,CaseNumber,Priority,Origin from Case Limit 25];
     }
 } 
