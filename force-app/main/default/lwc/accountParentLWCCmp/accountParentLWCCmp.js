@@ -14,4 +14,19 @@ export default class AccountParentLWCCmp extends LightningElement {
             this.accountNumber=event.target.value;
         }
     }
+    saveAccountRecords(event){
+        console.log('The Process of button is activated');
+        const fields={'AccountName':this.nameVar,
+                        'AccountNumber':this.accountNumber
+        }
+        const inputRecord = {apiName:'Account',fields};
+        createRecord(inputRecord).then(response=>{
+            this.accountrecordid=response.id;
+            this.showchildcmp=true;
+        }).catch(error=>{
+            console.error('Error creating account:',error);
+            alert('Error creating account:'+error.body.message);
+        });
+
+    }
 }
