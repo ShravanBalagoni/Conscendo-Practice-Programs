@@ -26,7 +26,7 @@ export default class ContactChildLWCCmp extends LightningElement {
             'Phone':this.phone,
             'Birthdate':this.birthdate,
             'MailingPostalCode':this.postalcode,
-            'AccountId':this.accountid
+            'AccountId':this.accountId
         };
         const recordData = {apiName:'Contact',fields};
         createRecord(recordData).then(response => {
