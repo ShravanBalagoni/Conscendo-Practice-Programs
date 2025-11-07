@@ -8,6 +8,10 @@ export default class AccountParentLWCCmp extends LightningElement {
     showchildcmp=false;
     collectInputs(event){
         const inputName = event.target.name;
-        if(inputName==='AccountName')
+        if(inputName==='AccountName'){
+            this.nameVar=event.target.value;
+        }else if(inputName==='AccountNumber'){
+            this.accountNumber=event.target.value;
+        }
     }
 }
