@@ -1,7 +1,7 @@
 import { LightningElement ,api} from 'lwc';
 import { createRecord } from 'lightning/uiRecordApi';
 export default class ContactChildLWCCmp extends LightningElement {
-    @api accountid;
+    @api accountId;
     lastName = null;
     phone=null;
     birthdate=null;
