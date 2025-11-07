@@ -1,3 +1,33 @@
 <template>
-    
+    <lightning-card variant="Narrow"
+                    title="Account Input Section"
+                    icon-name="standard:account">
+                     <p slot="footer">Conscendo</p>
+    </lightning-card>
+      <lightning-input type="text"
+                    variant="standard"
+                    name="lname"
+                    label="Last Name"
+                    onchange={captureData}>
+    </lightning-input>
+    <lightning-input type="text"
+                    variant="standard"
+                    name="phone"
+                    label="Phone"
+                    onchange={captureData}>
+    </lightning-input>
+    <lightning-input type="text"
+                    variant="standard"
+                    name="birthdate"
+                    label="Birth Date"
+                    onchange={captureData}>
+    </lightning-input>
+    <lightning-input type="text"
+                    variant="standard"
+                    name="PostalCode"
+                    label="Postal Code"
+                    onchange={captureData}>
+    </lightning-input>
+
+
 </template>
