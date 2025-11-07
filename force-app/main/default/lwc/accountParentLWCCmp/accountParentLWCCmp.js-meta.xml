@@ -4,6 +4,6 @@
     <isExposed>true</isExposed>
      <targets>
         <target>lightning__Tab</target>
-        <target>lighting__RecordPage</target>
+        <target>lightning__RecordPage</target>
     </targets>
 </LightningComponentBundle>
