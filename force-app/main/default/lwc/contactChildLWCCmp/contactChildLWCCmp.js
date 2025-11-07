@@ -20,7 +20,7 @@ export default class ContactChildLWCCmp extends LightningElement {
 
     }
     saveRecord(event){
-        console.log('Acnt id:'+this.accountid);
+        console.log('Acnt id:'+this.accountId);
         const fields={
             'LastName':this.lastName,
             'Phone':this.phone,
