@@ -20,4 +20,5 @@ export default class ContactChildLWCCmp extends LightningElement {
         }
     }
     
+
 }
