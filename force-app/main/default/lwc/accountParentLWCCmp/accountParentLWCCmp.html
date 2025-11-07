@@ -2,11 +2,16 @@
     <lightning-card variant="Narrow"
                     title="Account Input Section"
                     icon-name="standard:account">
-    </lightning-card>
+    
     <lightning-input type="text"
                     variant="standard"
                     name="Account Name"
                     label="Account Name"
                     onchange={collectInputs}>
     </lightning-input>
+    <p slot="footer">Conscendo</p>
+    </lightning-card>
+    <template if:true={showchildcmp}>
+        
+    </template>
 </template>
