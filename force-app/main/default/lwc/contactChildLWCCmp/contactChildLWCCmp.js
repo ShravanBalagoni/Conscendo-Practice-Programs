@@ -1,7 +1,7 @@
 import { LightningElement ,api} from 'lwc';
 import { createRecord } from 'lightning/uiRecordApi';
 export default class ContactChildLWCCmp extends LightningElement {
-    @api recordId;
+    @api accountId;
     lastName = null;
     
     phone=null;
@@ -19,6 +19,8 @@ export default class ContactChildLWCCmp extends LightningElement {
             this.postalCode=event.target.value;
         }
     }
-    
+    saveRecord(event){
+        console.log('Account Id:')
+    }
 
 }
