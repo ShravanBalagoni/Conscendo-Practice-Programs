@@ -9,9 +9,20 @@
                     label="Account Name"
                     onchange={collectInputs}>
     </lightning-input>
+    <lightning-input type="text"
+                    variant="standard"
+                    name="Account Number"
+                    label="Account Number"
+                    onchange={collectInputs}>
+    </lightning-input>
+    <lightning-button variant="Success"
+                        label="save"
+                        title="SAVE"
+                        onclick={saveAccountRecords}>
+    </lightning-button>
     <p slot="footer">Conscendo</p>
     </lightning-card>
     <template if:true={showchildcmp}>
-        
+
     </template>
 </template>

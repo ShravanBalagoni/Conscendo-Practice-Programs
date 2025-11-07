@@ -6,4 +6,7 @@ export default class AccountParentLWCCmp extends LightningElement {
     nameVar=null;
     accountNumber=null;
     showchildcmp=false;
+    collectInputs(event){
+        
+    }
 }
