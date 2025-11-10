@@ -1,22 +1,18 @@
-
-/* Custom styles for the submit button */
 .myButton {
-  /* Sky blue background and border */
-  --slds-button-brand-color-background: skyblue;
-  --slds-button-brand-color-border: skyblue;
-
-  /* Make button block level and center horizontally */
+  background-color: skyblue !important; /* Force button background */
+  border-color: skyblue !important;
+  color: black; /* Set button text color */
   display: block;
   margin-left: auto;
   margin-right: auto;
 }
 
-/* Hover effect: change to appealing darker blue */
 .myButton:hover {
-  background-color: #1e90ff; /* DodgerBlue for nice hover */
-  border-color: #1e90ff;
+  background-color: #1e90ff !important; /* DodgerBlue on hover */
+  border-color: #1e90ff !important;
   color: white;
 }
+
 
 /* Optional: add some vertical spacing above the button if needed */
 .slds-m-top_medium {
