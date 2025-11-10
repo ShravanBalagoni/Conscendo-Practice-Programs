@@ -1,16 +1,16 @@
 <template>
   <div class="slds-grid slds-wrap slds-p-around_medium">
     <div class="slds-col slds-size_1-of-2 ">
-      <lightning-input label="First Name" name="FName" onchange={collectInputs}></lightning-input>
+      <lightning-input label="First Name" name="FName" value={firstName} onchange={collectInputs}></lightning-input>
     </div>
     <div class="slds-col slds-size_1-of-2">
-      <lightning-input label="Last Name" name="LName" onchange={collectInputs}></lightning-input>
+      <lightning-input label="Last Name" name="LName" value={lastName} onchange={collectInputs}></lightning-input>
     </div>
-    <div class="slds-col slds-size_1-of-2 name=email ">
-      <lightning-input label="Email" name="email" onchange={collectInputs}></lightning-input>
+    <div class="slds-col slds-size_1-of-2  ">
+      <lightning-input label="Email" name="email"  value={emaill} onchange={collectInputs}></lightning-input>
     </div>
-    <div class="slds-col slds-size_1-of-2 name=phone">
-      <lightning-input label="Phone Number" name="phone" onchange={collectInputs}></lightning-input>
+    <div class="slds-col slds-size_1-of-2">
+      <lightning-input label="Phone Number" name="phone" value={phoneno} onchange={collectInputs}></lightning-input>
     </div>
     <div class="slds-col slds-size_1-of-1 slds-m-top_medium">
       <lightning-button variant="brand" label="Submit" class="myButton" onclick={handleClick}></lightning-button>
