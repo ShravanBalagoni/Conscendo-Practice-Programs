@@ -1,24 +1,19 @@
 <template>
   <div class="slds-grid slds-wrap slds-p-around_medium">
-    <!-- Row 1 -->
-    <div class="slds-col slds-size_1-of-2 slds-m-around_x-small">
-      <lightning-input type="text" label="First Name" name="FName"></lightning-input>
+    <div class="slds-col slds-size_1-of-2">
+      <lightning-input label="First Name"></lightning-input>
     </div>
-    <div class="slds-col slds-size_1-of-2 slds-m-around_x-small">
-      <lightning-input type="text" label="Last Name" name="LName"></lightning-input>
+    <div class="slds-col slds-size_1-of-2">
+      <lightning-input label="Last Name"></lightning-input>
     </div>
-
-    <!-- Row 2 -->
-    <div class="slds-col slds-size_1-of-2 slds-m-around_x-small ">
-      <lightning-input type="email" label="Email" name="Email"></lightning-input>
+    <div class="slds-col slds-size_1-of-2">
+      <lightning-input label="Email"></lightning-input>
     </div>
-    <div class="slds-col slds-size_1-of-2 slds-m-around_x-small ">
-      <lightning-input type="tel" label="Phone Number" name="phone"></lightning-input>
+    <div class="slds-col slds-size_1-of-2">
+      <lightning-input label="Phone Number"></lightning-input>
     </div>
-
-    <!-- Submit Button full width -->
     <div class="slds-col slds-size_1-of-1 slds-m-top_medium">
-      <lightning-button variant="brand" label="Submit" title="submit" onclick={handleClick} class="myButton"></lightning-button>
+      <lightning-button variant="brand" label="Submit"></lightning-button>
     </div>
   </div>
 </template>
