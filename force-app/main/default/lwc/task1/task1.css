@@ -1,0 +1,14 @@
+.myButton {
+  /* normal state background colour (for brand variant) */
+  --slds-button-brand-color-background: skyblue;
+  --slds-button-brand-color-border: skyblue;
+  /* hover state colour for brand variant */
+  --slds-button-brand-color-background-hover: #1e90ff; /* e.g. DodgerBlue */
+  --slds-button-brand-color-border-hover: #1e90ff;
+}
+
+/* optionally add a :hover as well for extra control */
+.myButton:hover {
+  /* you can override standard background if necessary */
+  background-color: #1e90ff;
+}

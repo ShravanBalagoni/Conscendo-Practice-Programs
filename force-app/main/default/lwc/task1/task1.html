@@ -1,32 +1,19 @@
 <template>
     <div>
         <div class="slds-grid slds-wrap">
- 
-
         <div class="slds-col slds-size_1-of-2 ">
-    <lightning-input type="text" label="First Name" name="FName"> </lightning-input>
-    </div>
-        
-
-       <div class="slds-col slds-size_1-of-2">
-        <lightning-input type="text" label="Last Name" name="LName">
-            
-        </lightning-input>
+        <lightning-input type="text" label="First Name" name="FName"> </lightning-input>
         </div>
         <div class="slds-col slds-size_1-of-2">
-        <lightning-input type="text" label="Email" name="Email">
-            
-        </lightning-input>
+        <lightning-input type="text" label="Last Name" name="LName"></lightning-input>
+        </div>
+        <div class="slds-col slds-size_1-of-2">
+        <lightning-input type="text" label="Email" name="Email"></lightning-input>
         </div>
          <div class="slds-col slds-size_1-of-2">
-        <lightning-input type="text" label="Phone Number " name="phone">
-            
-        </lightning-input>
+        <lightning-input type="text" label="Phone Number " name="phone"></lightning-input>
         </div>
-         
-        <lightning-button variant="brand" label="Submit" title="submit" onclick={handleClick}>
-
-        </lightning-button>
+        <lightning-button variant="brand" label="Submit" title="submit" onclick={handleClick} class="myButton"></lightning-button>
     </div>
     </div>
 </template>
