@@ -10,7 +10,7 @@
 
 /* Hover only affects button */
 .myButton:hover {
-  background-color: #1e90ff !important;
+  background-color: #181b1e !important;
   border-color: #1e90ff !important;
   color: white !important;
 }
