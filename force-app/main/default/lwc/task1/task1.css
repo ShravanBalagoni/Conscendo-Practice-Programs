@@ -1,18 +1,18 @@
-/* Style only the lightning-button with class myButton */
-lightning-button.myButton {
-  background-color: skyblue !important;
-  border-color: skyblue !important;
-  color: black;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+.button-wrapper {
+  text-align: center; /* centers content horizontally */
 }
 
-/* Hover effect solely on the button */
-lightning-button.myButton:hover {
-  background-color: #1e90ff !important; /* DodgerBlue */
+.myButton {
+  background-color: skyblue !important;
+  border-color: skyblue !important;
+  color: black !important;
+}
+
+/* Hover only affects button */
+.myButton:hover {
+  background-color: #1e90ff !important;
   border-color: #1e90ff !important;
-  color: white;
+  color: white !important;
 }
 
 /* Add right padding between inputs in the first column */
