@@ -9,8 +9,8 @@
 
 .custom-button:hover,
 .custom-button:focus {
-  background-color: #08255205; /* DodgerBlue */
-  border-color: #144f8014;
+  background-color: #01030705; /* DodgerBlue */
+  border-color: #05111c14;
   color: rgb(160, 71, 71);
   outline: none;
   cursor: pointer;
