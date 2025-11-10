@@ -1,17 +1,22 @@
-.myButton {
-  background-color: skyblue !important; /* Force button background */
+/* Style only the lightning-button with class myButton */
+lightning-button.myButton {
+  background-color: skyblue !important;
   border-color: skyblue !important;
-  color: black; /* Set button text color */
+  color: black;
   display: block;
   margin-left: auto;
   margin-right: auto;
 }
 
-.myButton:hover {
-  background-color: #1e90ff !important; /* DodgerBlue on hover */
+/* Hover effect solely on the button */
+lightning-button.myButton:hover {
+  background-color: #1e90ff !important; /* DodgerBlue */
   border-color: #1e90ff !important;
   color: white;
 }
+
+/* Add right padding between inputs in the first column */
+
 
 
 /* Optional: add some vertical spacing above the button if needed */
