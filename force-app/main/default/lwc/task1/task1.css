@@ -11,7 +11,7 @@
 .custom-button:focus {
   background-color: #08255205; /* DodgerBlue */
   border-color: #144f8014;
-  color: white;
+  color: rgb(160, 71, 71);
   outline: none;
   cursor: pointer;
 }
