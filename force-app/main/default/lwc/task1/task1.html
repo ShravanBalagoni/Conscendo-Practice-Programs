@@ -2,20 +2,46 @@
      <lightning-card variant="narrow" title="Task1" icon-name="standard:opportunity">
   <div class="slds-grid slds-wrap slds-p-around_medium">
     <div class="slds-col slds-size_1-of-2 ">
-      <lightning-input label="First Name" name="FName" class="firstName" value={firstName} onchange={collectInputs}></lightning-input>
+      <lightning-input label="First Name" 
+                        name="FName" 
+                        class="firstName" 
+                        value={firstName} 
+                        onchange={collectInputs}>
+        </lightning-input>
     </div>
     <div class="slds-col slds-size_1-of-2">
-      <lightning-input label="Last Name" name="LName" value={lastName} onchange={collectInputs}></lightning-input>
+      <lightning-input label="Last Name" 
+                        name="LName" 
+                        value={lastName}
+                        onchange={collectInputs}>
+        </lightning-input>
     </div>
     <div class="slds-col slds-size_1-of-2  ">
-      <lightning-input label="Email" name="email"  value={emaill} class="email" onchange={collectInputs}></lightning-input>
+      <lightning-input label="Email" 
+                        name="email" 
+                        value={emaill} 
+                        class="email" 
+                        onchange={collectInputs}>
+        </lightning-input>
     </div>
     <div class="slds-col slds-size_1-of-2">
-      <lightning-input label="Phone Number" name="phone"  value={phoneno} onchange={collectInputs}></lightning-input>
+      <lightning-input label="Phone Number" 
+                        name="phone"  
+                        value={phoneno} 
+                        onchange={collectInputs}>
+        </lightning-input>
     </div>
+    <!--  
+
     <div class="button-wrapper slds-col slds-size_1-of-1 slds-m-top_medium">
   <lightning-button variant="brand" label="Submit" class="myButton" onclick={handleClick}></lightning-button>
 </div>
+-->
+    <div class="slds-col slds-size_1-of-1 slds-m-top_medium slds-text-align_center">
+      <button class="slds-button slds-button_brand custom-button" onclick={handleClick}>
+        Submit
+      </button>
+    </div>
 
   </div>
   </lightning-card>

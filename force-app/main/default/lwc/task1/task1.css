@@ -1,19 +1,21 @@
-.button-wrapper {
-  text-align: center; /* centers content horizontally */
+.custom-button {
+  background-color: skyblue;
+  border-color: skyblue;
+  color: black;
+  font-weight: 600;
+  padding: 0.5rem 1.5rem;
+  transition: background-color 0.3s ease;
 }
 
-.myButton {
-  background-color: skyblue !important;
-  border-color: skyblue !important;
-  color: black !important;
+.custom-button:hover,
+.custom-button:focus {
+  background-color: #1e90ff; /* DodgerBlue */
+  border-color: #1e90ff;
+  color: white;
+  outline: none;
+  cursor: pointer;
 }
 
-/* Hover only affects button */
-.myButton:hover {
-  background-color: #181b1e !important;
-  border-color: #1e90ff !important;
-  color: white !important;
-}
 
 /* Add right padding between inputs in the first column */
 
