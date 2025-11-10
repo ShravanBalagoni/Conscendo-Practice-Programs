@@ -1,6 +1,6 @@
 <template>
   <div class="slds-grid slds-wrap slds-p-around_medium">
-    <!-- Row 1: First Name + Last Name -->
+    <!-- Row 1 -->
     <div class="slds-col slds-size_1-of-2 slds-m-around_x-small">
       <lightning-input type="text" label="First Name" name="FName"></lightning-input>
     </div>
@@ -8,15 +8,15 @@
       <lightning-input type="text" label="Last Name" name="LName"></lightning-input>
     </div>
 
-    <!-- Row 2: Email + Phone Number -->
-    <div class="slds-col slds-size_1-of-2 slds-m-around_x-small slds-m-top_medium">
+    <!-- Row 2 -->
+    <div class="slds-col slds-size_1-of-2 slds-m-around_x-small ">
       <lightning-input type="email" label="Email" name="Email"></lightning-input>
     </div>
-    <div class="slds-col slds-size_1-of-2 slds-m-around_x-small slds-m-top_medium">
+    <div class="slds-col slds-size_1-of-2 slds-m-around_x-small ">
       <lightning-input type="tel" label="Phone Number" name="phone"></lightning-input>
     </div>
 
-    <!-- Submit Button (full width) -->
+    <!-- Submit Button full width -->
     <div class="slds-col slds-size_1-of-1 slds-m-top_medium">
       <lightning-button variant="brand" label="Submit" title="submit" onclick={handleClick} class="myButton"></lightning-button>
     </div>
