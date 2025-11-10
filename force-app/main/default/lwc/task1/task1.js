@@ -22,9 +22,9 @@ export default class Task1 extends LightningElement {
         }
     }
     handleClick(event){
-        console.log('First Name:'+firstName);
-        console.log('Last Name:'+lastName);
-        console.log('Email:'+emaill);
-        console.log('Phone:'+phoneno);
+        console.log('First Name:'+this.firstName);
+        console.log('Last Name:'+this.lastName);
+        console.log('Email:'+this.emaill);
+        console.log('Phone:'+this.phoneno);
     }
 }
