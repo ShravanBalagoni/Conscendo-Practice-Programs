@@ -1,5 +1,5 @@
 .custom-button {
-  background-color: skyblue;
+  background-color: rgb(123, 194, 222);
   border-color: skyblue;
   color: black;
   font-weight: 600;
@@ -9,8 +9,8 @@
 
 .custom-button:hover,
 .custom-button:focus {
-  background-color: #1e90ff; /* DodgerBlue */
-  border-color: #1e90ff;
+  background-color: #a214df; /* DodgerBlue */
+  border-color: #8319ca;
   color: white;
   outline: none;
   cursor: pointer;
