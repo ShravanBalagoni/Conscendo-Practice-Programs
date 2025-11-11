@@ -1,0 +1,51 @@
+<template>
+    <ligtning-card title="Account Form" icon-name="standard:account">
+        <div class="slds-p-around_medium">
+            <lightning-input label="Account Name"
+                            value={accountName}
+                            onchange={handleNameChange}
+                            required
+                            min-length="4"
+                            max-length="15"
+                            message-when-too-short="Name must be atleast 4 characters"
+                            message-when-too-long="Name must not exceed 15 characters"
+                            class="slds-m-bottom_small">
+            </lightning-input>
+             <lightning-input label="Account Number"
+                            type="number"
+                            value={accountNumber}
+                            onchange={handleNumberChange}
+                            max="99999"
+                            formatter="decimal"
+                            message-when-range-overflow="Account Number cannot exceed 5 digits"
+                            class="slds-m-bottom_small">
+            </lightning-input>
+            <lightning-textarea label="Billing Address"
+                                value={billingAddress}
+                                onchange={handleBillingAddressChange}
+                                max-length="500"
+                                class="slds-m-bottom_small">
+            </lightning-textarea>
+            <lightning-textarea label="Description"
+                                value={description}
+                                onchange={handleDescriptionChange}
+                                max-length="500"
+                                class="slds-m-bottom_small">
+            </lightning-textarea>
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col">
+                    <lightning-button variant="brand"
+                                        label="submit"
+                                        onclick={handleSubmit}
+                                        disabled={isSubmitDisabled}
+                                        class="slds-m-right_small">
+                    </lightning-button>
+                    <lightning-button variant="neutral"
+                                        label="Reset"
+                                        onclick={handleReset}>
+                    </lightning-button>
+                </div>
+            </div>
+        </div>
+    </ligtning-card>
+</template>
