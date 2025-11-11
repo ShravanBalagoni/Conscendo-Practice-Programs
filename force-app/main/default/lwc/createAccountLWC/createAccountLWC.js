@@ -7,7 +7,7 @@ export default class CreateAccountLWC extends LightningElement {
     handleinput(event){
         this.accountNameVar=event.target.value;
     }
-    createAccount(account){
+    createAccount(event){
         doCreateAccount({acntName:this.accountNameVar}).then(result=>{
             this.message='Account Inserted:'+result;
             console.log(this.message);

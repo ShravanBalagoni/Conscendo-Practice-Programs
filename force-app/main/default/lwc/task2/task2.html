@@ -1,0 +1,43 @@
+<template>
+    <lightning-card variant="Narrow" icon-name="standard:account" title="Task 2">
+        <lightning-input type="text" 
+                        label="Account Name"
+                        min-length="4"
+                        max-length="15" 
+                        required="true"
+                        onclick={collectInputs}
+                        name="AccName"
+                        value="">
+        </lightning-input>
+        <lightning-input type="Number"
+                        label="Account Number"
+                        max-length="5"
+                        onclick={collectInputs}
+                        name="AccNumber">
+        </lightning-input>
+        <lightning-textarea name="BillingAddress" 
+                            label="Billing Address"
+                             onclick={collectInputs}
+                                >
+        </lightning-textarea>
+        <lightning-textarea name="Description" 
+                            label="Description"
+                             onclick={collectInputs}>
+        </lightning-textarea>
+        <lightning-button type="brand"
+                            label="Submit"
+                            title="Submit"
+                            onclick={handleSubmit}>
+        </lightning-button>
+                        
+    </lightning-card>
+</template>
+<!--Create a form 
+holding below fields
+Collect the Account Object fields in ones own developer org. ( Assuming everyone have their own developer org for practice)
+Account Object fields like
+Account name,  Validation criteria Name must be minimum of 4 characters and should not allow more than 15characters.
+Account Number  Number validation should not be more than 5 digits.
+Billing Address  Text area.
+Description  Text area.
+Submit button  With brand color. -->
