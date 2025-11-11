@@ -1,11 +1,6 @@
 import { LightningElement,api } from 'lwc';
 import insertAccount from '@salesforce/apex/AccountController.insertAccount';
-/*
-import Name from '@salesforce/schema/Account.Name';
-import AccountNumber from '@salesforce/schema/Account.AccountNumber';
-import Phone from '@salesforce/schema/Account.Phone';
-import BillingAddress from '@salesforce/schema/Account.BillingAddress';
-import Description from '@salesforce/schema/Account.Description';*/
+
 export default class Task2 extends LightningElement {
     @api recordId;
     accountName;
@@ -56,12 +51,3 @@ export default class Task2 extends LightningElement {
 
     }
 }
-/*Create a form 
-holding below fields
-Collect the Account Object fields in ones own developer org. ( Assuming everyone have their own developer org for practice)
-Account Object fields like
-Account name,  Validation criteria Name must be minimum of 4 characters and should not allow more than 15characters.
-Account Number  Number validation should not be more than 5 digits.
-Billing Address  Text area.
-Description  Text area.
-Submit button  With brand color.*/ 
