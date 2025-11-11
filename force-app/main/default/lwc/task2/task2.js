@@ -38,14 +38,17 @@ export default class Task2 extends LightningElement {
                 Name:this.accountName,
                 AccountNumber:this.accountNumber,
                 BillingAddress:this.billingAddress,
-                Description:this.description
+                Description:this.description,
+                Id:this.recordId
             }
         }).then(result=>{
             alert('Record Created:'+result);
+            if(!this.recordId){
             this.accountName='';
             this.accountNumber=null;
             this.billingAddress='';
             this.description='';
+            }
         })
         .catch(error=>{
             console.log('Error creating the record:'+error.body.message);
