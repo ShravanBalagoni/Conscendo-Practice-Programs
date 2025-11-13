@@ -12,12 +12,20 @@
 </div>
 </div>
 
-
+ 
 <div class="children-list">
 <!-- Create 3 child items with ids 1..3 -->
-<c-child-item item-id="1" onchildtoggle={handleChildToggle}></c-child-item>
-<c-child-item item-id="2" onchildtoggle={handleChildToggle}></c-child-item>
-<c-child-item item-id="3" onchildtoggle={handleChildToggle}></c-child-item>
+<div class="slds-grid ">
+    <div class="slds-col slds-size_1-of-3">
+        <c-child-item item-id="1" onchildtoggle={handleChildToggle}></c-child-item>
+    </div>
+     <div class="slds-col slds-size_1-of-3">
+        <c-child-item item-id="2" onchildtoggle={handleChildToggle}></c-child-item>
+    </div>
+    <div class="slds-col slds-size_1-of-3">
+        <c-child-item item-id="3" onchildtoggle={handleChildToggle}></c-child-item>
+    </div>
+</div>
 </div>
 </div>
 </lightning-card>
