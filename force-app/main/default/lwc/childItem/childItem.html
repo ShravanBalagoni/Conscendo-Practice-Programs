@@ -1,3 +1,14 @@
 <template>
-    
+<div class="child-item slds-box slds-m-around_x-small">
+<div class="slds-grid slds-align-spread slds-wrap">
+<div class="slds-col">Child {itemId} — <strong>{statusLabel}</strong></div>
+<div class="slds-col slds-text-align_right">
+<lightning-button
+label={buttonLabel}
+onclick={toggleSelect}
+variant="neutral"
+></lightning-button>
+</div>
+</div>
+</div>
 </template>
