@@ -1,3 +1,18 @@
 <template>
-    
+<lightning-card title="Grandparent" icon-name="standard:people">
+<div class="slds-p-around_medium">
+<div class="slds-grid slds-align-spread slds-m-bottom_small">
+<div>Total selected across Parent: <strong>{totalSelected}</strong></div>
+<div>
+<lightning-button label="Reset All" onclick={handleResetAll} variant="destructive"></lightning-button>
+</div>
+</div>
+
+
+<!-- Place the parent component here. Attach the same event handler so
+the grandparent hears childtoggle events that bubble up from
+the children (composed=true). -->
+<c-parent-list onchildtoggle={handleChildToggleFromGrandparent}></c-parent-list>
+</div>
+</lightning-card>
 </template>
