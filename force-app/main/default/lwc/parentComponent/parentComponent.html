@@ -1,4 +1,5 @@
 <template>
     <b> I am parent LWC Component</b>
     <p> Message coming from the child LWC Component:{parentReceiver}</p>
+    <c-child-component childreceiver-var = {parentMessage} onchildevent={handleeventAction}></c-child-component>
 </template>
