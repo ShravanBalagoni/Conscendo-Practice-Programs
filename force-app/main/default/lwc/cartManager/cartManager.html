@@ -1,3 +1,4 @@
 <template>
-    
+    <c-add-item-form items={availableItems} onadditem={handleAdd}></c-add-item-form>
+    <c-item-list items={cartItems} total={totalPrice} onremoveitem={handleRemove}></c-item-list>
 </template>
