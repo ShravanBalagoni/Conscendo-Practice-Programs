@@ -1,0 +1,33 @@
+<template>
+    <template if:true={items}>
+        <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+            <thead>
+                <tr class="slds-text-title_caps">
+                    <th scope="col">Name</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <template for:each={items} for:item="itm">
+                    <tr key={itm.id}>
+                        <td>{itm.name}</td>
+                        <td>${itm.price}</td>
+                        <td>
+                            <lightning-button
+                                label="Remove"
+                                data-id={itm.id}
+                                onclick={handleRemoveClick}
+                                variant="destructive">
+                            </lightning-button>
+                        </td>
+                    </tr>
+                </template>
+            </tbody>
+        </table>
+        <p>Total: <strong>${total}</strong></p>
+    </template>
+    <template if:false={items}>
+        <p>No items in cart.</p>
+    </template>
+</template>
