@@ -5,6 +5,21 @@ export default class AddItemForm extends LightningElement {
     @track selectItemId;
 
     get itemOptions(){
-        return this.items.map(item=>({label:`${item.name} ()`}))
+        return this.items.map(item=>({label:`${item.name} ($${item.price})`,value: item.id}));
+
+    }
+    handleChange(event){
+        this.selectItemId = parseInt(event.target.value, 10);
+    }
+    handleAddClick(){
+        if(this.selectItemId == null){
+            return;
+        }
+        const selected = this.items.find(item=>item.id === this.selectItemId);
+        if(selected){
+            this.dispatchEvent(new CustomEvent('additem',{
+                detail: selected
+            }));
+        }
     }
 }

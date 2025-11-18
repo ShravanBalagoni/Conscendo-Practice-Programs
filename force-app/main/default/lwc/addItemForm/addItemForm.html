@@ -1,3 +1,15 @@
 <template>
-    
+    <lightning-combobox 
+                        name="itemSelect"
+                        label="Seletc Item"
+                        options={itemOptions}
+                        value={selectedItemId}
+                        onchange={handleChange}>
+    </lightning-combobox>
+    <lightning-button
+                    label="Add to Cart"
+                    onclick={handleAddClick}
+                    variant="brand">
+    </lightning-button>
+
 </template>
