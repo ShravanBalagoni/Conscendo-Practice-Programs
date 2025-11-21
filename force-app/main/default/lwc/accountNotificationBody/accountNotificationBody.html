@@ -1,0 +1,49 @@
+<template>
+  <section class="body-wrap">
+    <div class="card-shell">
+      <div class="card-success">
+        <div class="check-circle" aria-hidden="true">
+          <svg viewBox="0 0 48 48" class="check-svg" focusable="false" aria-hidden="true">
+            <circle cx="24" cy="24" r="22" fill="#e6f7ec"></circle>
+            <path d="M18 24l4.5 4.5L31 20" fill="none" stroke="#2aa34a" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </div>
+
+        <h1 class="headline">Congratulations!</h1>
+        <p class="subhead">Your Optimum Bank Account has been opened</p>
+
+        <div class="details-grid">
+          <div class="card-image-col">
+            <img src={cardImageUrl} alt="Debit card" class="debit-card" />
+          </div>
+
+          <div class="account-details-col">
+            <div class="details-title">Account Details</div>
+
+            <dl class="details-list">
+              <div class="detail-row">
+                <dt>Customer number</dt>
+                <dd>{customerNumber}</dd>
+              </div>
+
+              <div class="detail-row">
+                <dt>Account Number</dt>
+                <dd>{accountNumber}</dd>
+              </div>
+
+              <div class="detail-row">
+                <dt>Date account opened</dt>
+                <dd>{openedDate}</dd>
+              </div>
+
+              <div class="detail-row">
+                <dt>Account Funding Balance</dt>
+                <dd class="funding">{fundingStatus}</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</template>

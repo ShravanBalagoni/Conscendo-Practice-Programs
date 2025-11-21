@@ -1,11 +1,41 @@
 <template>
-  <header class="header">
-    <div class="header__logo">
-      <img src={logoUrl} alt="Bank Logo" />
-    </div>
-    <div class="header__user">
-      <span class="header__username">{userName}</span>
-      <button class="header__sign-out" onclick={handleSignOut}>SIGN OUT</button>
+  <header class="site-header" role="banner">
+    <div class="top-bar">
+      <div class="top-left">
+        <span class="brand-line1">Standard Bank</span>
+        <span class="brand-line2">International</span>
+      </div>
+
+      <div class="top-center">
+        <!-- center shield logo bound to logoUrl from JS -->
+        <img src={logoUrl} alt="Standard Bank logo" class="center-logo" />
+      </div>
+
+      <div class="top-right">
+        <div class="user-area" onmouseenter={showMenu} onmouseleave={hideMenu}>
+          <button class="user-btn" aria-haspopup="true" aria-expanded={menuOpen} title="User menu">
+            <span class="user-icon" aria-hidden="true">👤</span>
+            <span class="username">{username}</span>
+            <svg class="chev" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M7 10l5 5 5-5H7z"></path>
+            </svg>
+          </button>
+
+          <template if:true={menuOpen}>
+            <div class="dropdown" role="menu">
+              <button class="dropdown-item" role="menuitem" onclick={handleProfile}>Profile</button>
+              <button class="dropdown-item" role="menuitem" onclick={handleSignOut}>Sign out</button>
+            </div>
+          </template>
+        </div>
+
+        <button class="signout-link" onclick={handleSignOut} title="Sign out">
+          <svg class="lock" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 10V8a6 6 0 0112 0v2h1a1 1 0 011 1v8a1 1 0 01-1 1H5a1 1 0 01-1-1v-8a1 1 0 011-1h1zm2 0h8V8a4 4 0 00-8 0v2z"/>
+          </svg>
+          <span class="signout-text">SIGN OUT</span>
+        </button>
+      </div>
     </div>
   </header>
 </template>

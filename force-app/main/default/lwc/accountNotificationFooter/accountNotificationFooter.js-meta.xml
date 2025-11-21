@@ -2,7 +2,8 @@
 <LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
   <apiVersion>59.0</apiVersion>
   <isExposed>true</isExposed>
-  <masterLabel>Account Notification Header</masterLabel>
+  <masterLabel>Account Notification Footer</masterLabel>
+
   <targets>
     <target>lightning__AppPage</target>
     <target>lightning__RecordPage</target>
@@ -12,14 +13,11 @@
   </targets>
 
   <targetConfigs>
-    <!-- App Builder property (optional) -->
-    <targetConfig targets="lightning__AppPage">
-      <property name="username" type="String" label="User name" />
-    </targetConfig>
-
-    <!-- Experience Builder: make properties editable when the component is selected -->
     <targetConfig targets="lightningCommunity__Default">
-      <property name="username" type="String" label="User name" />
+      <property name="helpUrl" type="String" label="Help URL"/>
+      <property name="contactUrl" type="String" label="Contact URL"/>
+      <property name="privacyUrl" type="String" label="Privacy URL"/>
+      <property name="footerLogoUrl" type="String" label="Footer Logo URL"/>
     </targetConfig>
   </targetConfigs>
 </LightningComponentBundle>
