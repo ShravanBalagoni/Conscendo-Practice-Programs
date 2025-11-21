@@ -1,38 +1,57 @@
 <template>
-  <div class="slds-page-header">
-    <!-- header area with logo, user name, sign out -->
+  <div class="page-wrapper">
+    <!-- Header -->
+    <header class="header">
+      <div class="header__logo">
+        <img src="/path/to/your/logo.png" alt="Bank Logo" />
+      </div>
+      <div class="header__user">
+        <span>{userName}</span>
+        <button class="sign-out" onclick={handleSignOut}>SIGN OUT</button>
+      </div>
+    </header>
+
+    <!-- Main content -->
+    <main class="content">
+      <div class="notification">
+        <div class="notification__icon">
+          <!-- Use SLDS or an inline SVG for a green checkmark -->
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="24" r="24" fill="#E6F7EC"/>
+            <path d="M16 24l6 6 12-12" stroke="#2E8555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h1 class="notification__title">Congratulations!</h1>
+        <p class="notification__subtitle">Your Optimum Bank Account has been opened</p>
+
+        <div class="notification__body">
+          <div class="card-image">
+            <img src={cardImageUrl} alt="Debit Card" />
+          </div>
+          <div class="account-details">
+            <ul>
+              <li><strong>Customer number</strong> {customerNumber}</li>
+              <li><strong>Account Number</strong> {accountNumber}</li>
+              <li><strong>Date account opened</strong> {dateOpened}</li>
+              <li><strong>Account Funding Balance</strong> {fundingBalance}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <nav class="footer__links">
+        <a href="#">Advisors</a>
+        <a href="#">Regulatory</a>
+        <a href="#">Legal</a>
+        <a href="#">Privacy Statements</a>
+        <a href="#">Terms and Conditions</a>
+      </nav>
+      <p class="footer__fineprint">
+        Standard Bank Isle of Man Limited ("SBIoM") is licensed by the Isle of Man Financial Services Authority, Standard Bank House, One Circular Road, Douglas, Isle of Man, IM1 1SB. Registered in the Isle of Man No. 4713C.
+      </p>
+    </footer>
   </div>
-  <section class="slds-section">
-    <div class="notification-header">
-      <span class="slds-icon-utility-success success-icon"></span>
-      <h1>Congratulations!</h1>
-      <p>Your Optimum Bank Account has been opened</p>
-    </div>
-    <div class="slds-grid slds-wrap">
-      <div class="slds-col slds-size_1-of-2">
-        <!-- card image -->
-        <img src={cardImageUrl} alt="Bank debit card" />
-      </div>
-      <div class="slds-col slds-size_1-of-2">
-        <!-- account details list -->
-        <ul class="account-details">
-          <li><strong>Customer number</strong> {customerNumber}</li>
-          <li><strong>Account Number</strong> {accountNumber}</li>
-          <li><strong>Date account opened</strong> {dateOpened}</li>
-          <li><strong>Account Funding Balance</strong> {fundingBalance}</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-  <footer class="slds-footer">
-    <!-- links and fine print -->
-    <nav>
-      <a href="#">Advisors</a>
-      <a href="#">Regulatory</a>
-      <a href="#">Legal</a>
-      <a href="#">Privacy Statements</a>
-      <a href="#">Terms and Conditions</a>
-    </nav>
-    <p>Standard Bank … licensed by … Isle of Man Financial Services Authority … Registered in the Isle of Man No 4713C.</p>
-  </footer>
 </template>
