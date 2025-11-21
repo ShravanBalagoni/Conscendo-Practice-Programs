@@ -1,0 +1,38 @@
+<template>
+  <div class="slds-page-header">
+    <!-- header area with logo, user name, sign out -->
+  </div>
+  <section class="slds-section">
+    <div class="notification-header">
+      <span class="slds-icon-utility-success success-icon"></span>
+      <h1>Congratulations!</h1>
+      <p>Your Optimum Bank Account has been opened</p>
+    </div>
+    <div class="slds-grid slds-wrap">
+      <div class="slds-col slds-size_1-of-2">
+        <!-- card image -->
+        <img src={cardImageUrl} alt="Bank debit card" />
+      </div>
+      <div class="slds-col slds-size_1-of-2">
+        <!-- account details list -->
+        <ul class="account-details">
+          <li><strong>Customer number</strong> {customerNumber}</li>
+          <li><strong>Account Number</strong> {accountNumber}</li>
+          <li><strong>Date account opened</strong> {dateOpened}</li>
+          <li><strong>Account Funding Balance</strong> {fundingBalance}</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  <footer class="slds-footer">
+    <!-- links and fine print -->
+    <nav>
+      <a href="#">Advisors</a>
+      <a href="#">Regulatory</a>
+      <a href="#">Legal</a>
+      <a href="#">Privacy Statements</a>
+      <a href="#">Terms and Conditions</a>
+    </nav>
+    <p>Standard Bank … licensed by … Isle of Man Financial Services Authority … Registered in the Isle of Man No 4713C.</p>
+  </footer>
+</template>
