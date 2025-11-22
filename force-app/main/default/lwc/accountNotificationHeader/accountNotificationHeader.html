@@ -1,36 +1,48 @@
 <template>
+  <!--This is the syntax for header, role defines the element to display as a banner-->
   <header class="site-header" role="banner">
+    <!--A div which has 3 sections top-left,top-right,top-center -->
     <div class="top-bar">
+      <!--top-left -->
       <div class="top-left">
+        <!--displays bank name in two lines-->
         <span class="brand-line1">Standard Bank</span>
         <span class="brand-line2">International</span>
       </div>
-
+      <!--top center-->
       <div class="top-center">
-        <!-- center shield logo bound to logoUrl from JS -->
-        <img src={logoUrl} alt="Standard Bank logo" class="center-logo" />
+        <!--img tag used for displaying bank logo-->
+        <img src={logoUrl} alt="Standard Bank logo" class="center-logo"/>
       </div>
-
+      <!--top-right-->
       <div class="top-right">
+        <!--div has two mouse events for pop up of menu section-->
         <div class="user-area" onmouseenter={showMenu} onmouseleave={hideMenu}>
+          <!--button renders a button that represents the current user and opens a user menu when activated-->
+          <!--aria-haspopup tells assistive tech that this control opens a popup/menu-->
+          <!--aria-expanded communicates whether the popup is currently open , title gives a native tooltip on hover-->
           <button class="user-btn" aria-haspopup="true" aria-expanded={menuOpen} title="User menu">
+            <!--ARIA (Accessible Rich Internet Applications) enhances web accessibility by adding roles, states, and properties to HTML elements.-->
+            <!--aria-hidden ="true" means screen readers ignores it because it is decorative-->      
             <span class="user-icon" aria-hidden="true">👤</span>
-            <span class="username">{username}</span>
+            <span class="user-name">{username}</span>
+            <!--svg is used for making custom icons in path d stands for draw-->
             <svg class="chev" viewBox="0 0 24 24" aria-hidden="true">
+              <!--“Draws a chevron: from (7, 10) go down-right to (12, 15), then up-right to (17, 10), then back horizontally to (7, 10), and closes the shape.”-->
               <path d="M7 10l5 5 5-5H7z"></path>
             </svg>
           </button>
-
+          <!--display profile and signout on mouseover CONDITIONAL Rendering-->
           <template if:true={menuOpen}>
             <div class="dropdown" role="menu">
               <button class="dropdown-item" role="menuitem" onclick={handleProfile}>Profile</button>
-              <button class="dropdown-item" role="menuitem" onclick={handleSignOut}>Sign out</button>
+              <button class="dropdown-item" role="menuitem" onclick={handleSignOut}>Signout</button>
             </div>
           </template>
         </div>
-
+        <!--a button for lock symbol using svg-->
         <button class="signout-link" onclick={handleSignOut} title="Sign out">
-          <svg class="lock" viewBox="0 0 24 24" aria-hidden="true">
+           <svg class="lock" viewBox="0 0 24 24" aria-hidden="true">
             <path d="M6 10V8a6 6 0 0112 0v2h1a1 1 0 011 1v8a1 1 0 01-1 1H5a1 1 0 01-1-1v-8a1 1 0 011-1h1zm2 0h8V8a4 4 0 00-8 0v2z"/>
           </svg>
           <span class="signout-text">SIGN OUT</span>

@@ -28,4 +28,4 @@ export default class AccountNotificationHeader extends LightningElement {
     this.dispatchEvent(new CustomEvent('signout'));
     this.menuOpen = false;
   }
-}
+}  

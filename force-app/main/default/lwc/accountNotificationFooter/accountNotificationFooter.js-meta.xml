@@ -12,12 +12,5 @@
     <target>lightningCommunity__Default</target>
   </targets>
 
-  <targetConfigs>
-    <targetConfig targets="lightningCommunity__Default">
-      <property name="helpUrl" type="String" label="Help URL"/>
-      <property name="contactUrl" type="String" label="Contact URL"/>
-      <property name="privacyUrl" type="String" label="Privacy URL"/>
-      <property name="footerLogoUrl" type="String" label="Footer Logo URL"/>
-    </targetConfig>
-  </targetConfigs>
+  
 </LightningComponentBundle>

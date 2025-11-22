@@ -1,22 +1,20 @@
 <template>
-  <footer class="footer-wrap" role="contentinfo">
-    <div class="footer-container">
+  <footer class="footer" role="contentinfo">
+    <div class="footer__inner">
+      <nav class="footer__nav" role="navigation" aria-label="Footer links">
+        <a href="javascript:void(0)" class="footer__link">ADVISORS</a>
+        <a href="javascript:void(0)" class="footer__link">REGULATORY</a>
+        <a href="javascript:void(0)" class="footer__link">LEGAL</a>
+        <a href="javascript:void(0)" class="footer__link">PRIVACY STATEMENTS</a>
+        <a href="javascript:void(0)" class="footer__link">TERMS AND CONDITIONS</a>
+      </nav>
 
-      <div class="footer-left">
-        <div class="footer-bank">Standard Bank International</div>
-        <div class="footer-copy">© {year} All rights reserved</div>
+      <div class="footer__legal">
+        <p>
+          Standard Bank Isle of Man Limited ("SBIoM") is licensed by the Isle of Man Financial Services Authority.
+          Standard Bank House, One Circular Road, Douglas, Isle of Man, IM1 1SB. Registered in the Isle of Man No.4713C.
+        </p>
       </div>
-
-      <div class="footer-center">
-        <img src={footerLogoUrl} alt="Bank logo" class="footer-logo" />
-      </div>
-
-      <div class="footer-right">
-        <a href={helpUrl} class="footer-link" target="_blank" rel="noopener">Help</a>
-        <a href={contactUrl} class="footer-link" target="_blank" rel="noopener">Contact Us</a>
-        <a href={privacyUrl} class="footer-link" target="_blank" rel="noopener">Privacy Policy</a>
-      </div>
-
     </div>
   </footer>
 </template>
