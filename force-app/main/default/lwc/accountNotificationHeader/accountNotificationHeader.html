@@ -43,8 +43,12 @@
         <!--a button for lock symbol using svg-->
         <button class="signout-link" onclick={handleSignOut} title="Sign out">
            <svg class="lock" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M6 10V8a6 6 0 0112 0v2h1a1 1 0 011 1v8a1 1 0 01-1 1H5a1 1 0 01-1-1v-8a1 1 0 011-1h1zm2 0h8V8a4 4 0 00-8 0v2z"/>
-          </svg>
+  <!-- Body of the lock -->
+  <rect x="4" y="10" width="16" height="10" rx="2" ry="2" fill="currentColor" />
+  <!-- Shackle of the lock -->
+  <path d="M7 10V7a5 5 0 0110 0v3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+</svg>
+
           <span class="signout-text">SIGN OUT</span>
         </button>
       </div>
