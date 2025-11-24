@@ -1,4 +1,5 @@
 import { LightningElement, api, track } from 'lwc';
+import bankurl from '@salesforce/resourceUrl/bankLogo'
 
 export default class AccountNotificationHeader extends LightningElement {
   /** username shown in header */
@@ -7,7 +8,7 @@ export default class AccountNotificationHeader extends LightningElement {
   // Note: using the uploaded file path you provided.
   // Your deployment process should convert this local path to an accessible URL,
   // or replace with a static resource (recommended for production).
-  logoUrl = '/mnt/data/image (4).png';
+  @api logoUrl = bankurl;
 
   @track menuOpen = false;
 
