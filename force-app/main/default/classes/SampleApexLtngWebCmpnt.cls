@@ -22,4 +22,4 @@ public with sharing class SampleApexLtngWebCmpnt {
     public static List<Case> getCases(){
         return [Select Id,CaseNumber,Priority,Origin from Case Limit 25];
     }
-} 
+} //

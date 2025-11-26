@@ -1,0 +1,209 @@
+<template>
+  <section class="my-clients">
+    <!-- HEADER -->
+    <header class="mc-header" role="banner">
+      <div class="mc-header-left">
+        <h1 class="mc-title">My Clients</h1>
+        <p class="mc-subtitle">
+          Please continue any account onboarding application or start a new application
+        </p>
+      </div>
+
+     <div class="mc-header-right">
+     <button class="mc-add-pill" type="button">
+    <span class="mc-add-pill-icon">+</span>
+    <span class="mc-add-pill-label">ADD APPLICATION</span>
+  </button>
+</div>
+
+    </header>
+
+    <!-- SUMMARY CARDS -->
+    <section class="mc-summary-row">
+      <article
+        class="mc-card mc-card--all"
+        aria-label="All applications"
+      >
+        <div class="mc-card-ribbon mc-card-ribbon--all">
+          <span>All applications</span>
+        </div>
+        <div class="mc-card-body">
+          <div class="mc-card-count">6</div>
+          <div class="mc-card-since">Since 1 August 2023</div>
+        </div>
+      </article>
+
+      <article
+        class="mc-card mc-card--inprogress"
+        aria-label="In progress applications"
+      >
+        <div class="mc-card-ribbon mc-card-ribbon--inprogress">
+          <span>In progress</span>
+        </div>
+        <div class="mc-card-body">
+          <div class="mc-card-count">3</div>
+          <div class="mc-card-since">Since 5 October 2023</div>
+        </div>
+      </article>
+
+      <article
+        class="mc-card mc-card--approved"
+        aria-label="Approved applications"
+      >
+        <div class="mc-card-ribbon mc-card-ribbon--approved">
+          <span>Approved</span>
+        </div>
+        <div class="mc-card-body">
+          <div class="mc-card-count">2</div>
+          <div class="mc-card-since">Since 10 August 2023</div>
+        </div>
+      </article>
+
+      <article
+        class="mc-card mc-card--declined"
+        aria-label="Declined applications"
+      >
+        <div class="mc-card-ribbon mc-card-ribbon--declined">
+          <span>Declined</span>
+        </div>
+        <div class="mc-card-body">
+          <div class="mc-card-count">1</div>
+          <div class="mc-card-since">Since 1 August 2023</div>
+        </div>
+      </article>
+    </section>
+
+    <!-- TABS + FILTER ROW -->
+    <section class="mc-tab-bar">
+      <div class="mc-tabs">
+        <button
+          class={allTabClass}
+          data-tab="all"
+          onclick={handleTabClick}
+        >
+          All applications
+        </button>
+        <button
+          class={inProgressTabClass}
+          data-tab="inprogress"
+          onclick={handleTabClick}
+        >
+          In progress
+        </button>
+        <button
+          class={approvedTabClass}
+          data-tab="approved"
+          onclick={handleTabClick}
+        >
+          Approved
+        </button>
+        <button
+          class={declinedTabClass}
+          data-tab="declined"
+          onclick={handleTabClick}
+        >
+          Declined
+        </button>
+      </div>
+
+      <button class="mc-filter" type="button">
+        <lightning-icon
+          icon-name="utility:filterList"
+          size="x-small"
+          class="mc-filter-icon"
+        ></lightning-icon>
+        <span class="mc-filter-label">FILTER</span>
+      </button>
+    </section>
+
+    <!-- APPLICATION COUNT -->
+    <div class="mc-count-row">
+      <span>{visibleCount} Applications in total</span>
+    </div>
+
+    <!-- TABLE -->
+    <section class="mc-table-wrap" aria-label="Applications table">
+      <table class="mc-table slds-table slds-table_cell-buffer slds-table_bordered">
+        <thead>
+          <tr>
+            <th scope="col"><span>Entity name</span></th>
+            <th scope="col"><span>Account Type</span></th>
+            <th scope="col"><span>Application Step</span></th>
+            <th scope="col"><span>Application tab</span></th>
+            <th scope="col"><span>Last edited</span></th>
+            <th scope="col"><span>Duration since opportunity created</span></th>
+            <th scope="col"><span>Status</span></th>
+            <th scope="col" class="mc-col-actions">
+              <span class="slds-assistive-text">Open</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <template if:true={visibleApplications}>
+            <template for:each={visibleApplications} for:item="app">
+              <tr key={app.id}>
+                <td data-label="Entity name">
+                  <span class="mc-link-like">{app.entityName}</span>
+                </td>
+                <td data-label="Account Type">{app.accountType}</td>
+                <td data-label="Application Step">{app.applicationStep}</td>
+                <td data-label="Application tab">{app.applicationTab}</td>
+                <td data-label="Last edited">{app.lastEdited}</td>
+                <td data-label="Duration since opportunity created">
+                  {app.duration}
+                </td>
+                <td data-label="Status">
+                  <span class={app.statusClass}>
+                    <span class="mc-status-dot"></span>
+                    {app.statusLabel}
+                  </span>
+                </td>
+                <td class="mc-col-actions">
+                <template if:true={app.isInProgress}>
+                <lightning-button-icon
+                  icon-name="utility:chevronright"
+                  alternative-text="Open application"
+                  variant="bare"
+                  class="mc-row-action"
+                ></lightning-button-icon>
+                </template>
+                </td>
+
+              </tr>
+            </template>
+          </template>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- FOOTER / PAGINATION -->
+    <footer class="mc-footer">
+      <div class="mc-rows-per-page">
+        <span>Rows per page:</span>
+        <div class="mc-rows-select">
+          <span>15</span>
+          <lightning-icon
+            icon-name="utility:chevrondown"
+            size="xx-small"
+          ></lightning-icon>
+        </div>
+      </div>
+
+      <div class="mc-pagination">
+        <button class="mc-page-btn" disabled>
+          <lightning-icon
+            icon-name="utility:chevronleft"
+            size="xx-small"
+          ></lightning-icon>
+        </button>
+        <button class="mc-page-btn" disabled>
+          <lightning-icon
+            icon-name="utility:chevronright"
+            size="xx-small"
+          ></lightning-icon>
+        </button>
+        <span class="mc-page-text">1 - 6 of 6</span>
+      </div>
+    </footer>
+  </section>
+</template>

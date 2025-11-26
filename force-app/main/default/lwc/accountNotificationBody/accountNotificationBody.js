@@ -1,5 +1,7 @@
 import { LightningElement, api, track } from 'lwc';
-import debitcard from '@salesforce/resourceUrl/cardLogo';
+//import debitcard from '@salesforce/resourceUrl/cardLogo';
+import debitCardlogo from '@salesforce/resourceUrl/debitCardlogo';
+//import banklogo from '@salesforce/resourceUrl/bankLogo';
 
 export default class AccountNotificationBody extends LightningElement {
   /** Exposed properties for Experience Builder */
@@ -9,7 +11,7 @@ export default class AccountNotificationBody extends LightningElement {
   @api fundingStatus = 'Not yet funded';
 
   // Use uploaded image path (will be transformed in your pipeline). Replace with a static resource for production.
-  @api cardImageUrl = debitcard;
+ @api cardImageUrl = debitCardlogo;
 
 
   // small helper: if parent wants to update values programmatically
@@ -18,6 +20,8 @@ export default class AccountNotificationBody extends LightningElement {
     if (accountNumber !== undefined) this.accountNumber = accountNumber;
     if (openedDate !== undefined) this.openedDate = openedDate;
     if (fundingStatus !== undefined) this.fundingStatus = fundingStatus;
-    if (cardImageUrl !== undefined) this.cardImageUrl = cardImageUrl;
+    if (cardImageUrl !== undefined && cardImageUrl !== null) {
+      this.cardImageUrl = cardImageUrl;
+    }
   }
 }

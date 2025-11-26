@@ -1,0 +1,35 @@
+/*header brings all the components in verticle*/
+.header{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 1.25rem;
+}
+.header-text{
+    max-width: 70%;
+}
+/*For My Clients text*/
+.title{
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin: 0 0 0.25rem;
+}
+/*changes the font and color of description*/
+.subtitle{
+    margin: 0 ;
+    font-size: 0.85rem;
+    color: #4b596a;
+    
+}
+/*Moves the button to right */
+.button-wrap{
+    width:100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0.75rem;
+}
+.add-btn{
+    display: inline-flex;
+    align-items: center;
+}
