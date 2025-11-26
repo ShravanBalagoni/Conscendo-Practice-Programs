@@ -8,11 +8,11 @@
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  background: linear-gradient(90deg,#0c4eb2 0%, #0a47a6 60%, #0c3c64 100%);
+  background: linear-gradient(90deg,#0c4eb2 0%, #0a47a6 60%, #0c3c64 100%);/*for color transition*/
   color: #fff;
   padding: 14px 28px;
   box-shadow: 0 1px 0 rgba(0,0,0,0.25);
-  min-height: 68px;
+  min-height: 68px;/*The element will never be shorter than 68px.*/
 }
 
 /* Left brand area */
@@ -29,9 +29,9 @@
 }
 
 .brand-line2 {
-  font-weight: 400;
-  font-size: 12px;
-  opacity: 0.9;
+  font-weight: 400;/*Controls how bold the text appears.*/
+  font-size: 12px;/*Controls how big the text is.*/
+  opacity: 0.9;/*Controls how transparent an element is.1 → fully visible 0 → fully invisible*/
   margin-top: 2px;
 }
 
@@ -43,10 +43,15 @@
 }
 
 .center-logo {
-  height: 44px;
+  height: 44px;/*This sets the height of the element (probably your logo image) to 44 pixels.*/
   width: auto;
-  object-fit: contain;
-  transform: translateY(-6px);
+  object-fit: contain;/*Scale the image so the whole image is visible inside the box, 
+  without cropping, and keep the aspect ratio*/
+  transform: translateY(-6px);/*Move this element up by 6 pixels.”
+
+Negative value → moves up
+
+Positive value → moves down*/
 }
 
 /* right area - user and signout */
@@ -69,7 +74,8 @@
   color: #ffffff;
   font-size: 13px;
   cursor: pointer;
-  display: inline-flex;
+  display: inline-flex;/*The element behaves like an inline element on the outside,
+but its children behave like flex items inside.*/
   align-items: center;
   gap: 8px;
   padding: 6px 8px;
@@ -167,3 +173,21 @@
     display: none;
   }
 }
+/*
+
+
+
++-------------------------------------------------------+
+|                       MARGIN                          |
+|   +-------------------------------------------------+ |
+|   |                     BORDER                       | |
+|   |   +-------------------------------------------+ | |
+|   |   |                 PADDING                   | | |
+|   |   |   +-----------------------------------+   | | |
+|   |   |   |              CONTENT              |   | | |
+|   |   |   +-----------------------------------+   | | |
+|   |   |                                           | | |
+|   |   +-------------------------------------------+ | |
+|   +-------------------------------------------------+ |
++-------------------------------------------------------+
+*/
