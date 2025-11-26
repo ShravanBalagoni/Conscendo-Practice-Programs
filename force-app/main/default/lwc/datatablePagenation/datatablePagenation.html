@@ -1,6 +1,7 @@
 <template>
+    <div class="slds-p-around_medium">
     <lightning-datatable 
-                        data={accounts}
+                        data={paginatedAccounts}
                         columns={columnsList}
                         key-field="Id"
                         hide-checkbox-column="true"
@@ -14,5 +15,6 @@
         </span> 
         <lightning-button label="Next" onclick={handleNext}
          disabled={isNextDisabled}></lightning-button>   
+    </div>
     </div>
 </template>

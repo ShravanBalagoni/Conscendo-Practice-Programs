@@ -5,7 +5,7 @@ public with sharing class SampleApexLtngWebCmpnt {
     }
     @auraEnabled
     public static List<Account> getAccountIMP(){
-        return [Select Id,Name,Industry,Rating from Account];
+        return [Select Id,Name,AccountNumber,Phone,Industry,Rating from Account];
     }
     @auraEnabled
     public static Id doCreateAccount(String acntName){
