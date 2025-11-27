@@ -1,0 +1,28 @@
+<template>
+  <!-- Salesforce standard card container for better UI layout -->
+  <lightning-card title="Upload File">
+    <div class="slds-p-around_medium">
+      <!-- File chooser input: lets user pick a file from device -->
+      <lightning-input 
+        type="file"
+        label="Select File"
+         
+        onchange={handleFileChange}><!-- call JS whenever user picks a file -->
+        <!-- restrict allowed file extensions -->
+      </lightning-input>
+
+      <!-- If a file is selected, show its name to user -->
+      <template if:true={fileName}>
+        <p>Selected: {fileName}</p>
+      </template>
+
+      <!-- Button to trigger actual upload — disabled while upload in progress -->
+      <lightning-button 
+        variant="brand"
+        label="Upload"
+        onclick={handleUpload}
+        disabled={isUploading}>
+      </lightning-button>
+    </div>
+  </lightning-card>
+</template>
