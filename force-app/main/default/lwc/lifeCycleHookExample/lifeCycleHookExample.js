@@ -2,6 +2,10 @@ import { LightningElement } from 'lwc';
 
 
 export default class LifeCycleHookExample extends LightningElement {
+    isVisible=true;
+    handleCLick(){
+        this.isVisible = false;
+    }
     constructor(){
         super();
         console.log('Calling from Parent: constructor');
