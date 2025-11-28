@@ -1,0 +1,14 @@
+<template>
+    <lightning-input type="text"
+                    label="Input Box"
+                    placeholder="Please Enter your value"
+                    value={inputdata}
+                    onchange={handleChange}
+                    >
+    </lightning-input>
+   <div class="slds-truncate  slds-text-title_bold slds-text-align_center">
+        Message coming from the child component {parentReceiver}
+    </div>
+  <!--  <div>{inputdata}</div>-->
+    <c-live-preview-child  child-receiver={inputdata} onchildevent={handleonchild}></c-live-preview-child>
+</template>

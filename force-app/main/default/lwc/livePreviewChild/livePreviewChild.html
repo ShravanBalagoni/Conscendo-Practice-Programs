@@ -1,0 +1,13 @@
+<template>
+    
+    <div class="slds-truncate  slds-text-title_bold slds-text-align_center">
+        Message coming from the parent component {childReceiver}
+    </div>
+    <lightning-input type="text"
+                    label="Input Box"
+                    placeholder="Please Enter your value"
+                    value={inputvalue}
+                    onchange={handleChangevalue}
+                    >
+    </lightning-input>
+</template>
