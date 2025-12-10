@@ -1,38 +1,43 @@
-// clockTimer.js
 import { LightningElement } from 'lwc';
 
 export default class ClockTimer extends LightningElement {
-    currentTime = '';       // state used in template
-    intervalId;             // to store timer reference
-    handleResize = this.onResize.bind(this);
+    currentTime = '';
+    intervalId;
+
+    isClockedIn = false;   // determines button label
+    clockInTime = null;
+    clockOutTime = null;
 
     connectedCallback() {
-        // 1. Start timer when component is inserted into DOM
+        // live time update
         this.intervalId = setInterval(() => {
             const now = new Date();
             this.currentTime = now.toLocaleTimeString();
         }, 1000);
-
-        // 2. Add window resize listener (example of external resource / global listener)
-        window.addEventListener('resize', this.handleResize);
-    }
-
-    renderedCallback() {
-        // optional: maybe format or adjust DOM every time render happens,
-        // e.g. log or do layout adjustments
-        console.log('ClockTimer rendered, time =', this.currentTime);
     }
 
     disconnectedCallback() {
-        // Clean-up: stop timer and remove listener to avoid memory leaks
-        if (this.intervalId) {
-            clearInterval(this.intervalId);
-        }
-        window.removeEventListener('resize', this.handleResize);
+        clearInterval(this.intervalId);
     }
 
-    onResize(event) {
-        // Example: on window resize, maybe do something like recalc layout
-        console.log('Window resized to', window.innerWidth, 'x', window.innerHeight);
+    handleClockAction() {
+        const now = new Date().toLocaleTimeString();
+
+        if (!this.isClockedIn) {
+            // user is clocking in
+            this.clockInTime = now;
+            this.isClockedIn = true;
+            console.log("Clocked In at:", now);
+
+        } else {
+            // user is clocking out
+            this.clockOutTime = now;
+            this.isClockedIn = false;
+            console.log("Clocked Out at:", now);
+        }
+    }
+
+    get buttonLabel() {
+        return this.isClockedIn ? "Web Clock Out" : "Web Clock In";
     }
 }

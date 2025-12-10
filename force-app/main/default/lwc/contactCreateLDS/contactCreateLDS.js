@@ -1,4 +1,4 @@
-import { LightningElement,api } from 'lwc';
+ import { LightningElement,api } from 'lwc';
 import { createRecord } from 'lightning/uiRecordApi';
 export default class ContactCreateLDS extends LightningElement {
     lastName=null;

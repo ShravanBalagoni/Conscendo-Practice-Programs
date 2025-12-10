@@ -1,0 +1,49 @@
+const fruits = ['Banana','Orange','Apple','Mango'];
+
+/*let size = fruits.length
+//console.log(size); //4
+//toString()
+//console.log(fruits.toString()); //Banana,Orange,Apple,Mango
+//console.log(fruits.at(2)); //Apple
+*/
+const cricketers = ["Rohit","Gill","Virat","Iyer","Axar","Rahul","Hardik","Jadeja",'Kuldeep','Jasprit',"Siraj"];
+//console.log(cricketers.length);
+//console.log(cricketers.toString());
+//console.log(cricketers.at(5));
+//console.log(cricketers.join("->"));
+//console.log(cricketers.push('Harshit'));
+//console.log(cricketers.pop('Harshit'));
+//console.log(cricketers.shift());
+//console.log(cricketers.unshift('Rohit'));
+//console.log(cricketers)
+//console.log(cricketers[4]);
+//cricketers[cricketers.length] = "Rishabh";
+//console.log(cricketers);
+//console.log(cricketers.pop());
+//console.log(cricketers);
+//console.log(Array.isArray(cricketers));
+//console.log(delete cricketers[0]);
+//cricketers.unshift('Rohit');
+//cricketers[1]='Jaiswal';
+
+//console.log(cricketers);
+//console.log(cricketers.pop());
+//console.log(cricketers);
+//arr.copyWithin(target, start = 0, end = arr.length)
+
+//console.log(cricketers.copyWithin(1,0,3));
+//console.log(cricketers);
+
+//const myArr = [[1,2],[3,4],[5,6]];
+//const newArr = myArr.flat();
+//console.log(newArr);
+const myArr = [1, 2, 3, 4, 5, 6];
+const newArr = myArr.flatMap(x => [x, x * 5]);
+//console.log(newArr);
+array.splice(start, deleteCount, item1, item2, ..., itemN)
+//add
+cricketers.splice(2,0,"Rutu","Sanju");
+console.log(cricketers);
+//remove
+cricketers.splice(2,3);
+console.log(cricketers);

@@ -1,6 +1,7 @@
 import { LightningElement, api, track } from 'lwc';
 //import debitcard from '@salesforce/resourceUrl/cardLogo';
-import debitCardlogo from '@salesforce/resourceUrl/debitCardlogo';
+// import debitCardlogo from '@salesforce/resourceUrl/debitCardlogo';
+import debitCardlogo from '@salesforce/resourceUrl/bankLogo'
 //import banklogo from '@salesforce/resourceUrl/bankLogo';
 
 export default class AccountNotificationBody extends LightningElement {

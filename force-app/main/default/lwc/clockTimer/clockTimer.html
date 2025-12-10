@@ -1,6 +1,19 @@
-<!-- clockTimer.html -->
 <template>
     <div class="clock-container">
         <p>Current Time: {currentTime}</p>
+
+        <lightning-button 
+            label={buttonLabel}
+            onclick={handleClockAction}
+            variant="brand">
+        </lightning-button>
+
+        <template if:true={clockInTime}>
+            <p>Clock In Time: {clockInTime}</p>
+        </template>
+
+        <template if:true={clockOutTime}>
+            <p>Clock Out Time: {clockOutTime}</p>
+        </template>
     </div>
 </template>
