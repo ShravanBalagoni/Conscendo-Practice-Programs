@@ -1,0 +1,16 @@
+<template>
+    <lightning-card title="Attendance Log">
+        <template if:true={isLoaded}>
+            <lightning-datatable
+                key-field="index"
+                data={pairedLogs}
+                columns={columns}
+                hide-checkbox-column="true">
+            </lightning-datatable>
+        </template>
+
+        <template if:false={isLoaded}>
+            <p class="slds-p-around_medium">Loading logs...</p>
+        </template>
+    </lightning-card>
+</template>

@@ -17,9 +17,11 @@ export default class AttendancePunch extends LightningElement {
     @track clockOutTime;
     @track workStatus;
     @track clockInOut;
+    attendanceId;
 
     employeeWireData;
     attendanceWireData;
+
     isLoading = false;
 
     connectedCallback() {
@@ -43,6 +45,7 @@ export default class AttendancePunch extends LightningElement {
 
         if (result.data) {
             const att = result.data;
+            this.attendanceId = att.Id;
 
             this.clockInTime = att.First_Clock_In__c
                 ? new Date(att.First_Clock_In__c).toLocaleTimeString()
@@ -55,8 +58,8 @@ export default class AttendancePunch extends LightningElement {
     }
 
     get buttonLabel() {
-        if (!this.clockInOut) return 'Clock In';
-        return this.clockInOut === 'Clocked In' ? 'Clock Out' : 'Clock In';
+        if (!this.clockInOut) return "Clock In";
+        return this.clockInOut === "Clocked In" ? "Clock Out" : "Clock In";
     }
 
     get isDisabled() {
@@ -84,6 +87,8 @@ export default class AttendancePunch extends LightningElement {
 
             const freshAtt = await getTodayAttendanceFresh();
 
+            this.attendanceId = freshAtt.Id;
+
             this.clockInTime = freshAtt.First_Clock_In__c
                 ? new Date(freshAtt.First_Clock_In__c).toLocaleTimeString()
                 : null;
@@ -101,16 +106,13 @@ export default class AttendancePunch extends LightningElement {
 
     _extract(error) {
         try {
-            if (error?.body?.message) return error.body.message;
-            return JSON.stringify(error);
+            return error?.body?.message || JSON.stringify(error);
         } catch (e) {
             return 'Unknown error';
         }
     }
 
     _toast(title, message, variant) {
-        this.dispatchEvent(
-            new ShowToastEvent({ title, message, variant })
-        );
+        this.dispatchEvent(new ShowToastEvent({ title, message, variant }));
     }
 }

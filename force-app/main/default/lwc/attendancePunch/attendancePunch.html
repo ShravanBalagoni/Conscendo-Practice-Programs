@@ -1,3 +1,33 @@
 <template>
-    
+    <lightning-card title="Attendance Punch" icon-name="standard:employee">
+        <div class="container">
+
+            <p class="time">Current Time: {currentTime}</p>
+
+            <lightning-button 
+                label={buttonLabel}
+                onclick={handleClockAction}
+                variant="brand"
+                disabled={isDisabled}
+                class="btn">
+            </lightning-button>
+
+            <template if:true={clockInTime}>
+                <p class="info">Clock In Time: {clockInTime}</p>
+            </template>
+
+            <template if:true={clockOutTime}>
+                <p class="info">Clock Out Time: {clockOutTime}</p>
+            </template>
+
+            <template if:true={workStatus}>
+                <p class="status">Work Status: {workStatus}</p>
+            </template>
+
+            <template if:true={clockInOut}>
+                <p class="status">Last Action: {clockInOut}</p>
+            </template>
+
+        </div>
+    </lightning-card>
 </template>
