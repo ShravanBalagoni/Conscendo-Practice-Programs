@@ -19,6 +19,8 @@ global class BatchAttendanceNotifier implements Database.Batchable<SObject>, Dat
 
         List<AttendanceNotificationService.CheckResult> checks =
             AttendanceNotificationService.checkEmployeesForDate(scope, checkDate);
+        System.debug('CheckResult count: ' + checks.size());
+System.debug('CheckResults: ' + JSON.serialize(checks));
 
         AttendanceNotificationService.sendNotifications(checks);
     }
