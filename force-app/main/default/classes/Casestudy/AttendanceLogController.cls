@@ -52,43 +52,44 @@ public class AttendanceLogController {
      * @access public (Apex API)
      */
     @AuraEnabled
-    public static void addLogEntry(Id attendanceId, String action) {
+public static void addLogEntry(Id attendanceId, String action) {
 
-        Employee__c emp = [
-            SELECT Id FROM Employee__c
-            WHERE User__c = :UserInfo.getUserId()
-            LIMIT 1
-        ];
+    Employee__c emp = [
+        SELECT Id FROM Employee__c
+        WHERE User__c = :UserInfo.getUserId()
+        LIMIT 1
+    ];
 
-        Attendance_Log__c logRec = getOrCreateLog(emp.Id, attendanceId);
+    // Get or create SINGLE log record
+    Attendance_Log__c logRec = getOrCreateLog(emp.Id, attendanceId);
 
-        List<Object> logList = new List<Object>();
-        if (String.isNotBlank(logRec.Log_Data__c)) {
-            logList = (List<Object>) JSON.deserializeUntyped(logRec.Log_Data__c);
-        }
+    // Prepare timestamp
+    Datetime now = Datetime.now();
+    String nowString = now.format(); // for JSON display
 
-        Map<String, Object> entry = new Map<String, Object>();
-        entry.put('action', action);
-        entry.put('timestamp', Datetime.now().format());
-        entry.put('date', Date.today().format());
-
-        logList.add(entry);
-
-        logRec.Log_Data__c = JSON.serialize(logList);
-        update logRec;
+    // Update JSON list
+    List<Object> logList = new List<Object>();
+    if (String.isNotBlank(logRec.Log_Data__c)) {
+        logList = (List<Object>) JSON.deserializeUntyped(logRec.Log_Data__c);
     }
 
-    // Return logs for LWC using Attendance_Log__c recordId
-    /**
-     * @description Retrieves all log entries for a given Attendance_Log__c record,
-     *              deserializing the stored JSON array and returning it as a list of maps
-     *              (one map per log entry). Useful for LWC/Aura to render history of clock-in/clock-out events.
-     * @param attendanceLogId  Id — the Id of the Attendance_Log__c record
-     * @return List<Map<String, Object>> — list of log entries, each entry representing:
-     *            { 'action': String, 'timestamp': String, 'date': String }
-     *            Returns an empty list if no log or no stored log data found.
-     * @access public (Apex API)
-     */
+    Map<String, Object> entry = new Map<String, Object>();
+    entry.put('action', action);
+    entry.put('timestamp', nowString);
+    entry.put('date', Date.today().format());
+
+    logList.add(entry);
+
+    // Save JSON
+    logRec.Log_Data__c = JSON.serialize(logList);
+
+    // ALSO update dedicated object fields
+    logRec.Clock_Action__c = action;
+    logRec.Timestamp__c = now;
+
+    update logRec;
+}
+
    @AuraEnabled
 public static List<Map<String, Object>> getLogEntries(Id attendanceLogId) {
 

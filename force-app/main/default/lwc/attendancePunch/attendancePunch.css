@@ -1,0 +1,13 @@
+.container {
+    padding: 20px;
+}
+
+.time {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.info, .status {
+    margin-top: 10px;
+    font-size: 14px;
+}

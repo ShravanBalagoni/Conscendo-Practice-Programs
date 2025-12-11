@@ -20,9 +20,26 @@ public class AttendanceController_ws1 {
     // Public: return employee record
     // -------------------------
     @AuraEnabled(cacheable=true)
-    public static Employee__c getEmployeeStatus() {
-        return getCurrentEmployee();
-    }
+public static Employee__c getEmployeeStatus() {
+
+    Employee__c emp = getCurrentEmployee();
+    if (emp == null) return null;
+
+    Boolean onLeaveToday = ![
+        SELECT Id FROM Case
+        WHERE Employeem__c = :emp.Id
+          AND Leave_Status__c = 'Approved'
+          AND Start_Date__c <= :Date.today()
+          AND End_Date__c >= :Date.today()
+        LIMIT 1
+    ].isEmpty();
+
+    if (onLeaveToday)
+        emp.Work_status__c = 'Holiday';
+
+    return emp;
+}
+
 
     // -------------------------
     // Internal: fetch today's attendance for an employee
@@ -105,7 +122,7 @@ public class AttendanceController_ws1 {
     // ---------------------------------------------------
     // CLOCK IN
     // ---------------------------------------------------
-    @AuraEnabled
+  @AuraEnabled
 public static Attendance__c clockIn() {
 
     Employee__c emp = getCurrentEmployee();
@@ -113,46 +130,43 @@ public static Attendance__c clockIn() {
         throw new AuraHandledException('Employee record not found.');
 
     Date today = Date.today();
-    Datetime now = Datetime.now(); // Local timezone interpreted correctly
-
-    // Normalize timestamp to today's date to avoid UTC mismatch
-    Datetime normalizedNow = Datetime.newInstance(
-        today.year(), today.month(), today.day(),
-        now.hour(), now.minute(), now.second()
-    );
+    Datetime now = Datetime.now();
 
     Attendance__c att = getTodayAttendanceForEmp(emp.Id);
 
-    // If first punch of the day -> create new attendance
     if (att == null) {
+        // FIRST clock-in of the day → create new
         att = new Attendance__c(
             Employee__c = emp.Id,
             Date__c = today,
-            First_Clock_In__c = normalizedNow
+            First_Clock_In__c = now
         );
         insert att;
-    } 
-    else {
-        // If already clocked in before, do NOT block. Just log it.
-        // First clock-in stays unchanged. Only log the new punch.
+    } else if (att.First_Clock_In__c == null) {
+        // Attendance exists but missing first punch → set only once
+        att.First_Clock_In__c = now;
+        update att;
     }
+    // If First_Clock_In__c is already present, DO NOT update it.
 
     // Update employee status
     emp.Clockin_Clockout__c = 'Clocked In';
     emp.Work_status__c = 'Working';
     update emp;
 
-    // Always log the punch
+    // Always create a new log entry
     AttendanceLogController.addLogEntry(att.Id, 'Clock In');
 
-    return getTodayAttendanceForEmp(emp.Id);
+
+    return att;
 }
+
 
 
     // ---------------------------------------------------
     // CLOCK OUT
     // ---------------------------------------------------
-   @AuraEnabled
+  @AuraEnabled
 public static Attendance__c clockOut() {
 
     Employee__c emp = getCurrentEmployee();
@@ -164,20 +178,13 @@ public static Attendance__c clockOut() {
         throw new AuraHandledException('Please Clock In first.');
 
     Datetime now = Datetime.now();
-    Date today = Date.today();
 
-    // Normalize timestamp
-    Datetime normalizedNow = Datetime.newInstance(
-        today.year(), today.month(), today.day(),
-        now.hour(), now.minute(), now.second()
-    );
+    // Always update last clock-out only
+    att.Last_Clock_Out__c = now;
 
-    // Always update the LAST clock-out
-    att.Last_Clock_Out__c = normalizedNow;
-
-    // Compute working hours only on final clock-out
+    // Compute hours
     if (att.First_Clock_In__c != null) {
-        Long diffMs = normalizedNow.getTime() - att.First_Clock_In__c.getTime();
+        Long diffMs = now.getTime() - att.First_Clock_In__c.getTime();
         Decimal hours = diffMs / (1000 * 60 * 60);
         att.Total_Hours__c = hours.setScale(2);
 
@@ -189,15 +196,14 @@ public static Attendance__c clockOut() {
 
     update att;
 
-    // Update employee status
     emp.Clockin_Clockout__c = 'Clocked Out';
     emp.Work_status__c = 'Working';
     update emp;
 
-    // Log punch
-    AttendanceLogController.addLogEntry(att.Id, 'Clock Out');
+   AttendanceLogController.addLogEntry(att.Id, 'Clock Out');
 
-    return getTodayAttendanceForEmp(emp.Id);
+    return att;
 }
+
 
 }
