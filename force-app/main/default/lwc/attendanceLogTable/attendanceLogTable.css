@@ -1,7 +1,32 @@
-.slds-icon-text-error {
-    fill: red;
+.summary-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px 16px;
+    font-size: 16px;
 }
 
-.slds-icon-text-success {
-    fill: green;
+.summary-label {
+    font-weight: 600;
+    margin-right: 8px;
+}
+
+.summary-value {
+    font-weight: 700;
+    color: #0070d2; /* Salesforce brand */
+}
+
+.cell-center {
+    text-align: center;
+}
+
+.status-success {
+    font-size: 18px;
+    color: green;
+    font-weight: 900;
+}
+
+.status-error {
+    color: red;
+    font-weight: 600;
 }

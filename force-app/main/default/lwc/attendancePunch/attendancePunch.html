@@ -1,28 +1,55 @@
 <template>
-    <lightning-card title="Attendance Punch" icon-name="standard:employee">
-        <div class="container">
+    <lightning-card>
+        <div class="card-inner">
 
-            <p class="time">Current Time: {currentTime}</p>
+            <!-- Header -->
+            <div class="header">
+                <lightning-icon icon-name="standard:employee" size="small"></lightning-icon>
+                <div class="title-group">
+                    <div class="title">Attendance Punch</div>
+                    <div class="subtitle">Tap to record your punch</div>
+                </div>
+            </div>
 
-            <lightning-button 
-                label={buttonLabel}
-                onclick={handleClockAction}
-                variant="brand"
-                disabled={isDisabled}
-                class="btn">
-            </lightning-button>
+            <!-- Current time -->
+            <div class="current-time" aria-live="polite">
+                <span class="label">Current Time</span>
+                <span class="time-value">{currentTime}</span>
+            </div>
 
-            <template if:true={clockInTime}>
-                <p class="info">Clock In Time: {clockInTime}</p>
-            </template>
+            <!-- Big mobile button -->
+            <div class="button-wrap">
+                <lightning-button
+                    class="punch-button"
+                    variant="brand"
+                    label={buttonLabel}
+                    title={buttonLabel}
+                    onclick={handleClockAction}
+                    disabled={isDisabled}>
+                </lightning-button>
+            </div>
 
-            <template if:true={clockOutTime}>
-                <p class="info">Clock Out Time: {clockOutTime}</p>
-            </template>
+            <!-- Quick summary chips -->
+            <div class="chips">
+                <div class="chip-label">First Clock In</div>
+                <div class="chip-value">{clockInTime}</div>
 
-            <template if:true={workStatus}>
-                <p class="status">Work Status: {workStatus}</p>
-            </template>
+                <div class="chip-label">Last Clock Out</div>
+                <div class="chip-value">{clockOutTime}</div>
+
+                <div class="chip-label">Total (First → Last)</div>
+                <div class="chip-value">{totalHours}</div>
+            </div>
+
+            <!-- Work status line -->
+            <div class="status-line">
+                <span class="status-label">Work Status:</span>
+                <span class="status-value">{workStatus}</span>
+            </div>
+
+            <div class="chip-label">Last Action</div>
+           <div class="chip-value">{lastAction}</div>
+
 
         </div>
     </lightning-card>

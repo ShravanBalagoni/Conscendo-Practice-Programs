@@ -2,10 +2,10 @@ public with sharing class AttendanceLogController {
 
     private static Attendance_Log__c getOrCreateLog(Id empId, Id attendanceId) {
         List<Attendance_Log__c> logs = [
-            SELECT Id, Log_Data__c, Clock_Action__c, Timestamp__c
+            SELECT Id, Employee__c, Attendance__c, Log_Data__c, Clock_Action__c, Timestamp__c
             FROM Attendance_Log__c
             WHERE Employee__c = :empId
-            AND Attendance__c = :attendanceId
+              AND Attendance__c = :attendanceId
             LIMIT 1
         ];
         if (!logs.isEmpty()) return logs[0];
@@ -23,21 +23,16 @@ public with sharing class AttendanceLogController {
     public static void addLogEntry(Id attendanceId, String action) {
         if (attendanceId == null || String.isBlank(action)) return;
 
-        // find employee for current user
+        // resolve current employee
         Employee__c emp;
-        try {
-            List<Employee__c> emps = [
-                SELECT Id
-                FROM Employee__c
-                WHERE User__c = :UserInfo.getUserId()
-                LIMIT 1
-            ];
-            if (emps.isEmpty()) return;
-            emp = emps[0];
-        } catch (Exception ex) {
-            System.debug('AttendanceLogController.addLogEntry: cannot resolve employee: ' + ex);
-            return;
-        }
+        List<Employee__c> emps = [
+            SELECT Id
+            FROM Employee__c
+            WHERE User__c = :UserInfo.getUserId()
+            LIMIT 1
+        ];
+        if (emps.isEmpty()) return;
+        emp = emps[0];
 
         Attendance_Log__c logRec = getOrCreateLog(emp.Id, attendanceId);
 
@@ -46,16 +41,18 @@ public with sharing class AttendanceLogController {
             try {
                 logList = (List<Object>) JSON.deserializeUntyped(logRec.Log_Data__c);
             } catch (Exception ex) {
-                // If JSON corrupt, reset
                 logList = new List<Object>();
             }
         }
 
         Datetime now = Datetime.now();
-        Map<String, Object> entry = new Map<String, Object>();
-        entry.put('action', action);
-        entry.put('timestamp', now.formatGMT('yyyy-MM-dd\'T\'HH:mm:ss\'Z\''));
-        entry.put('date', Date.today().format());
+
+        Map<String, Object> entry = new Map<String, Object>{
+            'action' => action,
+            'timestamp' => now.format('MM/dd/yyyy hh:mm a'),
+             
+            'date' => Date.today().format()
+        };
 
         logList.add(entry);
 
@@ -63,11 +60,7 @@ public with sharing class AttendanceLogController {
         logRec.Clock_Action__c = action;
         logRec.Timestamp__c = now;
 
-        try {
-            update logRec;
-        } catch (Exception e) {
-            System.debug('AttendanceLogController.addLogEntry: update failed: ' + e);
-        }
+        update logRec;
     }
 
     @AuraEnabled(cacheable=true)
@@ -76,10 +69,10 @@ public with sharing class AttendanceLogController {
         if (attendanceLogId == null) return result;
 
         Attendance_Log__c logRec = [
-            SELECT Id, Log_Data__c
-            FROM Attendance_Log__c
-            WHERE Id = :attendanceLogId
-            LIMIT 1
+           SELECT Log_Data__c 
+FROM Attendance_Log__c 
+WHERE Id = :attendanceLogId
+
         ];
 
         if (logRec == null || String.isBlank(logRec.Log_Data__c)) return result;
@@ -90,4 +83,18 @@ public with sharing class AttendanceLogController {
         }
         return result;
     }
+    @AuraEnabled
+public static Id getAttendanceLogId(Id attendanceId) {
+    if (attendanceId == null) return null;
+
+    List<Attendance_Log__c> logs = [
+        SELECT Id
+        FROM Attendance_Log__c
+        WHERE Attendance__c = :attendanceId
+        LIMIT 1
+    ];
+
+    return logs.isEmpty() ? null : logs[0].Id;
+}
+
 }

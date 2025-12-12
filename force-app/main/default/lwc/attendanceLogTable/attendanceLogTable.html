@@ -1,16 +1,24 @@
 <template>
     <lightning-card title="Attendance Log">
+
+        <!-- Total Hours Display -->
         <template if:true={isLoaded}>
+            <div class="summary-container">
+                <p class="summary-label">Total Hours:</p>
+                <p class="summary-value">{totalHours}</p>
+            </div>
+
             <lightning-datatable
                 key-field="index"
                 data={pairedLogs}
                 columns={columns}
-                hide-checkbox-column="true">
+                hide-checkbox-column>
             </lightning-datatable>
         </template>
 
         <template if:false={isLoaded}>
             <p class="slds-p-around_medium">Loading logs...</p>
         </template>
+
     </lightning-card>
 </template>

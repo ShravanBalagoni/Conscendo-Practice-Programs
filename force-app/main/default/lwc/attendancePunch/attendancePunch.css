@@ -1,13 +1,110 @@
-.container {
-    padding: 20px;
+/* Mobile app look: big button, rounded, spacious */
+
+/* Outer card inner spacing */
+.card-inner {
+    padding: 0.5rem 0.5rem 1rem 0.5rem;
 }
 
-.time {
-    font-size: 16px;
-    margin-bottom: 10px;
+/* Header */
+.header {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    gap: 0.75rem;
 }
 
-.info, .status {
-    margin-top: 10px;
-    font-size: 14px;
+.title-group .title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #16325c;
+}
+
+.title-group .subtitle {
+    font-size: 0.8rem;
+    color: #6b6b6b;
+    margin-top: 2px;
+}
+
+/* Current time block */
+.current-time {
+    padding: 0 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.current-time .label {
+    display: block;
+    font-size: 0.85rem;
+    color: #6b6b6b;
+}
+
+.current-time .time-value {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #3c4b58;
+}
+
+/* Big rounded punch button - mobile friendly */
+.button-wrap {
+    display: flex;
+    justify-content: center;
+    padding: 0.5rem 1rem 0.75rem 1rem;
+}
+
+.punch-button {
+    --lwc-button-primary-border-radius: 28px;
+    --lwc-button-padding: 0.75rem 2.1rem;
+    font-size: 1.05rem;
+    font-weight: 700;
+    box-shadow: 0 6px 18px rgba(11,116,222,0.12);
+}
+
+/* Chips row */
+.chips {
+    display: flex;
+    gap: 0.6rem;
+    padding: 0.6rem 1rem;
+    overflow-x: auto;
+}
+
+.chip {
+    background: #f7fafc;
+    border-radius: 12px;
+    padding: 0.5rem 0.85rem;
+    min-width: 8.5rem;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+}
+
+.chip-label {
+    font-size: 0.72rem;
+    color: #6b6b6b;
+}
+
+.chip-value {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #16325c;
+}
+
+/* Status */
+.status-line {
+    padding: 0.6rem 1rem 1rem 1rem;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.status-label {
+    color: #6b6b6b;
+    font-weight: 600;
+}
+
+.status-value {
+    color: #16325c;
+    font-weight: 700;
+}
+
+/* Responsive tweaks */
+@media (max-width: 420px) {
+    .chip { min-width: 7.2rem; padding: 0.45rem 0.7rem; }
+    .punch-button { padding: 0.6rem 1.6rem; font-size: 1rem; }
 }
