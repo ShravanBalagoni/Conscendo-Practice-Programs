@@ -72,7 +72,7 @@ export default class AttendanceLogTable extends LightningElement {
                 clockIn: current.clockIn,
                 clockOut: "—",
                 arrival: "—",
-                status: "Missing Clock Out",
+                status: "❌",
                 statusClass: "status-error"
             });
         }

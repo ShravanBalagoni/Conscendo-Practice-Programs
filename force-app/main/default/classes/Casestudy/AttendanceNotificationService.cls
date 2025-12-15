@@ -1,15 +1,12 @@
 public with sharing class AttendanceNotificationService {
 
-    // DTO
     public class CheckResult {
         public Id employeeId;
         public Id userId;
         public Id attendanceId;
-
         public Boolean missingClockIn = false;
         public Boolean missingClockOut = false;
         public Boolean onLeaveOrOOO = false;
-
         public Date dateChecked;
 
         public CheckResult(Id empId, Id uId, Date d) {
@@ -19,7 +16,6 @@ public with sharing class AttendanceNotificationService {
         }
     }
 
-    // MAIN CHECK
     public static List<CheckResult> checkEmployeesForDate(List<Employee__c> employees, Date checkDate) {
 
         if (employees == null || employees.isEmpty()) return new List<CheckResult>();
@@ -27,22 +23,20 @@ public with sharing class AttendanceNotificationService {
         Set<Id> empIds = new Set<Id>();
         for (Employee__c e : employees) empIds.add(e.Id);
 
-        // Fetch attendance
+        // Attendance for employees
         Map<Id, Attendance__c> attByEmp = new Map<Id, Attendance__c>(
-            [
-                SELECT Id, Employee__c, First_Clock_In__c, Last_Clock_Out__c
-                FROM Attendance__c
-                WHERE Employee__c IN :empIds
-                AND Date__c = :checkDate
+            [SELECT Id, Employee__c, First_Clock_In__c, Last_Clock_Out__c
+             FROM Attendance__c
+             WHERE Employee__c IN :empIds
+               AND Date__c = :checkDate
             ]
         );
 
-        // Fetch logs too
+        // Logs for attendance
         Map<Id, Attendance_Log__c> logByAtt = new Map<Id, Attendance_Log__c>(
-            [
-                SELECT Id, Attendance__c, Log_Data__c
-                FROM Attendance_Log__c
-                WHERE Attendance__c IN :attByEmp.values()
+            [SELECT Id, Attendance__c, Log_Data__c
+             FROM Attendance_Log__c
+             WHERE Attendance__c IN :attByEmp.values()
             ]
         );
 
@@ -52,24 +46,26 @@ public with sharing class AttendanceNotificationService {
 
             CheckResult r = new CheckResult(emp.Id, emp.User__c, checkDate);
 
-            // No user assigned
+            // If user lookup missing, skip
             if (emp.User__c == null) {
                 results.add(r);
                 continue;
             }
 
-            // Leave / OOO check
+            // Check leave or OOO
             r.onLeaveOrOOO = isEmployeeOnLeave(emp.Id, checkDate)
-                             || (emp.Work_Status__c != null && emp.Work_Status__c.containsIgnoreCase('OOO'));
+                             || (emp.Work_Status__c != null
+                                 && emp.Work_Status__c.toLowerCase().contains('ooo'));
 
             if (r.onLeaveOrOOO) {
                 results.add(r);
                 continue;
             }
 
-            // No attendance record → missing Clock-In
+            // No attendance record → missing both
             if (!attByEmp.containsKey(emp.Id)) {
                 r.missingClockIn = true;
+                r.missingClockOut = true;
                 results.add(r);
                 continue;
             }
@@ -77,38 +73,37 @@ public with sharing class AttendanceNotificationService {
             Attendance__c att = attByEmp.get(emp.Id);
             r.attendanceId = att.Id;
 
-            // Check missing clock-in (first login)
+            // Missing clock in
             if (att.First_Clock_In__c == null) {
                 r.missingClockIn = true;
             }
 
-            // =============== NEW LOGIC FOR MISSING CLOCK-OUT ===============
+            // Check last log for missing clock out
             Attendance_Log__c logRec = logByAtt.get(att.Id);
+            if (logRec != null && !String.isBlank(logRec.Log_Data__c)) {
+                try {
+                    List<Object> logs = (List<Object>) JSON.deserializeUntyped(logRec.Log_Data__c);
+                    if (!logs.isEmpty()) {
+                        Map<String, Object> lastEntry =
+                            (Map<String, Object>) logs.get(logs.size() - 1);
 
-            if (logRec != null && String.isNotBlank(logRec.Log_Data__c)) {
-
-                List<Object> logs = (List<Object>) JSON.deserializeUntyped(logRec.Log_Data__c);
-
-                if (!logs.isEmpty()) {
-                    Map<String, Object> lastEntry = (Map<String, Object>) logs[logs.size() - 1];
-
-                    // If last action is "Clock In" → missing Clock Out
-                    if (String.valueOf(lastEntry.get('action')) == 'Clock In') {
-                        r.missingClockOut = true;
+                        if (String.valueOf(lastEntry.get('action')) == 'Clock In') {
+                            r.missingClockOut = true;
+                        }
                     }
+                } catch (Exception e) {
+                    // ignore malformed logs
                 }
             }
-            // ===============================================================
 
             results.add(r);
         }
-
         return results;
     }
 
-
-    // SEND EMAIL NOTIFICATIONS
     public static void sendNotifications(List<CheckResult> checks) {
+
+        if (checks == null || checks.isEmpty()) return;
 
         Map<Id, List<String>> userMsgs = new Map<Id, List<String>>();
 
@@ -121,14 +116,12 @@ public with sharing class AttendanceNotificationService {
 
             if (cr.missingClockIn && !cr.missingClockOut)
                 msg = 'You missed Clock-In on ' + cr.dateChecked.format() + '.';
-
             else if (!cr.missingClockIn && cr.missingClockOut)
                 msg = 'You missed Clock-Out on ' + cr.dateChecked.format() + '.';
-
             else if (cr.missingClockIn && cr.missingClockOut)
                 msg = 'You missed both Clock-In and Clock-Out on ' + cr.dateChecked.format() + '.';
-
-            else continue;
+            else
+                continue;
 
             if (!userMsgs.containsKey(cr.userId))
                 userMsgs.put(cr.userId, new List<String>());
@@ -136,12 +129,19 @@ public with sharing class AttendanceNotificationService {
             userMsgs.get(cr.userId).add(msg);
         }
 
-        // Send emails
+        if (userMsgs.isEmpty()) return;
+
         List<Messaging.SingleEmailMessage> emails = new List<Messaging.SingleEmailMessage>();
+        Set<Id> userIds = userMsgs.keySet();
+
+        Map<Id, User> userMap = new Map<Id, User>(
+            [SELECT Id, Email, Name FROM User WHERE Id IN :userIds]
+        );
 
         for (Id uId : userMsgs.keySet()) {
 
-            User u = [SELECT Id, Email, Name FROM User WHERE Id = :uId LIMIT 1];
+            User u = userMap.get(uId);
+            if (u == null || String.isBlank(u.Email)) continue;
 
             Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
             mail.setToAddresses(new String[]{u.Email});
@@ -160,16 +160,13 @@ public with sharing class AttendanceNotificationService {
         }
     }
 
-
-
-    // Leave check
     private static Boolean isEmployeeOnLeave(Id empId, Date day) {
         return ![
             SELECT Id FROM Case
-            WHERE Employeem__c = :empId
-            AND Leave_Status__c = 'Approved'
-            AND Start_Date__c <= :day
-            AND End_Date__c >= :day
+            WHERE Employee__c = :empId
+              AND Leave_Status__c = 'Approved'
+              AND Start_Date__c <= :day
+              AND End_Date__c >= :day
             LIMIT 1
         ].isEmpty();
     }

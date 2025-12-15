@@ -1,32 +1,34 @@
-global class BatchAttendanceCreator implements Database.Batchable<SObject>, Database.Stateful {
+global class BatchAttendanceCreator
+    implements Database.Batchable<SObject> {
 
     private Date targetDate;
 
-    // Default constructor: create attendance for TODAY
     public BatchAttendanceCreator() {
         this.targetDate = Date.today();
     }
 
-    // Optional constructor: allow custom date in case you need it
-    public BatchAttendanceCreator(Date dateToCreate) {
-        this.targetDate = dateToCreate;
+    public BatchAttendanceCreator(Date d) {
+        this.targetDate = d;
     }
 
+    // ✅ QueryLocator allowed for Batchable<SObject>
     global Database.QueryLocator start(Database.BatchableContext bc) {
-        // Fetch all employees
         return Database.getQueryLocator(
-            'SELECT Id, User__c, Work_status__c FROM Employee__c WHERE Id != null'
+            'SELECT Id, Work_status__c FROM Employee__c'
         );
     }
 
-    global void execute(Database.BatchableContext bc, List<Employee__c> scope) {
-        if (scope == null || scope.isEmpty()) return;
-        
-        Integer createdCount = AttendanceCreatorService.createAttendanceForEmployees(scope, targetDate);
-        System.debug('Batch chunk created: ' + createdCount + ' attendance records for date ' + targetDate);
+    global void execute(Database.BatchableContext bc, List<SObject> scope) {
+        // Cast scope safely
+        List<Employee__c> employees = (List<Employee__c>) scope;
+
+        AttendanceCreatorService.createDailyAttendanceAndLogs(
+            employees,
+            targetDate
+        );
     }
 
     global void finish(Database.BatchableContext bc) {
-        System.debug('BatchAttendanceCreator finished for ' + targetDate);
+        System.debug('Daily Attendance + Logs created for ' + targetDate);
     }
 }

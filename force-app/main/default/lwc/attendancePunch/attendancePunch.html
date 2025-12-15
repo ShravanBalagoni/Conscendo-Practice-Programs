@@ -1,4 +1,13 @@
 <template>
+    <template if:true={isLoading}>
+    <div class="full-screen-overlay">
+        <lightning-spinner
+            alternative-text="Loading"
+            size="large"
+            variant="brand">
+        </lightning-spinner>
+    </div>
+    </template>
     <lightning-card>
         <div class="card-inner">
 

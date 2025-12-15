@@ -1,6 +1,6 @@
-public with sharing class AttendanceController_ws1 {
+public  class AttendanceController_ws1 {
 
-    private static Employee__c getCurrentEmployee() {
+    public static Employee__c getCurrentEmployee() {
         List<Employee__c> empList = [
             SELECT Id, Name, User__c, Work_status__c, Clockin_Clockout__c
             FROM Employee__c
@@ -11,7 +11,7 @@ public with sharing class AttendanceController_ws1 {
     }
 
     // Helper: fetch today's attendance for an employee (no create)
-    private static Attendance__c getTodayAttendanceForEmp(Id empId) {
+    public static Attendance__c getTodayAttendanceForEmp(Id empId) {
         List<Attendance__c> attList = [
             SELECT Id, Date__c, First_Clock_In__c, Last_clock_out__c, Total_Hours__c, Status__c, Employee__c
             FROM Attendance__c
@@ -58,19 +58,12 @@ public with sharing class AttendanceController_ws1 {
         Attendance__c att = getTodayAttendanceForEmp(emp.Id);
 
         if (att == null) {
-            att = new Attendance__c(
-                Employee__c = emp.Id,
-                Date__c = today,
-                First_Clock_In__c = nowTime
-            );
+    throw new AuraHandledException(
+        'Attendance is not initialized for today. Please contact HR.'
+    );
+}
 
-            // Late calculation example (office start 09:00)
-            Datetime officeStart = Datetime.newInstanceGMT(today.year(), today.month(), today.day(), 9, 0, 0);
-            Long diff = nowTime.getTime() - officeStart.getTime();
-            att.Late_By_Minutes__c = diff > 0 ? diff / (1000 * 60) : 0;
-
-            insert att;
-        } else if (att.First_Clock_In__c == null) {
+         if (att.First_Clock_In__c == null) {
             att.First_Clock_In__c = nowTime;
             Datetime officeStart = Datetime.newInstanceGMT(today.year(), today.month(), today.day(), 9, 0, 0);
             Long diff = nowTime.getTime() - officeStart.getTime();

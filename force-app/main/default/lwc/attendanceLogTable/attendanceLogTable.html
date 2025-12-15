@@ -1,8 +1,21 @@
 <template>
-    <lightning-card title="Attendance Log">
 
-        <!-- Total Hours Display -->
-        <template if:true={isLoaded}>
+    <!-- Full-screen spinner while logs are loading -->
+    <template if:false={isLoaded}>
+        <div class="full-screen-overlay">
+            <lightning-spinner
+                alternative-text="Loading logs"
+                size="large"
+                variant="brand">
+            </lightning-spinner>
+        </div>
+    </template>
+
+    <!-- Actual attendance log card -->
+    <template if:true={isLoaded}>
+        <lightning-card title="Attendance Log">
+
+            <!-- Total Hours Display -->
             <div class="summary-container">
                 <p class="summary-label">Total Hours:</p>
                 <p class="summary-value">{totalHours}</p>
@@ -14,11 +27,8 @@
                 columns={columns}
                 hide-checkbox-column>
             </lightning-datatable>
-        </template>
 
-        <template if:false={isLoaded}>
-            <p class="slds-p-around_medium">Loading logs...</p>
-        </template>
+        </lightning-card>
+    </template>
 
-    </lightning-card>
 </template>

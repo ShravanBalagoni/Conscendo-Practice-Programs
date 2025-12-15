@@ -160,7 +160,7 @@ export default class AttendancePunch extends LightningElement {
         try {
             if (this.clockInOut === 'Clocked In') {
                 await clockOut();
-                this._toast('Clock Out recorded', 'You have clocked out.', 'destructive');
+                this._toast('Clock Out recorded', 'You have clocked out.', 'error');
             } else {
                 await clockIn();
                 this._toast('Clock In recorded', 'You have clocked in.', 'success');

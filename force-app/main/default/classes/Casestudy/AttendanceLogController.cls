@@ -1,6 +1,6 @@
-public with sharing class AttendanceLogController {
+public class AttendanceLogController {
 
-    private static Attendance_Log__c getOrCreateLog(Id empId, Id attendanceId) {
+    public static Attendance_Log__c getOrCreateLog(Id empId, Id attendanceId) {
         List<Attendance_Log__c> logs = [
             SELECT Id, Employee__c, Attendance__c, Log_Data__c, Clock_Action__c, Timestamp__c
             FROM Attendance_Log__c
