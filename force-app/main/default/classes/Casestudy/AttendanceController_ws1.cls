@@ -53,19 +53,19 @@ public  class AttendanceController_ws1 {
         if (emp == null) throw new AuraHandledException('Employee record not found.');
 
         Date today = Date.today();
-        Datetime nowTime = System.now();
+        Datetime nowTime = Datetime.now();
 
         Attendance__c att = getTodayAttendanceForEmp(emp.Id);
 
         if (att == null) {
-    throw new AuraHandledException(
+        throw new AuraHandledException(
         'Attendance is not initialized for today. Please contact HR.'
-    );
-}
+        );
+        }
 
          if (att.First_Clock_In__c == null) {
             att.First_Clock_In__c = nowTime;
-            Datetime officeStart = Datetime.newInstanceGMT(today.year(), today.month(), today.day(), 9, 0, 0);
+            Datetime officeStart = Datetime.newInstance(today.year(), today.month(), today.day(), 10, 0, 0);
             Long diff = nowTime.getTime() - officeStart.getTime();
             att.Late_By_Minutes__c = diff > 0 ? diff / (1000 * 60) : 0;
             update att;
@@ -91,10 +91,12 @@ public  class AttendanceController_ws1 {
     @AuraEnabled
     public static Attendance__c clockOut() {
         Employee__c emp = getCurrentEmployee();
-        if (emp == null) throw new AuraHandledException('Employee record not found.');
+        if (emp == null) 
+        throw new AuraHandledException('Employee record not found.');
 
         Attendance__c att = getTodayAttendanceForEmp(emp.Id);
-        if (att == null) throw new AuraHandledException('Please Clock In first.');
+        if (att == null) 
+        throw new AuraHandledException('Please Clock In first.');
 
         Datetime nowTime = System.now();
 
