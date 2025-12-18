@@ -70,7 +70,7 @@ export default class AttendancePunch extends LightningElement {
 
         if (result.data) {
             const att = result.data;
-
+            console.group('today attendance', att, result);
             // 1) set attendanceId
             this.attendanceId = att.Id;
 

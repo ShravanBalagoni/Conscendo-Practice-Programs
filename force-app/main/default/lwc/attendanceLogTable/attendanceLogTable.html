@@ -1,7 +1,7 @@
 <template>
 
-    <!-- Full-screen spinner while logs are loading -->
-    <template if:false={isLoaded}>
+    <!-- Spinner while data is loading -->
+    <template if:true={isLoading}>
         <div class="full-screen-overlay">
             <lightning-spinner
                 alternative-text="Loading logs"
@@ -11,8 +11,8 @@
         </div>
     </template>
 
-    <!-- Actual attendance log card -->
-    <template if:true={isLoaded}>
+    <!-- Attendance Log Card -->
+    <template if:true={hasLoaded}>
         <lightning-card title="Attendance Log">
 
             <!-- Total Hours Display -->
