@@ -11,8 +11,8 @@
         </div>
     </template>
 
-    <!-- Attendance Log Card -->
-    <template if:true={hasLoaded}>
+    <!-- Attendance Log Card (always render after load attempt) -->
+    <template if:false={isLoading}>
         <lightning-card title="Attendance Log">
 
             <!-- Total Hours Display -->
@@ -21,6 +21,7 @@
                 <p class="summary-value">{totalHours}</p>
             </div>
 
+            <!-- Datatable -->
             <lightning-datatable
                 key-field="index"
                 data={pairedLogs}

@@ -18,13 +18,25 @@ public with sharing class AttendanceLogController {
             return logs[0];
         }
 
-        Attendance_Log__c newLog = new Attendance_Log__c(
-            Employee__c = empId,
-            Attendance__c = attendanceId,
-            Log_Data__c = '[]'
-        );
-        insert newLog;
-        return newLog;
+        // Get the Attendance owner
+Id attendanceOwner = [
+    SELECT OwnerId
+    FROM Attendance__c
+    WHERE Id = :attendanceId
+    LIMIT 1
+].OwnerId;
+
+// Create the log record with the same owner
+Attendance_Log__c newLog = new Attendance_Log__c(
+    Employee__c = empId,
+    Attendance__c = attendanceId,
+    Log_Data__c = '[]',
+    OwnerId = attendanceOwner
+);
+
+insert newLog;
+return newLog;
+
     }
 
     // --------------------------------------------------

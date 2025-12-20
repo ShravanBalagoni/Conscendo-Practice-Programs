@@ -1,4 +1,4 @@
-public  class AttendanceController_ws1 {
+public  with sharing class AttendanceController_ws1 {
 
     private static Employee__c cachedEmployee;
 

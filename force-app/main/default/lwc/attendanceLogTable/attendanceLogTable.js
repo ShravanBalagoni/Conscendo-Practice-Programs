@@ -7,7 +7,7 @@ export default class AttendanceLogTable extends LightningElement {
     // --------------------------------------------------
     // INPUTS
     // --------------------------------------------------
-    @api recordId; // Internal Salesforce (Attendance_Log__c Id)
+    @api recordId;       // Internal org (Attendance_Log__c)
 
     _attendanceId;
     @api
@@ -15,64 +15,74 @@ export default class AttendanceLogTable extends LightningElement {
         return this._attendanceId;
     }
     set attendanceId(value) {
-        this._attendanceId = value;
-
-        // Experience Cloud: load when valid Attendance__c Id arrives
-        if (this.isValidSalesforceId(value)) {
-            this.loadLogs();
+        if (this.isValidId(value) && value !== this._attendanceId) {
+            this._attendanceId = value;
+            this.load(); // 🔑 reload when Experience injects value
         }
     }
+
+    // Legacy (kept ONLY to satisfy deployed pages)
+_attendanceLogId;
+
+@api
+get attendanceLogId() {
+    return this._attendanceLogId;
+}
+set attendanceLogId(value) {
+    if (this.isValidId(value) && value !== this._attendanceLogId) {
+        this._attendanceLogId = value;
+
+        // 🔥 THIS is what was missing
+        this.load();
+    }
+}
+
 
     // --------------------------------------------------
     // UI STATE
     // --------------------------------------------------
-    @track isLoading = true;   // controls spinner
-    @track hasLoaded = false;  // controls table visibility
+    @track isLoading = false;
     @track pairedLogs = [];
     @track totalHours = '--';
 
-    _isLoading = false;
+    _loading = false;
 
     // --------------------------------------------------
-    // INTERNAL SALESFORCE ENTRY POINT
+    // LIFECYCLE
     // --------------------------------------------------
-    renderedCallback() {
-        if (
-            this.isValidSalesforceId(this.recordId) &&
-            !this.hasLoaded &&
-            !this._isLoading
-        ) {
-            this.loadLogs();
-        }
+    connectedCallback() {
+        this.load();
     }
 
     // --------------------------------------------------
-    // CORE LOG LOADER (NO BUFFERING)
+    // MAIN LOAD
     // --------------------------------------------------
-    async loadLogs() {
-        if (this._isLoading) return;
+    async load() {
+    if (this._loading) return;
+    this._loading = true;
+    this.isLoading = true;
 
-        this._isLoading = true;
-        this.isLoading = true;
+    try {
+        // 0️⃣ Experience push (MOST IMPORTANT)
+        if (this.isValidId(this._attendanceLogId)) {
+            await this.loadByLogId(this._attendanceLogId);
+            return;
+        }
 
-        try {
-            let logId = null;
+        // 1️⃣ Internal Salesforce record page
+        if (this.isValidId(this.recordId)) {
+            await this.loadByLogId(this.recordId);
+            return;
+        }
 
-            // Internal Salesforce
-            if (this.isValidSalesforceId(this.recordId)) {
-                logId = this.recordId;
-            }
-            // Experience Cloud
-            else if (this.isValidSalesforceId(this._attendanceId)) {
-                logId = await getAttendanceLogId({
-                    attendanceId: this._attendanceId
-                });
-            }
+        // 2️⃣ Experience Attendance__c fallback
+        if (this.isValidId(this._attendanceId)) {
+            const logId = await getAttendanceLogId({
+                attendanceId: this._attendanceId
+            });
 
-            // If log does not exist yet → show empty table
-            if (!this.isValidSalesforceId(logId)) {
-                this.pairedLogs = [];
-                this.totalHours = '--';
+            if (!this.isValidId(logId)) {
+                this.resetUI();
                 return;
             }
 
@@ -81,147 +91,103 @@ export default class AttendanceLogTable extends LightningElement {
             }) || [];
 
             this.totalHours = this.calculateTotalHours(logs);
-            this.pairedLogs = this.buildPairs(logs);
-
-        } catch (err) {
-            console.error(
-                'AttendanceLogTable error',
-                err?.body?.message || err?.message || JSON.stringify(err)
-            );
-            this.pairedLogs = [];
-            this.totalHours = '--';
-        } finally {
-            // 🔑 IMPORTANT — stop buffering
-            this._isLoading = false;
-            this.isLoading = false;
-            this.hasLoaded = true;
+            this.pairedLogs = [...this.buildPairs(logs)];
+            return;
         }
+
+        this.resetUI();
+    } catch (e) {
+        console.error('AttendanceLogTable load error', e);
+        this.resetUI();
+    } finally {
+        this.isLoading = false;
+        this._loading = false;
+    }
+}
+
+
+    // --------------------------------------------------
+    // LOAD LOGS
+    // --------------------------------------------------
+    async loadByLogId(logId) {
+        const logs = await getLogEntries({ attendanceLogId: logId }) || [];
+        this.totalHours = this.calculateTotalHours(logs);
+        this.pairedLogs = this.buildPairs(logs);
+    }
+
+    resetUI() {
+        this.totalHours = '--';
+        this.pairedLogs = [];
     }
 
     // --------------------------------------------------
-    // SALESFORCE ID VALIDATION
+    // HELPERS
     // --------------------------------------------------
-    isValidSalesforceId(value) {
-        return typeof value === 'string' &&
-            (value.length === 15 || value.length === 18) &&
-            /^[a-zA-Z0-9]+$/.test(value);
+    isValidId(val) {
+        return typeof val === 'string'
+            && (val.length === 15 || val.length === 18)
+            && /^[a-zA-Z0-9]+$/.test(val);
     }
 
-    // --------------------------------------------------
-    // TIMESTAMP PARSER (OLD + NEW)
-    // --------------------------------------------------
     parseTimestamp(raw) {
-        if (!raw) return null;
-
-        if (raw instanceof Date) return raw;
-
-        const s = String(raw).trim();
-
-        // ISO format (new Apex)
-        if (/^\d{4}-\d{2}-\d{2}T/.test(s)) {
-            const d = new Date(s);
-            return isNaN(d.getTime()) ? null : d;
-        }
-
-        // Old format: MM/DD/YYYY hh:mm AM/PM
-        const m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4}) (\d{1,2}):(\d{2}) (AM|PM)$/i);
-        if (m) {
-            let [, mm, dd, yyyy, hh, min, ap] = m;
-            let hour = parseInt(hh, 10);
-
-            if (ap.toUpperCase() === 'PM' && hour < 12) hour += 12;
-            if (ap.toUpperCase() === 'AM' && hour === 12) hour = 0;
-
-            return new Date(
-                parseInt(yyyy, 10),
-                parseInt(mm, 10) - 1,
-                parseInt(dd, 10),
-                hour,
-                parseInt(min, 10),
-                0
-            );
-        }
-
-        return null;
+        const d = new Date(raw);
+        return isNaN(d.getTime()) ? null : d;
     }
 
-    // --------------------------------------------------
-    // DISPLAY TIME (2:30 PM)
-    // --------------------------------------------------
     formatTime(raw) {
         const d = this.parseTimestamp(raw);
-        if (!d) return '--';
-
-        return d.toLocaleTimeString([], {
-            hour: 'numeric',
-            minute: '2-digit',
-            hour12: true
-        });
+        return d
+            ? d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true })
+            : '--';
     }
 
-    // --------------------------------------------------
-    // TOTAL HOURS
-    // --------------------------------------------------
     calculateTotalHours(list) {
-        if (!list || !list.length) return '--';
+        if (!list?.length) return '--';
 
-        let firstIn = null;
-        let lastOut = null;
-
-        list.forEach(item => {
-            const dt = this.parseTimestamp(item.timestamp);
-            if (!dt) return;
-
-            if (item.action === 'Clock In' && (!firstIn || dt < firstIn)) {
-                firstIn = dt;
-            }
-            if (item.action === 'Clock Out' && (!lastOut || dt > lastOut)) {
-                lastOut = dt;
-            }
+        let firstIn, lastOut;
+        list.forEach(l => {
+            const t = this.parseTimestamp(l.timestamp);
+            if (!t) return;
+            if (l.action === 'Clock In' && (!firstIn || t < firstIn)) firstIn = t;
+            if (l.action === 'Clock Out' && (!lastOut || t > lastOut)) lastOut = t;
         });
 
         if (!firstIn || !lastOut) return '--';
 
-        const diffMs = lastOut - firstIn;
-        const hrs = Math.floor(diffMs / (1000 * 60 * 60));
-        const mins = Math.floor((diffMs / (1000 * 60)) % 60);
+        const diff = lastOut - firstIn;
+        const h = Math.floor(diff / 36e5);
+        const m = Math.floor((diff % 36e5) / 60000);
 
-        return `${hrs.toString().padStart(2, '0')}:${mins
-            .toString()
-            .padStart(2, '0')} hrs`;
+        return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')} hrs`;
     }
 
-    // --------------------------------------------------
-    // BUILD TABLE ROWS
-    // --------------------------------------------------
     buildPairs(list) {
         const rows = [];
-        let current = {};
+        let open = null;
 
-        list.forEach((log, i) => {
-            if (log.action === 'Clock In') {
-                current = {
+        list.forEach((l, i) => {
+            if (l.action === 'Clock In') {
+                open = {
                     index: i,
-                    date: log.date,
-                    clockIn: this.formatTime(log.timestamp)
+                    date: l.date,
+                    clockIn: this.formatTime(l.timestamp)
                 };
             }
 
-            if (log.action === 'Clock Out' && current.index !== undefined) {
-                current.clockOut = this.formatTime(log.timestamp);
-                current.status = '✔';
-                current.statusClass = 'status-success';
-                rows.push({ ...current });
-                current = {};
+            if (l.action === 'Clock Out' && open) {
+                rows.push({
+                    ...open,
+                    clockOut: this.formatTime(l.timestamp),
+                    status: '✔',
+                    statusClass: 'status-success'
+                });
+                open = null;
             }
         });
 
-        // Missing Clock Out
-        if (current.index !== undefined) {
+        if (open) {
             rows.push({
-                index: list.length,
-                date: current.date,
-                clockIn: current.clockIn,
+                ...open,
                 clockOut: '—',
                 status: '❌',
                 statusClass: 'status-error'
@@ -231,21 +197,17 @@ export default class AttendanceLogTable extends LightningElement {
         return rows;
     }
 
-    // --------------------------------------------------
-    // DATATABLE COLUMNS
-    // --------------------------------------------------
     get columns() {
         return [
-            { label: 'Date', fieldName: 'date', type: 'text' },
-            { label: 'Clock In', fieldName: 'clockIn', type: 'text' },
-            { label: 'Clock Out', fieldName: 'clockOut', type: 'text' },
+            { label: 'Date', fieldName: 'date' },
+            { label: 'Clock In', fieldName: 'clockIn' },
+            { label: 'Clock Out', fieldName: 'clockOut' },
             {
                 label: 'Status',
                 fieldName: 'status',
-                type: 'text',
                 cellAttributes: {
-                    class: { fieldName: 'statusClass' },
-                    alignment: 'center'
+                    alignment: 'center',
+                    class: { fieldName: 'statusClass' }
                 }
             }
         ];

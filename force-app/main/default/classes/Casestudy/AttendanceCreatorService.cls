@@ -49,7 +49,8 @@ public with sharing class AttendanceCreatorService {
                 Date__c = targetDate,
                 Status__c = onLeaveEmpIds.contains(emp.Id)
                     ? 'Holiday'
-                    : 'Absent'
+                    : 'Absent',
+                OwnerId = emp.OwnerId
             );
 
             attendanceToInsert.add(att);
@@ -80,7 +81,7 @@ public with sharing class AttendanceCreatorService {
     private static void createLogsForAttendances(Date targetDate) {
 
         List<Attendance__c> attendances = [
-            SELECT Id, Employee__c
+            SELECT Id, Employee__c,OwnerId
             FROM Attendance__c
             WHERE Date__c = :targetDate
         ];
@@ -104,7 +105,8 @@ public with sharing class AttendanceCreatorService {
             logsToInsert.add(new Attendance_Log__c(
                 Attendance__c = att.Id,
                 Employee__c = att.Employee__c,
-                Log_Data__c = '[]'
+                Log_Data__c = '[]',
+                OwnerId=att.OwnerId
             ));
         }
 

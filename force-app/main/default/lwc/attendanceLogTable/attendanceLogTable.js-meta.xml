@@ -11,21 +11,27 @@
 
         <target>lightningCommunity__Default</target>
         <target>lightningCommunity__Page</target>
-        <target>lightningCommunity__Page_Layout</target>
-        <target>lightningCommunity__Theme_Layout</target>
-
-        <target>analytics__Dashboard</target>
     </targets>
 
-    <!-- Design-time properties are supported ONLY here -->
     <targetConfigs>
         <targetConfig targets="lightningCommunity__Default">
+
+            <!-- ⚠️ Legacy - DO NOT USE -->
+            <property
+                name="attendanceLogId"
+                type="String"
+                label="Attendance Log Id (Deprecated)"
+                description="Deprecated - do not use"
+            />
+
+            <!-- ✅ Correct input -->
             <property
                 name="attendanceId"
                 type="String"
                 label="Attendance Id"
                 description="Attendance__c record Id"
             />
+
         </targetConfig>
     </targetConfigs>
 </LightningComponentBundle>
