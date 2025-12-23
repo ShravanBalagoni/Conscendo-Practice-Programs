@@ -57,6 +57,7 @@ public with sharing class AttendanceCreatorService {
 
             // 🔹 Reset clock status for new day (button shows Clock In)
             emp.Clockin_Clockout__c = null;
+            emp.Work_status__c = null;
             employeesToReset.add(emp);
         }
 
@@ -70,48 +71,10 @@ public with sharing class AttendanceCreatorService {
         }
 
         // 🔹 Create Attendance Logs (get-or-create)
-        createLogsForAttendances(targetDate);
+        //createLogsForAttendances(targetDate);
 
         return attendanceToInsert.size();
     }
 
-    // --------------------------------------
-    // Create Attendance Logs for the day
-    // --------------------------------------
-    private static void createLogsForAttendances(Date targetDate) {
-
-        List<Attendance__c> attendances = [
-            SELECT Id, Employee__c,OwnerId
-            FROM Attendance__c
-            WHERE Date__c = :targetDate
-        ];
-
-        Set<Id> attendanceIds = new Set<Id>();
-        for (Attendance__c a : attendances) attendanceIds.add(a.Id);
-
-        Set<Id> existingLogs = new Set<Id>();
-        for (Attendance_Log__c log : [
-            SELECT Attendance__c
-            FROM Attendance_Log__c
-            WHERE Attendance__c IN :attendanceIds
-        ]) {
-            existingLogs.add(log.Attendance__c);
-        }
-
-        List<Attendance_Log__c> logsToInsert = new List<Attendance_Log__c>();
-        for (Attendance__c att : attendances) {
-            if (existingLogs.contains(att.Id)) continue;
-
-            logsToInsert.add(new Attendance_Log__c(
-                Attendance__c = att.Id,
-                Employee__c = att.Employee__c,
-                Log_Data__c = '[]',
-                OwnerId=att.OwnerId
-            ));
-        }
-
-        if (!logsToInsert.isEmpty()) {
-            insert logsToInsert;
-        }
-    }
+    
 }

@@ -14,7 +14,8 @@ global class BatchAttendanceCreator
     // ✅ QueryLocator allowed for Batchable<SObject>
     global Database.QueryLocator start(Database.BatchableContext bc) {
         return Database.getQueryLocator(
-            'SELECT Id, Work_status__c FROM Employee__c'
+            'SELECT Id, OwnerId, Clockin_Clockout__c, Work_status__c FROM Employee__c'
+
         );
     }
 

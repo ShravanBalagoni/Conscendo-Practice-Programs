@@ -55,16 +55,12 @@
                 <span class="status-label">Work Status:</span>
                 <span class="status-value">{workStatus}</span>
             </div>
-
-            <div class="chip-label">Last Action</div>
-           <div class="chip-value">{lastAction}</div>
-
-
-        </div>
-    </lightning-card>
-    <c-attendance-log-table
+            <c-attendance-log-table
     attendance-id={attendanceId}
     attendance-log-id={attendanceLogId}>
 </c-attendance-log-table>
+        </div>
+    </lightning-card>
+    
 
 </template>

@@ -1,35 +1,25 @@
 import { LightningElement, wire, track } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-
 import getEmployeeStatus from '@salesforce/apex/AttendanceController_ws1.getEmployeeStatus';
 import getTodayAttendance from '@salesforce/apex/AttendanceController_ws1.getTodayAttendance';
 import getTodayAttendanceFresh from '@salesforce/apex/AttendanceController_ws1.getTodayAttendanceFresh';
-import getLogEntries from '@salesforce/apex/AttendanceLogController.getLogEntries';
 import getAttendanceLogId from '@salesforce/apex/AttendanceLogController.getAttendanceLogId';
-
 import clockIn from '@salesforce/apex/AttendanceController_ws1.clockIn';
 import clockOut from '@salesforce/apex/AttendanceController_ws1.clockOut';
-
 import { refreshApex } from '@salesforce/apex';
-
 export default class AttendancePunch extends LightningElement {
 
     @track currentTime = '';
     @track clockInTime = '--';
     @track clockOutTime = '--';
     @track totalHours = '--';
-    @track lastAction = '--';
-
     @track workStatus = null;
     @track clockInOut = null;
-
     attendanceId = null;
     @track attendanceLogId = null; // MUST be declared for reactivity
-
     employeeWireData;
     attendanceWireData;
-    logsWireData;
-
+    
     isLoading = false;
 
     connectedCallback() {
@@ -52,14 +42,22 @@ export default class AttendancePunch extends LightningElement {
     @wire(getEmployeeStatus)
     wiredEmployee(result) {
         this.employeeWireData = result;
+
         if (result.data) {
-            this.workStatus = result.data.Work_status__c;
             this.clockInOut = result.data.Clockin_Clockout__c;
+
+        // ✅ No punch yet → show ---
+        if (!this.clockInOut) {
+            this.workStatus = '---';
         } else {
-            this.workStatus = null;
+            this.workStatus = result.data.Work_status__c;
+        }
+        } else {
+            this.workStatus = '---';
             this.clockInOut = null;
         }
     }
+
 
     //----------------------------------------
     // Attendance Wire
@@ -73,14 +71,13 @@ export default class AttendancePunch extends LightningElement {
             console.group('today attendance', att, result);
             // 1) set attendanceId
             this.attendanceId = att.Id;
-
+            
             // 2) fetch corresponding Attendance_Log__c Id (only when attendanceId exists)
             if (this.attendanceId) {
                 getAttendanceLogId({ attendanceId: this.attendanceId })
                     .then(logId => {
                         this.attendanceLogId = logId;
-                        // debug - remove if you like
-                        // eslint-disable-next-line no-console
+                        
                         console.log('attendanceLogId fetched:', logId);
                     })
                     .catch(err => {
@@ -114,33 +111,6 @@ export default class AttendancePunch extends LightningElement {
     }
 
     //----------------------------------------
-    // Last Action Wire (reacts to attendanceLogId)
-    //----------------------------------------
-    @wire(getLogEntries, { attendanceLogId: '$attendanceLogId' })
-    wiredLogs(result) {
-        this.logsWireData = result;
-
-        if (result.data) {
-            const logs = result.data;
-
-            if (logs.length > 0) {
-                const last = logs[logs.length - 1];
-
-                // tolerant parsing of timestamp
-                const parsed = this.parseTimestamp(last.timestamp);
-                const formatted = parsed ? parsed.toLocaleTimeString() : String(last.timestamp);
-
-                this.lastAction = `${last.action} at ${formatted}`;
-            } else {
-                this.lastAction = '--';
-            }
-        } else {
-            // if error or no data
-            this.lastAction = '--';
-        }
-    }
-
-    //----------------------------------------
     // Button Label
     //----------------------------------------
     get buttonLabel() {
@@ -155,72 +125,71 @@ export default class AttendancePunch extends LightningElement {
     // Handle Clock In / Out
     //----------------------------------------
     async handleClockAction() {
-        this.isLoading = true;
+    this.isLoading = true;
 
-        try {
-            if (this.clockInOut === 'Clocked In') {
-                await clockOut();
-                this._toast('Clock Out recorded', 'You have clocked out.', 'error');
-            } else {
-                await clockIn();
-                this._toast('Clock In recorded', 'You have clocked in.', 'success');
-            }
-
-            // Refresh wires: employee + attendance
-            await refreshApex(this.employeeWireData).catch(() => {});
-            await refreshApex(this.attendanceWireData).catch(() => {});
-
-            // Fresh pull of employee + attendance
-            const freshEmp = await getEmployeeStatus();
-            this.clockInOut = freshEmp?.Clockin_Clockout__c ?? this.clockInOut;
-            this.workStatus = freshEmp?.Work_status__c ?? this.workStatus;
-
-            const freshAtt = await getTodayAttendanceFresh();
-            if (freshAtt) {
-                this.attendanceId = freshAtt.Id;
-
-                this.clockInTime = freshAtt.First_Clock_In__c
-                    ? this._formatTimestamp(freshAtt.First_Clock_In__c)
-                    : '--';
-
-                this.clockOutTime = freshAtt.Last_clock_out__c
-                    ? this._formatTimestamp(freshAtt.Last_clock_out__c)
-                    : '--';
-
-                this._computeTotal(freshAtt.First_Clock_In__c, freshAtt.Last_clock_out__c);
-
-                // Also explicitly refresh attendanceLogId (defensive)
-                if (this.attendanceId) {
-                    try {
-                        const logId = await getAttendanceLogId({ attendanceId: this.attendanceId });
-                        this.attendanceLogId = logId;
-                        // eslint-disable-next-line no-console
-                        console.log('attendanceLogId refreshed after punch:', logId);
-                    } catch (e) {
-                        // eslint-disable-next-line no-console
-                        console.warn('Unable to refresh attendanceLogId', e);
-                        this.attendanceLogId = null;
-                    }
-                }
-            }
-
-            // Refresh logs wire to force lastAction update
-            if (this.logsWireData) {
-                try {
-                    await refreshApex(this.logsWireData);
-                } catch (e) {
-                    // eslint-disable-next-line no-console
-                    console.warn('refresh logs failed', e);
-                }
-            }
-
-        } catch (error) {
-            const msg = error?.body?.message || error?.message || JSON.stringify(error);
-            this._toast('Error', msg, 'error');
-        } finally {
-            this.isLoading = false;
+    try {
+        // 1️⃣ Perform punch
+        if (this.clockInOut === 'Clocked In') {
+            await clockOut();
+            this._toast('Clock Out recorded', 'You have clocked out.', 'error');
+        } else {
+            await clockIn();
+            this._toast('Clock In recorded', 'You have clocked in.', 'success');
         }
+
+        // 2️⃣ Refresh employee + attendance wires
+        await refreshApex(this.employeeWireData).catch(() => {});
+        await refreshApex(this.attendanceWireData).catch(() => {});
+
+        // 3️⃣ Pull fresh employee
+        const freshEmp = await getEmployeeStatus();
+        this.clockInOut = freshEmp?.Clockin_Clockout__c ?? this.clockInOut;
+        this.workStatus = freshEmp?.Work_status__c ?? this.workStatus;
+
+        // 4️⃣ Pull fresh attendance
+        const freshAtt = await getTodayAttendanceFresh();
+        if (!freshAtt) return;
+
+        this.attendanceId = freshAtt.Id;
+
+        this.clockInTime = freshAtt.First_Clock_In__c
+            ? this._formatTimestamp(freshAtt.First_Clock_In__c)
+            : '--';
+
+        this.clockOutTime = freshAtt.Last_clock_out__c
+            ? this._formatTimestamp(freshAtt.Last_clock_out__c)
+            : '--';
+
+        this._computeTotal(
+            freshAtt.First_Clock_In__c,
+            freshAtt.Last_clock_out__c
+        );
+
+        // 5️⃣ 🔥 FORCE CHILD LOG TABLE RELOAD (KEY FIX)
+        if (this.attendanceId) {
+            const logId = await getAttendanceLogId({
+                attendanceId: this.attendanceId
+            });
+
+           const logTable = this.template.querySelector(
+        'c-attendance-log-table');
+    if (logTable) {
+        await logTable.refresh();
     }
+
+        }
+
+    } catch (error) {
+        const msg =
+            error?.body?.message ||
+            error?.message ||
+            JSON.stringify(error);
+        this._toast('Error', msg, 'error');
+    } finally {
+        this.isLoading = false;
+    }
+}
+
 
     //----------------------------------------
     // Helpers

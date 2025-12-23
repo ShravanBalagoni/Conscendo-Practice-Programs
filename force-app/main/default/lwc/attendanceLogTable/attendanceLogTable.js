@@ -1,14 +1,10 @@
 import { LightningElement, api, track } from 'lwc';
 import getLogEntries from '@salesforce/apex/AttendanceLogController.getLogEntries';
 import getAttendanceLogId from '@salesforce/apex/AttendanceLogController.getAttendanceLogId';
-
 export default class AttendanceLogTable extends LightningElement {
-
-    // --------------------------------------------------
     // INPUTS
-    // --------------------------------------------------
+    
     @api recordId;       // Internal org (Attendance_Log__c)
-
     _attendanceId;
     @api
     get attendanceId() {
@@ -21,61 +17,43 @@ export default class AttendanceLogTable extends LightningElement {
         }
     }
 
-    // Legacy (kept ONLY to satisfy deployed pages)
-_attendanceLogId;
-
-@api
-get attendanceLogId() {
+    
+    _attendanceLogId;
+    @api
+    get attendanceLogId() {
     return this._attendanceLogId;
-}
-set attendanceLogId(value) {
-    if (this.isValidId(value) && value !== this._attendanceLogId) {
-        this._attendanceLogId = value;
-
-        // 🔥 THIS is what was missing
-        this.load();
-    }
+    }   
+    set attendanceLogId(value) {
+        if (this.isValidId(value) && value !== this._attendanceLogId) {
+            this._attendanceLogId = value;
+            this.load();
+        }
 }
 
-
-    // --------------------------------------------------
     // UI STATE
-    // --------------------------------------------------
     @track isLoading = false;
     @track pairedLogs = [];
     @track totalHours = '--';
 
-    _loading = false;
-
-    // --------------------------------------------------
     // LIFECYCLE
-    // --------------------------------------------------
+    
     connectedCallback() {
         this.load();
     }
 
-    // --------------------------------------------------
     // MAIN LOAD
-    // --------------------------------------------------
+    
     async load() {
-    if (this._loading) return;
-    this._loading = true;
     this.isLoading = true;
 
     try {
-        // 0️⃣ Experience push (MOST IMPORTANT)
+        // 1️⃣ Parent-driven
         if (this.isValidId(this._attendanceLogId)) {
             await this.loadByLogId(this._attendanceLogId);
             return;
         }
 
-        // 1️⃣ Internal Salesforce record page
-        if (this.isValidId(this.recordId)) {
-            await this.loadByLogId(this.recordId);
-            return;
-        }
-
-        // 2️⃣ Experience Attendance__c fallback
+        // 2️⃣ Fallback via attendanceId
         if (this.isValidId(this._attendanceId)) {
             const logId = await getAttendanceLogId({
                 attendanceId: this._attendanceId
@@ -86,12 +64,13 @@ set attendanceLogId(value) {
                 return;
             }
 
-            const logs = await getLogEntries({
-                attendanceLogId: logId
-            }) || [];
+            await this.loadByLogId(logId);
+            return;
+        }
 
-            this.totalHours = this.calculateTotalHours(logs);
-            this.pairedLogs = [...this.buildPairs(logs)];
+        // 3️⃣ Internal record page
+        if (this.isValidId(this.recordId)) {
+            await this.loadByLogId(this.recordId);
             return;
         }
 
@@ -101,14 +80,29 @@ set attendanceLogId(value) {
         this.resetUI();
     } finally {
         this.isLoading = false;
-        this._loading = false;
+    }
+}
+@api
+async refresh() {
+    this.isLoading = true;
+    try {
+        if (this.isValidId(this._attendanceLogId)) {
+            await this.loadByLogId(this._attendanceLogId);
+        } else if (this.isValidId(this._attendanceId)) {
+            const logId = await getAttendanceLogId({
+                attendanceId: this._attendanceId
+            });
+            if (this.isValidId(logId)) {
+                await this.loadByLogId(logId);
+            }
+        }
+    } finally {
+        this.isLoading = false;
     }
 }
 
-
-    // --------------------------------------------------
     // LOAD LOGS
-    // --------------------------------------------------
+    
     async loadByLogId(logId) {
         const logs = await getLogEntries({ attendanceLogId: logId }) || [];
         this.totalHours = this.calculateTotalHours(logs);
