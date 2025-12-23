@@ -110,8 +110,6 @@ public  with sharing class AttendanceController_ws1 {
         update emp;
         //Creates audit trail entry in separate AttendanceLog__c object for compliance/tracking.
         Id logId = AttendanceLogController.addLogEntry(att.Id, 'Clock In');
-
-
         return att;
     }
 
