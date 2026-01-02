@@ -1,6 +1,18 @@
+/**
+* @File Name : AttendanceLogController.cls
+* @Description : Service class for Attendance Log 
+* @Author : Shravan B
+* @Last Modified By :Shravan B
+* @Last Modified On : December 24, 2025
+* @Modification Log :
+*==============================================================================
+* Ver | Date | Author | Modification
+*==============================================================================
+* 1.0 | December 18, 2025 | SHRAVAN | Initial Version
+* 2.0 | December 24, 2025 | SHRAVAN | Auto-create Log Records on Clock Actions
+**/
 public with sharing class AttendanceLogController {
 
-    // --------------------------------------------------
     // GET OR CREATE ATTENDANCE LOG
     //Finds or creates one Attendance_Log__c linking Employee + Attendance
     // --------------------------------------------------

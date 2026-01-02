@@ -13,7 +13,17 @@
 
     <!-- Attendance Log Card (always render after load attempt) -->
     <template if:false={isLoading}>
-        <lightning-card title="Attendance Log">
+        <lightning-card>
+
+            <!-- Custom Header (Icon + Title) -->
+            <div class="attendance-log-header">
+                <lightning-icon
+                    icon-name="standard:timeslot"
+                    size="small"
+                    class="attendance-log-icon">
+                </lightning-icon>
+                <span class="attendance-log-title">Attendance Log</span>
+            </div>
 
             <!-- Total Hours Display -->
             <div class="summary-container">

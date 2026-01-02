@@ -1,3 +1,16 @@
+/**
+* @File Name : AttendanceController.cls
+* @Description : Service class for Clock in/out actions
+* @Author : Shravan B
+* @Last Modified By :Shravan B
+* @Last Modified On : December 24, 2025
+* @Modification Log :
+*==============================================================================
+* Ver | Date | Author | Modification
+*==============================================================================
+* 1.0 | December 18, 2025 | SHRAVAN | Initial Version
+* 2.0 | December 24, 2025 | SHRAVAN | Reduced the no of queries
+**/
 public  with sharing class AttendanceController_ws1 {
 
     private static Employee__c cachedEmployee;
@@ -30,7 +43,7 @@ public  with sharing class AttendanceController_ws1 {
         //filters the attendance list based on employee if and date .
         List<Attendance__c> attList = [
             SELECT Id, Date__c, First_Clock_In__c, Last_clock_out__c,
-                   Total_Hours__c, Status__c, Employee__c
+                   Total_Hours__c, Status__c, Employee__c,Late_by_minutes__c
             FROM Attendance__c
             WHERE Employee__c = :empId
               AND Date__c = :Date.today()

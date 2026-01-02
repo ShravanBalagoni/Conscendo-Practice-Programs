@@ -1,3 +1,7 @@
+/* ============================= */
+/* Your Original Styles          */
+/* ============================= */
+
 .summary-container {
     display: flex;
     justify-content: flex-start;
@@ -30,6 +34,7 @@
     color: red;
     font-weight: 600;
 }
+
 .full-screen-overlay {
     position: fixed;
     top: 0;
@@ -41,4 +46,58 @@
     justify-content: center;
     align-items: center;
     z-index: 10000;
+}
+
+/* ============================= */
+/* Match Attendance Punch Fonts  */
+/* ============================= */
+
+/* Custom Header (Icon + Title) */
+.attendance-log-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+}
+
+.attendance-log-icon {
+    color: #ff7000; /* Same orange color from Attendance Punch icon */
+}
+
+.attendance-log-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #16325c;
+}
+
+/* Datatable Header Text */
+.lightning-datatable .slds-text-heading_small {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #16325c;
+}
+
+/* Datatable Body / Cell Text */
+.lightning-datatable .slds-cell-edit,
+.lightning-datatable .slds-truncate {
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: #3c4b58;
+}
+
+/* Total Hours Summary (Match Punch UI) */
+.summary-container {
+    font-size: 0.95rem;      /* match datatable body size */
+    color: #3c4b58;
+}
+
+.summary-label {
+    font-weight: 700;        /* bold like punch headers */
+    color: #16325c;
+}
+
+.summary-value {
+    font-size: 1.05rem;      /* match big punch numbers */
+    font-weight: 700;
+    color: #16325c;
 }

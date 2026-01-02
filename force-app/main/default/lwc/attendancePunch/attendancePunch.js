@@ -19,7 +19,6 @@ export default class AttendancePunch extends LightningElement {
     @track attendanceLogId = null; // MUST be declared for reactivity
     employeeWireData;
     attendanceWireData;
-    
     isLoading = false;
 
     connectedCallback() {

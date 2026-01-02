@@ -1,3 +1,16 @@
+/**
+* @File Name : AttendanceCreatorService.cls
+* @Description : Service class for Attendance Records Creation 
+* @Author : Shravan B
+* @Last Modified By :Shravan B
+* @Last Modified On : December 24, 2025
+* @Modification Log :
+*==============================================================================
+* Ver | Date | Author | Modification
+*==============================================================================
+* 1.0 | December 18, 2025 | SHRAVAN | Initial Version
+* 2.0 | December 24, 2025 | SHRAVAN | Modifed the Attendance Log Creation Automatically
+**/
 public with sharing class AttendanceCreatorService {
 
     public static Integer createDailyAttendanceAndLogs(
