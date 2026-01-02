@@ -45,12 +45,12 @@ export default class AttendancePunch extends LightningElement {
         if (result.data) {
             this.clockInOut = result.data.Clockin_Clockout__c;
 
-        // ✅ No punch yet → show ---
-        if (!this.clockInOut) {
-            this.workStatus = '---';
-        } else {
-            this.workStatus = result.data.Work_status__c;
-        }
+            //  No punch yet → show ---
+            if (!this.clockInOut) {
+                this.workStatus = '---';
+            } else {
+                this.workStatus = result.data.Work_status__c;
+            }
         } else {
             this.workStatus = '---';
             this.clockInOut = null;
@@ -164,7 +164,7 @@ export default class AttendancePunch extends LightningElement {
             freshAtt.Last_clock_out__c
         );
 
-        // 5️⃣ 🔥 FORCE CHILD LOG TABLE RELOAD (KEY FIX)
+        // 5️⃣ FORCE CHILD LOG TABLE RELOAD 
         if (this.attendanceId) {
             const logId = await getAttendanceLogId({
                 attendanceId: this.attendanceId
@@ -172,21 +172,21 @@ export default class AttendancePunch extends LightningElement {
 
            const logTable = this.template.querySelector(
         'c-attendance-log-table');
-    if (logTable) {
-        await logTable.refresh();
-    }
+        if (logTable) {
+            await logTable.refresh();
+        }
 
         }
 
-    } catch (error) {
-        const msg =
-            error?.body?.message ||
-            error?.message ||
-            JSON.stringify(error);
-        this._toast('Error', msg, 'error');
-    } finally {
-        this.isLoading = false;
-    }
+        } catch (error) {
+            const msg =
+                error?.body?.message ||
+                error?.message ||
+                JSON.stringify(error);
+                this._toast('Error', msg, 'error');
+        } finally {
+            this.isLoading = false;
+        }
 }
 
 
