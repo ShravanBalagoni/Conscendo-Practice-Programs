@@ -127,7 +127,7 @@ export default class AttendancePunch extends LightningElement {
     this.isLoading = true;
 
     try {
-        // 1️⃣ Perform punch
+        // 1️ Perform punch
         if (this.clockInOut === 'Clocked In') {
             await clockOut();
             this._toast('Clock Out recorded', 'You have clocked out.', 'error');
@@ -136,16 +136,16 @@ export default class AttendancePunch extends LightningElement {
             this._toast('Clock In recorded', 'You have clocked in.', 'success');
         }
 
-        // 2️⃣ Refresh employee + attendance wires
+        // 2️ Refresh employee + attendance wires
         await refreshApex(this.employeeWireData).catch(() => {});
         await refreshApex(this.attendanceWireData).catch(() => {});
 
-        // 3️⃣ Pull fresh employee
+        // 3️ Pull fresh employee
         const freshEmp = await getEmployeeStatus();
         this.clockInOut = freshEmp?.Clockin_Clockout__c ?? this.clockInOut;
         this.workStatus = freshEmp?.Work_status__c ?? this.workStatus;
 
-        // 4️⃣ Pull fresh attendance
+        // 4️ Pull fresh attendance
         const freshAtt = await getTodayAttendanceFresh();
         if (!freshAtt) return;
 
@@ -164,7 +164,7 @@ export default class AttendancePunch extends LightningElement {
             freshAtt.Last_clock_out__c
         );
 
-        // 5️⃣ FORCE CHILD LOG TABLE RELOAD 
+        // 5️ FORCE CHILD LOG TABLE RELOAD 
         if (this.attendanceId) {
             const logId = await getAttendanceLogId({
                 attendanceId: this.attendanceId
