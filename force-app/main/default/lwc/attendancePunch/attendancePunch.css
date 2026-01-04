@@ -13,6 +13,7 @@
     gap: 0.75rem;
     background-color:#0f7fca;
     border: 5cm;
+    border-radius: 16px 16px 0 0;
 }
 
 .title-group .title {
