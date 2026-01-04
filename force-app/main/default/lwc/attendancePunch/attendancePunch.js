@@ -194,11 +194,12 @@ export default class AttendancePunch extends LightningElement {
     // Helpers
     //----------------------------------------
     _computeTotal(startIso, endIso) {
+        //No clock-in OR no clock-out = no total calculable
         if (!startIso || !endIso) {
             this.totalHours = '--';
             return;
         }
-
+        // converting start,end into date objects 
         const start = this.parseTimestamp(startIso);
         const end = this.parseTimestamp(endIso);
 
@@ -206,13 +207,15 @@ export default class AttendancePunch extends LightningElement {
             this.totalHours = '--';
             return;
         }
-
+        // Get time difference in milliseconds
         const diffMs = end - start;
+        // Convert milliseconds to decimal hours (1hr = 3,600,000ms)
         const diffHours = diffMs / (1000 * 60 * 60);
-
+        // Extract whole hours
         const hrs = Math.floor(diffHours);
+        // Extract minutes from fractional hours
         const mins = Math.round((diffHours - hrs) * 60);
-
+        // Format as "H:MM hrs" (pad single digit mins)
         this.totalHours = `${hrs}:${mins.toString().padStart(2, '0')} hrs`;
     }
 

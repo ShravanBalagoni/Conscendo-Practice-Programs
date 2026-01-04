@@ -11,6 +11,8 @@
     align-items: center;
     padding: 0.75rem 1rem;
     gap: 0.75rem;
+    background-color:#0f7fca;
+    border: 5cm;
 }
 
 .title-group .title {
@@ -21,7 +23,7 @@
 
 .title-group .subtitle {
     font-size: 0.8rem;
-    color: #6b6b6b;
+    color: #333232;
     margin-top: 2px;
 }
 
