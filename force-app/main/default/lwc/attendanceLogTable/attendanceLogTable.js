@@ -13,7 +13,7 @@ export default class AttendanceLogTable extends LightningElement {
     set attendanceId(value) {
         if (this.isValidId(value) && value !== this._attendanceId) {
             this._attendanceId = value;
-            this.load(); // 🔑 reload when Experience injects value
+            this.load(); // reload when Experience injects value
         }
     }
 
