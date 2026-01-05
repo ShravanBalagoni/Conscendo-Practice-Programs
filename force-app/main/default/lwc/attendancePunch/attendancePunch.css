@@ -93,61 +93,46 @@
     }
 }
 
-/* Big rounded punch button - Lightning Design System style */
+/* Big rounded punch button - Clean and modern */
 .button-wrap {
     display: flex;
     justify-content: center;
-    padding: 0;
+    padding: 1rem 1rem 1.25rem 1rem;
 }
 
 .punch-button {
-    background: #0176d3;
-    border: 1px solid #0176d3;
-    border-radius: 0.25rem;
-    padding: 0.5rem 1rem;
-    font-size: 0.875rem;
-    font-weight: 400;
+    background: #157ed4;
+    border: none;
+    border-radius: 4px;
+    padding: 0.75rem 2rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
     color: #ffffff;
     cursor: pointer;
-    transition: background-color 0.05s linear, border-color 0.05s linear;
-    box-shadow: none;
-    line-height: 1.875rem;
-    text-align: center;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    position: relative;
 }
 
 .punch-button:hover {
     background: #014486;
-    border-color: #014486;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
 }
 
 .punch-button:active {
-    background: #001639;
-    border-color: #001639;
+    transform: scale(0.98);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
 }
 
-.punch-button:focus {
-    outline: 0;
-    box-shadow: 0 0 3px #0176d3;
-}
-
-/* Clock Out button variation - Lightning destructive style */
+/* Clock Out button variation */
 .punch-button.clock-out {
-    background: #ba0517;
-    border-color: #ba0517;
+    background: #d83b01;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
 }
 
 .punch-button.clock-out:hover {
-    background: #8e030f;
-    border-color: #8e030f;
-}
-
-.punch-button.clock-out:active {
-    background: #640103;
-    border-color: #640103;
-}
-
-.punch-button.clock-out:focus {
-    box-shadow: 0 0 3px #ba0517;
+    background: #a72b00;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
 }
 
 /* Chips row - Grid layout with hover effects */
