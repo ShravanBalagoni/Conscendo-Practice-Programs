@@ -93,7 +93,7 @@
     }
 }
 
-/* Big rounded punch button - Clean and modern */
+/* Big rounded punch button - Enhanced with ripple effect */
 .button-wrap {
     display: flex;
     justify-content: center;
@@ -101,38 +101,62 @@
 }
 
 .punch-button {
-    background: #157ed4;
+    background: linear-gradient(135deg, #0070d2 0%, #0ea5e9 100%);
     border: none;
-    border-radius: 4px;
-    padding: 0.75rem 2rem;
-    font-size: 0.9375rem;
-    font-weight: 600;
+    border-radius: 40px;
+    padding: 1rem 3rem;
+    font-size: 1.125rem;
+    font-weight: 800;
     color: #ffffff;
     cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 8px 24px rgba(0, 112, 210, 0.35),
+                0 4px 12px rgba(0, 112, 210, 0.25);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
     position: relative;
+    overflow: hidden;
+}
+
+.punch-button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.5s, height 0.5s;
+}
+
+.punch-button:hover::before {
+    width: 250px;
+    height: 250px;
 }
 
 .punch-button:hover {
-    background: #014486;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 12px 32px rgba(0, 112, 210, 0.45),
+                0 6px 16px rgba(0, 112, 210, 0.35);
 }
 
 .punch-button:active {
-    transform: scale(0.98);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+    transform: translateY(-1px) scale(0.98);
+    box-shadow: 0 4px 16px rgba(0, 112, 210, 0.35);
 }
 
 /* Clock Out button variation */
 .punch-button.clock-out {
-    background: #d83b01;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    background: linear-gradient(135deg, #ef4444 0%, #f97316 100%);
+    box-shadow: 0 8px 24px rgba(239, 68, 68, 0.35),
+                0 4px 12px rgba(239, 68, 68, 0.25);
 }
 
 .punch-button.clock-out:hover {
-    background: #a72b00;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
+    box-shadow: 0 12px 32px rgba(239, 68, 68, 0.45),
+                0 6px 16px rgba(239, 68, 68, 0.35);
 }
 
 /* Chips row - Grid layout with hover effects */
@@ -386,8 +410,8 @@
     }
     
     .punch-button { 
-        padding: 0.75rem 2rem;
-        font-size: 0.9375rem;
+        padding: 0.875rem 2.25rem;
+        font-size: 1rem;
     }
     
     .status-line {

@@ -82,24 +82,24 @@ export default class AttendanceLogTable extends LightningElement {
         this.isLoading = false;
     }
 }
-@api
-async refresh() {
-    this.isLoading = true;
-    try {
-        if (this.isValidId(this._attendanceLogId)) {
-            await this.loadByLogId(this._attendanceLogId);
-        } else if (this.isValidId(this._attendanceId)) {
-            const logId = await getAttendanceLogId({
+    @api
+    async refresh() {
+        this.isLoading = true;
+        try {
+            if (this.isValidId(this._attendanceLogId)) {
+                await this.loadByLogId(this._attendanceLogId);
+            } else if (this.isValidId(this._attendanceId)) {
+                const logId = await getAttendanceLogId({
                 attendanceId: this._attendanceId
-            });
-            if (this.isValidId(logId)) {
+                });
+                if (this.isValidId(logId)) {
                 await this.loadByLogId(logId);
-            }
+                }
         }
-    } finally {
-        this.isLoading = false;
+        } finally {
+            this.isLoading = false;
+        }
     }
-}
 
     // LOAD LOGS
     
