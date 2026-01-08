@@ -62,6 +62,7 @@ public with sharing class AttendanceLogController {
         if (attendanceId == null || String.isBlank(action)) {
             return null;
         }
+        
 
         // Resolve current employee
         List<Employee__c> emps = [
@@ -185,4 +186,5 @@ public with sharing class AttendanceLogController {
 
         return logs.isEmpty() ? null : logs[0].Id;
     }
+    
 }

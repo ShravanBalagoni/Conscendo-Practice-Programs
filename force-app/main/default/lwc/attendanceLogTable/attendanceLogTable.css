@@ -1,106 +1,472 @@
 /* ============================= */
-/* Your Original Styles          */
+/* Attendance Log - Enhanced UI  */
+/* Matching Attendance Punch     */
 /* ============================= */
 
+/* Container wrapper with animations */
+.attendance-log-wrapper {
+    animation: fadeInUp 0.6s ease-out 0.7s both;
+    margin-top: 2rem;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Custom Header (Icon + Title) with animations */
+.attendance-log-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.25rem 1.5rem;
+    background: linear-gradient(135deg, #0d47a1 0%, #1565c0 50%, #1976d2 100%);
+    background-size: 200% 200%;
+    border-radius: 12px 12px 0 0;
+    position: relative;
+    overflow: hidden;
+    animation: headerGradientShift 8s ease infinite;
+}
+
+@keyframes headerGradientShift {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+/* Shimmer effect on log header */
+.attendance-log-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+    animation: shimmer 4s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        left: -100%;
+    }
+    50%, 100% {
+        left: 150%;
+    }
+}
+
+/* Bottom border animation */
+.attendance-log-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #0d47a1, #1565c0, #1976d2, #42a5f5, #1976d2, #1565c0, #0d47a1);
+    background-size: 200% 100%;
+    animation: waveFlow 3s ease infinite;
+}
+
+@keyframes waveFlow {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 200% 50%;
+    }
+}
+
+.attendance-log-icon {
+    color: #ff7000;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    animation: iconBounce 3s ease-in-out infinite;
+}
+
+@keyframes iconBounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    25% {
+        transform: translateY(-3px);
+    }
+    75% {
+        transform: translateY(3px);
+    }
+}
+
+.attendance-log-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.025em;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', system-ui, sans-serif;
+    animation: titlePulse 4s ease-in-out infinite;
+}
+
+@keyframes titlePulse {
+    0%, 100% {
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+    50% {
+        text-shadow: 0 2px 12px rgba(0, 0, 0, 0.25), 0 0 20px rgba(255, 255, 255, 0.15);
+    }
+}
+
+/* Total Hours Summary - Enhanced Design */
 .summary-container {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    padding: 10px 16px;
-    font-size: 16px;
+    padding: 1.25rem 1.5rem;
+    font-size: 0.9375rem;
+    background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+    border-left: 5px solid #3b82f6;
+    border-radius: 0 0 0 0;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+    position: relative;
+    animation: slideInRight 0.5s ease-out 0.8s both;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.summary-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 80px;
+    height: 80px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: pulse-glow 3s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.6;
+        transform: scale(1.1);
+    }
 }
 
 .summary-label {
-    font-weight: 600;
-    margin-right: 8px;
+    font-weight: 700;
+    color: #1e40af;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-right: 0.75rem;
+    font-size: 0.8125rem;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', system-ui, sans-serif;
 }
 
 .summary-value {
+    font-size: 1.5rem;
     font-weight: 700;
-    color: #0070d2; /* Salesforce brand */
-    
+    color: #1e40af;
+    letter-spacing: -0.025em;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
 }
 
+/* Datatable Container */
+.datatable-container {
+    border-radius: 0 0 12px 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    background: #ffffff;
+}
+
+/* Datatable Header Styling */
+.lightning-datatable {
+    border: none;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', system-ui, sans-serif;
+}
+
+.lightning-datatable thead {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.lightning-datatable .slds-text-heading_small,
+.lightning-datatable th {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #475569;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 1rem 0.75rem;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', system-ui, sans-serif;
+}
+
+/* Datatable Body / Cell Text */
+.lightning-datatable .slds-cell-edit,
+.lightning-datatable .slds-truncate,
+.lightning-datatable td {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: #1e293b;
+    padding: 0.875rem 0.75rem;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    transition: background-color 0.2s ease;
+}
+
+/* Row hover effect */
+.lightning-datatable tbody tr:hover {
+    background: linear-gradient(135deg, #f8fafc 0%, #f0f9ff 100%);
+    transition: all 0.2s ease;
+}
+
+/* Alternate row styling */
+.lightning-datatable tbody tr:nth-child(even) {
+    background-color: #fafafa;
+}
+
+.lightning-datatable tbody tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+/* Center aligned cells */
 .cell-center {
     text-align: center;
 }
 
+/* Status Icons with animations */
 .status-success {
-    font-size: 18px;
-    color: green;
+    font-size: 1.25rem;
+    color: #10b981;
     font-weight: 900;
+    display: inline-block;
+    animation: successBounce 0.5s ease-out;
+}
+
+@keyframes successBounce {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 .status-error {
-    color: red;
-    font-weight: 600;
+    font-size: 1.25rem;
+    color: #dc2626;
+    font-weight: 900;
+    display: inline-block;
+    animation: errorShake 0.5s ease-out;
 }
 
+@keyframes errorShake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-4px);
+    }
+    75% {
+        transform: translateX(4px);
+    }
+}
+
+/* Column border styling */
+.lightning-datatable td,
+.lightning-datatable th {
+    border-right: 1px solid #e5e7eb;
+}
+
+.lightning-datatable td:last-child,
+.lightning-datatable th:last-child {
+    border-right: none;
+}
+
+/* Date column styling */
+.lightning-datatable tbody tr td:first-child {
+    font-weight: 600;
+    color: #334155;
+}
+
+/* Time values styling */
+.lightning-datatable tbody tr td:nth-child(2),
+.lightning-datatable tbody tr td:nth-child(3) {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    color: #1e293b;
+}
+
+/* Empty state / dash styling */
+.lightning-datatable tbody tr td {
+    position: relative;
+}
+
+/* Loading overlay */
 .full-screen-overlay {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(255, 255, 255, 0.75);
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(8px);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 10000;
+    animation: fadeIn 0.3s ease;
 }
 
-/* ============================= */
-/* Match Attendance Punch Fonts  */
-/* ============================= */
-
-/* Custom Header (Icon + Title) */
-.attendance-log-header {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1rem;
-    background-color: #4193db;
-    border-radius: 16px 16px 0 0;
+@keyframes fadeIn {
+    from { 
+        opacity: 0;
+        backdrop-filter: blur(0px);
+    }
+    to { 
+        opacity: 1;
+        backdrop-filter: blur(8px);
+    }
 }
 
-.attendance-log-icon {
-    color: #ff7000; /* Same orange color from Attendance Punch icon */
+/* Sorting indicator animation */
+.lightning-datatable .slds-is-sorted .slds-icon {
+    animation: sortBounce 0.3s ease-out;
 }
 
-.attendance-log-title {
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: #16325c;
+@keyframes sortBounce {
+    0% {
+        transform: translateY(-3px);
+    }
+    50% {
+        transform: translateY(2px);
+    }
+    100% {
+        transform: translateY(0);
+    }
 }
 
-/* Datatable Header Text */
-.lightning-datatable .slds-text-heading_small {
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: #16325c;
+/* Add subtle animation to rows on load */
+.lightning-datatable tbody tr {
+    animation: rowFadeIn 0.4s ease-out both;
 }
 
-/* Datatable Body / Cell Text */
-.lightning-datatable .slds-cell-edit,
-.lightning-datatable .slds-truncate {
-    font-size: 0.95rem;
-    font-weight: 400;
-    color: #3c4b58;
+.lightning-datatable tbody tr:nth-child(1) {
+    animation-delay: 0.9s;
 }
 
-/* Total Hours Summary (Match Punch UI) */
-.summary-container {
-    font-size: 0.95rem;      /* match datatable body size */
-    color: #3c4b58;
+.lightning-datatable tbody tr:nth-child(2) {
+    animation-delay: 1s;
 }
 
-.summary-label {
-    font-weight: 700;        /* bold like punch headers */
-    color: #16325c;
+.lightning-datatable tbody tr:nth-child(3) {
+    animation-delay: 1.1s;
 }
 
-.summary-value {
-    font-size: 1.05rem;      /* match big punch numbers */
-    font-weight: 700;
-    color: #16325c;
+.lightning-datatable tbody tr:nth-child(4) {
+    animation-delay: 1.2s;
+}
+
+.lightning-datatable tbody tr:nth-child(n+5) {
+    animation-delay: 1.3s;
+}
+
+@keyframes rowFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .attendance-log-header {
+        padding: 1rem 1.25rem;
+    }
+    
+    .attendance-log-title {
+        font-size: 1.125rem;
+    }
+    
+    .summary-container {
+        padding: 1rem 1.25rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .summary-value {
+        font-size: 1.375rem;
+    }
+    
+    .lightning-datatable .slds-text-heading_small,
+    .lightning-datatable th {
+        font-size: 0.7rem;
+        padding: 0.875rem 0.5rem;
+    }
+    
+    .lightning-datatable .slds-cell-edit,
+    .lightning-datatable .slds-truncate,
+    .lightning-datatable td {
+        font-size: 0.875rem;
+        padding: 0.75rem 0.5rem;
+    }
+}
+
+@media (max-width: 420px) {
+    .attendance-log-header {
+        padding: 0.875rem 1rem;
+    }
+    
+    .attendance-log-title {
+        font-size: 1rem;
+    }
+    
+    .summary-container {
+        padding: 0.875rem 1rem;
+    }
+    
+    .summary-label {
+        font-size: 0.75rem;
+    }
+    
+    .summary-value {
+        font-size: 1.25rem;
+    }
+}
+
+/* Card wrapper for entire log section */
+.attendance-log-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+    margin-top: 2rem;
 }

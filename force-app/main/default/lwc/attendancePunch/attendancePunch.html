@@ -20,22 +20,22 @@
                 </div>
             </div>
 
-            <!-- Current time -->
+            <!-- Current time with button inside -->
             <div class="current-time" aria-live="polite">
                 <span class="label">Current Time</span>
                 <span class="time-value">{currentTime}</span>
-            </div>
-
-            <!-- Big mobile button -->
-            <div class="button-wrap">
-                <lightning-button
-                    class="punch-button"
-                    variant="brand"
-                    label={buttonLabel}
-                    title={buttonLabel}
-                    onclick={handleClockAction}
-                    disabled={isDisabled}>
-                </lightning-button>
+                
+                <!-- Button moved INSIDE current-time div -->
+                <div class="button-wrap">
+                    <lightning-button
+                        class="punch-button"
+                        variant="brand"
+                        label={buttonLabel}
+                        title={buttonLabel}
+                        onclick={handleClockAction}
+                        disabled={isDisabled}>
+                    </lightning-button>
+                </div>
             </div>
 
             <!-- Quick summary chips -->
