@@ -11,7 +11,7 @@
 * 1.0 | December 18, 2025 | SHRAVAN | Initial Version
 * 2.0 | December 24, 2025 | SHRAVAN | Auto-create Log Records on Clock Actions
 **/
-public with sharing class AttendanceLogController {
+public  class AttendanceLogController {
 
     // GET OR CREATE ATTENDANCE LOG
     //Finds or creates one Attendance_Log__c linking Employee + Attendance
@@ -32,19 +32,16 @@ public with sharing class AttendanceLogController {
         }
 
         // Get the Attendance owner
-        Id attendanceOwner = [
-                    SELECT OwnerId
-                    FROM Attendance__c
-                    WHERE Id = :attendanceId
-                    LIMIT 1].OwnerId;
+        // ✅ Employee owner (matches AttendanceCreatorService)  
+Employee__c emp = [SELECT OwnerId FROM Employee__c WHERE Id = :empId LIMIT 1];  
 
-        // Create the log record with the same owner
-        Attendance_Log__c newLog = new Attendance_Log__c(
-            Employee__c = empId,
-            Attendance__c = attendanceId,
-            Log_Data__c = '[]',
-            OwnerId = attendanceOwner
-        );
+Attendance_Log__c newLog = new Attendance_Log__c(  
+    Employee__c = empId,  
+    Attendance__c = attendanceId,  
+    Log_Data__c = '[]',  
+    OwnerId = emp.OwnerId  
+);  
+
 
         insert newLog;
         return newLog;

@@ -11,7 +11,7 @@
 * 1.0 | December 18, 2025 | SHRAVAN | Initial Version
 * 2.0 | December 24, 2025 | SHRAVAN | Modifed the Attendance Log Creation Automatically
 **/
-public with sharing class AttendanceCreatorService {
+public  class AttendanceCreatorService {
 
     public static Integer createDailyAttendanceAndLogs(
         List<Employee__c> employees,
@@ -41,14 +41,14 @@ public with sharing class AttendanceCreatorService {
         // Leave check
         Set<Id> onLeaveEmpIds = new Set<Id>();
         for (Case c : [
-            SELECT Employee__c
+            SELECT Employeem__c
             FROM Case
-            WHERE Employee__c IN :empIds
+            WHERE Employeem__c IN :empIds
               AND Start_Date__c <= :targetDate
               AND End_Date__c >= :targetDate
               AND Leave_Status__c = 'Approved'
         ]) {
-            onLeaveEmpIds.add(c.Employee__c);
+            onLeaveEmpIds.add(c.Employeem__c);
         }
 
         List<Attendance__c> attendanceToInsert = new List<Attendance__c>();
