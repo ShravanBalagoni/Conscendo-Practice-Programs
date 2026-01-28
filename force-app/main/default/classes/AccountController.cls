@@ -94,4 +94,8 @@ public with sharing class AccountController {
             throw new AuraHandledException('Error: ' + e.getMessage());
         }
     }
+    @AuraEnabled(cacheable=true)
+    public static List<Account> getAccounts() {
+        return [SELECT Id, Name, Phone, Type FROM Account LIMIT 10];
+    }
 }
