@@ -1,3 +1,11 @@
 <template>
-    
+    <c-custom-data-type
+    key-field="Id"
+    data = {displayData}
+    columns={columns}
+    draft-values={draftValues}
+    onsave={handleSave}
+    hide-checkbox-column
+    >
+</c-custom-data-type>
 </template>
