@@ -1,0 +1,32 @@
+<template>
+    <lightning-card title="Account Dashboard - Subscriber" icon-name="standard:account" variant="base">
+      <div class="slds-m-around_medium">
+        <div class="slds-grid slds-wrap slds-gutters">
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                  <h3 class="slds-text-heading_small slds-m-bottom_small">accountName</h3>
+                <div class="slds-text-body_large">
+                    <strong>Total Contacts: {contactCount} </strong>
+                </div>
+                <lightning-progress-bar 
+                  value={contactCount} 
+                  size="large"
+                  max="50"
+                  class="slds-m-top_small">
+                ></lightning-progress-bar>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                <div class="slds-text-color_success slds-text-heading_medium">
+                        ✅ LIVE: Waiting for Contact updates...
+                    </div>
+                    <template if:true={lastMessage}>
+                        <div class="slds-m-top_medium">
+                            <p><strong>Last Update:</strong> {lastMessage.action}</p>
+                            <p><strong>Account:</strong> {lastMessage.accountId}</p>
+                            <p><strong>Count:</strong> {lastMessage.newTotal}</p>
+                        </div>
+                    </template>
+            </div>
+        </div>
+      </div>
+    </lightning-card>
+</template>
