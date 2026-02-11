@@ -68,4 +68,18 @@ public  class AccountTriggerHandler {
             update toUpdateCaseList;
         }
     }
+
+    public static void doSyncPhone(set<Id> accIds , Map<Id,Account> newAccMap){
+        List<Contact> toUpdateConList = new List<Contact>();
+        for(Contact con:[Select Id,AccountId,Description from Contact Where AccountId IN:accIds]){
+            Account currentAcc = newAccMap.get(con.AccountId);
+            if(currentAcc.Phone!=null){
+                con.Description = currentAcc.Phone;
+            }
+            toUpdateConList.add(con);
+        }
+        if(!toUpdateConList.isEmpty()){
+            update toUpdateConList;
+        }
+    }
 }

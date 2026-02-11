@@ -89,6 +89,39 @@ public static void UpdateCaseDesc(List<Contact>conList,Map<Id,Contact>conMap){
         }
 
     }
+
+public static void doCalculateRelatedContacts(List<Contact> consList, Map<Id,Contact> oldConsMap){
+    Set<Id> accIdSet = new Set<Id>();
+    for(Contact con:consList){
+        if(oldConsMap==null && con.AccountId!=null){
+            accIdSet.add(con.AccountId);
+        }
+        else if(oldConsMap!=null && con.AccountId!=null){
+            Contact oldCon = oldConsMap.get(con.Id);
+            if(oldCon.AccountId!=con.AccountId){
+                if(con.AccountId!=null){
+                    accIdSet.add(con.AccountId);
+                }
+                if(oldCon.AccountId!=null){
+                    accIdSet.add(oldCon.AccountId);
+                }
+            }
+        }
+    }
+
+    List<Account> toUpdateAccList = [Select Id,(Select Id from Contacts) 
+                                        from Account 
+                                        WHERE Id IN :accIdSet];
+    for(Account acc:toUpdateAccList)
+    {
+
+    acc.Total_No_of_Related_Contacts__c = acc.Contacts.size();
+        }
+
+        if (!accountsToUpdate.isEmpty()) {
+            update accountsToUpdate;
+        }
+}
 }
 
 
