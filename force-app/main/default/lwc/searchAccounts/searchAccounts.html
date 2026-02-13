@@ -1,0 +1,40 @@
+<template>
+    <lightning-card icon-name="standard:account" variant="Narrow" label="Accounts">
+      <div class="slds-m-around_large">
+        <lightning-input 
+          type="text"
+          label="Search Account"
+          value={searchKey}
+          onchange={handleChange}
+        ></lightning-input>
+        <lightning-button 
+          variant="brand-outline"
+          label="Search Accounts" 
+          onclick={handleClick} 
+        ></lightning-button>
+
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading Accounts" 
+                size="medium">
+            </lightning-spinner>
+        </template>
+
+        <template if:true={accounts}>
+            <template if:true={accounts.length}>
+                <template for:each={accounts} for:item="account">
+                    <p key={account.Id}>
+                        <b>{account.Name}</b><br/>
+                        <b>{account.Phone}</b><br/>
+                        <b>{account.Rating}</b><br/><br/>
+                    </p>
+                </template>
+            </template>
+        </template>
+
+        <template if:true={errors}>
+            <p class="slds-text-color_error">Error Loading Contacts.</p>
+        </template>
+
+      </div>
+    </lightning-card>
+</template>
