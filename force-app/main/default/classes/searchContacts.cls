@@ -7,17 +7,15 @@ public with sharing class searchContacts {
         String key = '%' + searchKey + '%';
         return [SELECT Id, Name, Email, Phone FROM Contact WHERE Name LIKE :key LIMIT 20];
     }
-
-    @AuraEnabled(cacheable=true)
-    public static Map<String,Object> getContactsPg(String searchKey,Integer pageNumber){
-        Integer offset = (pageNumber -1) * 5;
-        String searchTerm = '%'+searchKey+'%';
-        List<Account> accounts = [SELECT Id,Name,Rating,Phone from Account 
-                                    Where Name LIKE:searchTerm 
-                                    LIMIT 5 OFFSET :offset];
-        return new Map<String,Object>{
-            'accounts'=>accounts
-        };
     
+    @AuraEnabled(cacheable=true)
+    public static List<Contact> getContactsPg(Integer pageNumber, Integer pageSize) {
+        Integer offsetVal = (pageNumber - 1) * pageSize;
+        return [
+            SELECT Id, Name, Email, Phone 
+            FROM Contact 
+            ORDER BY Name 
+            LIMIT :pageSize OFFSET :offsetVal
+        ];
     }
 } 

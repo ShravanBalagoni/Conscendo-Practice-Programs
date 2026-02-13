@@ -1,40 +1,63 @@
 import { LightningElement, track } from 'lwc';
 import getContactsPg from '@salesforce/apex/searchContacts.getContactsPg';
+
 export default class PaginationCmp extends LightningElement {
-    @track searchKey = '';
-    @track contacts =[];
-    @track pageNumber = 1;
+    @track contacts = [];
+    @track isLoading = false;
+    
+    pageNumber = 1;
+    pageSize = 10;
 
-    handleKeyChange(event){
-        this.searchKey = event.target.value;
+    // ✅ Datatable columns - PERFECT syntax
+    columns = [
+        { label: 'Name', fieldName: 'Name', type: 'text' },
+        { label: 'Email', fieldName: 'Email', type: 'email' },
+        { label: 'Phone', fieldName: 'Phone', type: 'phone' }
+    ];
+
+    connectedCallback() {
+        this.loadPage();
     }
 
-    handleSearch(){
-        this.pageNumber = 1;
-        this.searchPage();
+    loadPage() {
+        this.isLoading = true;
+        getContactsPg({ pageNumber: this.pageNumber, pageSize: this.pageSize })
+            .then(result => {
+                this.contacts = result || [];
+                console.log('Loaded page:', this.pageNumber, 'Contacts:', this.contacts.length);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            })
+            .finally(() => {
+                this.isLoading = false;
+            });
     }
 
-    searchPage(){
-        getContactsPg({searchKey:this.searchKey,pageNumber:this.pageNumber})
-        .then(result=>{
-            this.contacts = result.contacts;
-            console.log('Page', this.pageNumber,':',this.contacts);
-        })
-        .catch(error=>{
-            console.error('Error:',error);
-        });
+    // ✅ GETTERS - Move ALL logic here (LWC HTML requirement)
+    get isFirstPage() {
+        return this.pageNumber === 1;
     }
 
-    goNext(){
-        this.pageNumber++;
-        this.searchPage();
+    get isLastPage() {
+        return this.contacts.length < this.pageSize;
     }
 
-    goPrevious(){
-        if(this.pageNumber > 1){
+    get hasContacts() {
+        return this.contacts && this.contacts.length > 0;
+    }
+
+    goPrevious() {
+        if (!this.isFirstPage) {
             this.pageNumber--;
-            this.searchPage();
+            this.loadPage();
         }
     }
 
+    goNext() {
+        if (!this.isLastPage) {
+            this.pageNumber++;
+            this.loadPage();
+        }
+    }
 }

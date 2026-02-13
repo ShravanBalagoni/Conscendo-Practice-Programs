@@ -1,18 +1,33 @@
 <template>
-    <lightning-input value={searchKey} onchange={handleKeyChange}></lightning-input>
-    <lightning-button label="Search" onclick={handleSearch}></lightning-button>
+    <lightning-card title="Contacts" icon-name="standard:contact">
+        <div class="slds-p-around_medium">
+            
+            <!-- Loading -->
+            <template if:true={isLoading}>
+                <lightning-spinner size="small"></lightning-spinner>
+            </template>
 
-    <div class="slds-m-top_medium">
-        <lightning-button label="Previous" onclick={goPrevious}>
-        </lightning-button>
-        <span> Page pageNumber</span>
-        <lightning-button 
-          label="Next" 
-          onclick={goNext} 
-        ></lightning-button>
-    </div>
+            <!-- Table -->
+            <template if:true={hasContacts}>
+                <lightning-datatable
+                    key-field="Id"
+                    data={contacts}
+                    columns={columns}
+                    hide-checkbox-column>
+                </lightning-datatable>
+            </template>
 
-    <template for:each={accounts} for:item="acc">
-        <p key={acc.Id}>{acc.Name}  -  {acc.Email}</p>
-    </template>
+            <!-- No Data -->
+            <template if:false={hasContacts}>
+                <p class="slds-text-color_weak">No contacts</p>
+            </template>
+
+            <!-- Pagination - NO DISABLED ATTRIBUTES -->
+            <div class="slds-m-top_medium slds-text-align_center">
+                <lightning-button label="Previous" onclick={goPrevious}></lightning-button>
+                <span class="slds-m-horizontal_small">Page {pageNumber}</span>
+                <lightning-button label="Next" onclick={goNext}></lightning-button>
+            </div>
+        </div>
+    </lightning-card>
 </template>
