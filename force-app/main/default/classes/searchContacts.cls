@@ -12,11 +12,11 @@ public with sharing class searchContacts {
     public static Map<String,Object> getContactsPg(String searchKey,Integer pageNumber){
         Integer offset = (pageNumber -1) * 5;
         String searchTerm = '%'+searchKey+'%';
-        List<Contact> contacts = [SELECT Id,Name,Email,Phone from Contact 
+        List<Account> accounts = [SELECT Id,Name,Rating,Phone from Account 
                                     Where Name LIKE:searchTerm 
                                     LIMIT 5 OFFSET :offset];
         return new Map<String,Object>{
-            'contacts'=>contacts
+            'accounts'=>accounts
         };
     
     }
