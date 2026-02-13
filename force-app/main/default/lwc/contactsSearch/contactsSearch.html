@@ -1,0 +1,35 @@
+<template>
+    <lightning-input label="Search Contacts"
+                        value={searchKey}
+                        onchange={handleKeyChange}>
+    </lightning-input>
+
+    <lightning-button 
+      variant="brand"
+      label="Search " 
+      onclick={handleSearch} 
+    ></lightning-button>
+    <template if:true={isLoading}>
+        <lightning-spinner 
+          alternative-text="Loading" 
+          size="medium"
+          variant="base"
+        ></lightning-spinner>
+
+    </template>
+    <template if:true={contacts}>
+        <template if:true={contacts.length}>
+            <template for:each={contacts} for:item="con">
+                <p key={con.Id}>
+                    <b>{con.Name}</b><br/>
+                    <b>{con.Email}</b><br/>
+                    <b>{con.Phone}</b><br/><br/>
+                </p>
+            </template>
+        </template>
+
+        <template if:true={error}>
+            <p class="slds-text-color_error">Error Loading Contacts</p>
+        </template>
+    </template>
+</template>
