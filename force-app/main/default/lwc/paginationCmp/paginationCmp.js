@@ -5,7 +5,7 @@ export default class PaginationCmp extends LightningElement {
     @track contacts = [];
     @track isLoading = false;
     
-    pageNumber = 1;
+    pageNumber = 3;
     pageSize = 10;
 
     // ✅ Datatable columns - PERFECT syntax
