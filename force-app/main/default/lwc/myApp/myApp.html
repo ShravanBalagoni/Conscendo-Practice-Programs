@@ -1,0 +1,12 @@
+<template>
+    <lightning-card title="Modal Demo">
+        <lightning-button
+            label="Open My Modal"
+            variant="brand"
+            onclick={handleOpenModal}>
+        </lightning-button>
+        <template if:true={result}>
+            <p>Modal closed with: <strong>{result}</strong></p>
+        </template>
+    </lightning-card>
+</template>
