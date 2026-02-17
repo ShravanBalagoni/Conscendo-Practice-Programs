@@ -1,0 +1,44 @@
+<template>
+    <lightning-modal-header label=" 📋 Record Account Decision">
+        <lightning-layout>
+            <lightning-layout-item padding="around-small">
+                <h2 slot="title" class="slds-text-heading_medium">
+                    Decision for: {recordLabel}
+                </h2>
+            </lightning-layout-item>
+        </lightning-layout>
+    </lightning-modal-header>
+    <lightning-modal-body>
+        <div class="slds-grid slds-gutters slds-wrap">
+            <template for:each={options} for:item="option">
+                <div key={option.id} class="slds-col slds-size_1-of-2 slds-p-around_x-small">
+                    <lightning-button
+                        class="slds-button_brand slds-size_full"
+                        onclick={handleOptionClick}
+                        data-id={option.id}
+                        label={option.label}
+                        disabled={isLoading}
+                        variant="brand">
+                        
+                    </lightning-button> 
+                </div>
+            </template>
+        </div>
+        <div class="slds-m-top_large">
+            <lightning-textarea
+                label="Add Comment (Optional)"
+                value={userComment}
+                onchange={handleInputChange}
+                disabled={isLoading}
+                placeholder="Enter any additional notes..."
+                rows="3">
+            </lightning-textarea>
+        </div>
+    </lightning-modal-body>
+    <lightning-modal-footer>
+        <lightning-button label="Cancel" onclick={handleCancel} disabled={isLoading}></lightning-button>
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Saving decision..." size="small"></lightning-spinner>
+        </template>
+    </lightning-modal-footer>
+</template>
