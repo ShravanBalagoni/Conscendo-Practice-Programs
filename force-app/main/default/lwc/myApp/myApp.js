@@ -10,14 +10,18 @@ export default class MyApp extends LightningElement {
     }
 
     async handleOpenModal() {
+        console.log('Modal is Opened');
         const result = await MyModal.open({
-            size: 'medium',
+            size: 'large',
             description: 'Choose an option from the modal',
-            options: [
-                { id: 'yes', label: 'Yes' },
-                { id: 'no', label: 'No' }
-            ]
+          /*  options: [
+                { id: 'yes', label: 'True' },
+                { id: 'no', label: 'False' }
+            ]*/
         });
         this.result = result;
+        console.log('Result:'+result);
+        console.log('Modal is Closed');
     }
+    
 }

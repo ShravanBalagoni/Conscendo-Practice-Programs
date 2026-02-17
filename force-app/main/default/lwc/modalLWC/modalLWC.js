@@ -8,6 +8,7 @@ export default class ModalLWC extends LightningModal {
 
     handleOptionClick(event) {
         const id = event.target.dataset.id;
-        this.close(id);
+        const label = event.target.dataset.label
+        this.close(id,label);
     }
 }
