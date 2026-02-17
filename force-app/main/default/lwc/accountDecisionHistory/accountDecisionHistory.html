@@ -1,0 +1,55 @@
+<template>
+    <div class="decision-history">
+        <div class="slds-p-around_medium">
+            <h3 class="slds-text-heading_small slds-m-bottom_small">
+                📋 Recent Decisions
+                <template if:true={recentTasks}>
+                    <span class="slds-badge slds-theme_shade">({recentTasks.length})</span>
+                </template>
+            </h3>
+            
+            <template if:true={recentTasks}>
+                <div class="slds-box slds-theme_shade">
+                    <template for:each={recentTasks} for:item="task">
+                        <article key={task.Id} class="slds-comment slds-p-around_medium slds-border_bottom">
+                            <header class="slds-grid slds-grid_align-spread slds-has-flexi-truncate">
+                                <p class="slds-truncate" title={task.Subject}>{task.Subject}</p>
+                                <p class="slds-text-body_small slds-text-color_weak">
+                                    {task.CreatedBy.Name}
+                                </p>
+                            </header>
+                            <div class="slds-grid slds-wrap slds-gutters">
+                                <div class="slds-col slds-size_1-of-3">
+                                    <span class="slds-badge slds-theme_success">{task.Status}</span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-3">
+                                    <span class="slds-badge slds-theme_info">{task.Priority}</span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-3 slds-text-align_right">
+                                    <lightning-formatted-date-time 
+                                        value={task.CreatedDate} 
+                                        year="numeric" month="short" day="numeric">
+                                    </lightning-formatted-date-time>
+                                </div>
+                            </div>
+                        </article>
+                    </template>
+                </div>
+            </template>
+            
+            <template if:false={recentTasks}>
+                <div class="slds-box slds-theme_shade slds-text-align_center slds-p-around_large">
+                    <lightning-icon icon-name="action:add" alternative-text="No decisions" size="small" class="slds-m-right_x-small"></lightning-icon>
+                    <strong>No decisions recorded yet.</strong><br/>
+                    Use the "Record Decision" button above to get started!
+                </div>
+            </template>
+            
+            <template if:true={error}>
+                <div class="slds-notify slds-notify_alert slds-theme_error slds-m-top_medium">
+                    Error loading history: {error}
+                </div>
+            </template>
+        </div>
+    </div>
+</template>

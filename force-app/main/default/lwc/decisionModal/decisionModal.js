@@ -1,16 +1,16 @@
-import { LightningElement } from 'lwc';
+import LightningModal from 'lightning/modal'
 import {api} from 'lwc';
 import createAccountDecision from '@salesforce/apex/AccountDecisionService.createAccountDecision';
 import {ShowToastEvent} from 'lightning/platformShowToastEvent';
 
-export default class DecisionModal extends LightningElement {
+export default class DecisionModal extends LightningModal {
     @api recordId;
     @api recordLabel;
 
     options = [
         {id:'Approved', label:' Approved'},
         {id:'Rejected',label:' Rejected'},
-        { id: 'Hold', label: '⏸ On Hold' },
+        { id: 'Hold', label: ' On Hold' },
         { id: 'Escalated', label: ' Escalated' }
     ];
 
