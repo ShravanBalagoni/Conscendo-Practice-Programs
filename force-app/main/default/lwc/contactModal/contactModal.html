@@ -1,0 +1,258 @@
+<template>
+    <template if:true={isVisible}>
+
+        <!-- BACKDROP -->
+        <div class={backdropClass} onclick={handleBackdropClick}></div>
+
+        <!-- MODAL OVERLAY -->
+        <div class="modal-overlay">
+            <div class={modalClass} role="dialog" aria-modal="true" aria-labelledby="modal-title">
+
+                <!-- ══════════════ HEADER ══════════════ -->
+                <div class="modal-header">
+                    <div class="modal-header-left">
+                        <div class={headerIconClass}>
+                            <lightning-icon icon-name={headerIcon} size="small"></lightning-icon>
+                        </div>
+                        <div>
+                            <h2 id="modal-title" class="modal-title">{modalTitle}</h2>
+                            <p class="modal-subtitle">{modalSubtitle}</p>
+                        </div>
+                    </div>
+                    <button class="close-btn" onclick={handleClose} title="Close">
+                        <lightning-icon icon-name="utility:close" size="x-small"></lightning-icon>
+                    </button>
+                </div>
+
+                <!-- ══════════════ BODY ══════════════ -->
+                <div class="modal-body">
+
+                    <!-- Loading Spinner -->
+                    <template if:true={isLoading}>
+                        <div class="loader">
+                            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                            <p class="loader-text">Loading contact...</p>
+                        </div>
+                    </template>
+
+                    <!-- ── VIEW MODE ── -->
+                    <template if:true={isViewMode}>
+                        <template if:false={isLoading}>
+                            <div class="view-grid">
+                                <div class="view-field">
+                                    <span class="view-label">First Name</span>
+                                    <span class="view-value">{selectedContact.FirstName}</span>
+                                </div>
+                                <div class="view-field">
+                                    <span class="view-label">Last Name</span>
+                                    <span class="view-value">{selectedContact.LastName}</span>
+                                </div>
+                                <div class="view-field">
+                                    <span class="view-label">Email</span>
+                                    <span class="view-value">
+                                        <a href={emailHref} class="view-link">{selectedContact.Email}</a>
+                                    </span>
+                                </div>
+                                <div class="view-field">
+                                    <span class="view-label">Phone</span>
+                                    <span class="view-value">{selectedContact.Phone}</span>
+                                </div>
+                                <div class="view-field">
+                                    <span class="view-label">Title</span>
+                                    <span class="view-value">{selectedContact.Title}</span>
+                                </div>
+                                <div class="view-field">
+                                    <span class="view-label">Department</span>
+                                    <span class="view-value">{selectedContact.Department}</span>
+                                </div>
+                                <div class="view-field">
+                                    <span class="view-label">Lead Source</span>
+                                    <span class="view-value">{selectedContact.LeadSource}</span>
+                                </div>
+                                <div class="view-field">
+                                    <span class="view-label">Account</span>
+                                    <span class="view-value">{selectedContact.Account.Name}</span>
+                                </div>
+                            </div>
+                        </template>
+                    </template>
+
+                    <!-- ── CREATE / EDIT FORM ── -->
+                    <template if:true={isFormMode}>
+                        <template if:false={isLoading}>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label" for="firstName">First Name</label>
+                                    <input
+                                        type="text" id="firstName"
+                                        class="form-input"
+                                        placeholder="First Name"
+                                        value={formData.firstName}
+                                        data-field="firstName"
+                                        onchange={handleInputChange}
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="lastName">
+                                        Last Name <span class="req">*</span>
+                                    </label>
+                                    <input
+                                        type="text" id="lastName"
+                                        class={lastNameClass}
+                                        placeholder="Last Name"
+                                        value={formData.lastName}
+                                        data-field="lastName"
+                                        onchange={handleInputChange}
+                                        onblur={handleBlur}
+                                    />
+                                    <template if:true={errors.lastName}>
+                                        <span class="form-error">{errors.lastName}</span>
+                                    </template>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label" for="email">
+                                        Email <span class="req">*</span>
+                                    </label>
+                                    <input
+                                        type="email" id="email"
+                                        class={emailClass}
+                                        placeholder="email@company.com"
+                                        value={formData.email}
+                                        data-field="email"
+                                        onchange={handleInputChange}
+                                        onblur={handleBlur}
+                                    />
+                                    <template if:true={errors.email}>
+                                        <span class="form-error">{errors.email}</span>
+                                    </template>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="phone">Phone</label>
+                                    <input
+                                        type="tel" id="phone"
+                                        class="form-input"
+                                        placeholder="+1 (555) 000-0000"
+                                        value={formData.phone}
+                                        data-field="phone"
+                                        onchange={handleInputChange}
+                                    />
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label" for="title">Title</label>
+                                    <input
+                                        type="text" id="title"
+                                        class="form-input"
+                                        placeholder="e.g. Business Analyst"
+                                        value={formData.title}
+                                        data-field="title"
+                                        onchange={handleInputChange}
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="department">Department</label>
+                                    <input
+                                        type="text" id="department"
+                                        class="form-input"
+                                        placeholder="e.g. Sales"
+                                        value={formData.department}
+                                        data-field="department"
+                                        onchange={handleInputChange}
+                                    />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="leadSource">Lead Source</label>
+                                <select
+                                    id="leadSource"
+                                    class="form-select"
+                                    value={formData.leadSource}
+                                    data-field="leadSource"
+                                    onchange={handleInputChange}>
+                                    <option value="">-- None --</option>
+                                    <option value="Web">Web</option>
+                                    <option value="Phone Inquiry">Phone Inquiry</option>
+                                    <option value="Partner Referral">Partner Referral</option>
+                                    <option value="Internal">Internal</option>
+                                    <option value="Employee Referral">Employee Referral</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </template>
+                    </template>
+
+                    <!-- ── DELETE CONFIRM ── -->
+                    <template if:true={isDeleteMode}>
+                        <div class="confirm-body">
+                            <div class="confirm-icon-wrap">
+                                <lightning-icon icon-name="utility:delete" size="large" class="icon-red"></lightning-icon>
+                            </div>
+                            <h3 class="confirm-title">Delete this Contact?</h3>
+                            <p class="confirm-msg">
+                                You are about to permanently delete
+                                <strong>{selectedContact.FirstName} {selectedContact.LastName}</strong>.
+                                This action cannot be undone.
+                            </p>
+                        </div>
+                    </template>
+
+                </div>
+
+                <!-- ══════════════ FOOTER ══════════════ -->
+                <div class="modal-footer">
+                    <div class="footer-left">
+                        <template if:true={isEditMode}>
+                            <span class="footer-hint">Editing: {selectedContact.FirstName} {selectedContact.LastName}</span>
+                        </template>
+                    </div>
+                    <div class="footer-right">
+                        <button class="footer-btn btn-cancel" onclick={handleClose} disabled={isSubmitting}>
+                            Cancel
+                        </button>
+
+                        <!-- View Mode → Edit button -->
+                        <template if:true={isViewMode}>
+                            <button class="footer-btn btn-primary" onclick={switchToEdit}>
+                                <lightning-icon icon-name="utility:edit" size="xx-small"></lightning-icon>
+                                Edit
+                            </button>
+                        </template>
+
+                        <!-- Create / Edit → Save button -->
+                        <template if:true={isFormMode}>
+                            <button class="footer-btn btn-primary" onclick={handleSave} disabled={isSubmitting}>
+                                <template if:true={isSubmitting}>
+                                    <span class="btn-spinner"></span>
+                                </template>
+                                <template if:false={isSubmitting}>
+                                    <lightning-icon icon-name="utility:save" size="xx-small"></lightning-icon>
+                                </template>
+                                {saveLabel}
+                            </button>
+                        </template>
+
+                        <!-- Delete → Confirm button -->
+                        <template if:true={isDeleteMode}>
+                            <button class="footer-btn btn-danger" onclick={handleDelete} disabled={isSubmitting}>
+                                <template if:true={isSubmitting}>
+                                    <span class="btn-spinner"></span>
+                                </template>
+                                <template if:false={isSubmitting}>
+                                    <lightning-icon icon-name="utility:delete" size="xx-small"></lightning-icon>
+                                </template>
+                                Yes, Delete
+                            </button>
+                        </template>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </template>
+</template>
