@@ -1,0 +1,26 @@
+<template>
+    <div class="child-container">
+        <p><b>Hello I am Child Component</b></p>
+        <p>Message from Parent:<b>{childReceiverVar}</b></p>
+        <p>Button Clicked: <b>{clickCount}</b></p>
+    
+        <lightning-input
+            label="Type your message"
+            value={childInput}
+            onchange={handleInput}>
+        </lightning-input>
+
+        <lightning-button
+            variant="success"
+            label="Send to Parent"
+            onclick={fireEventAction}
+            style="margin-top:10px">
+        </lightning-button>
+        <lightning-button
+            variant="destructive"
+            label="Reset"
+            onclick={handleReset}
+            style="margin-top:10px; margin-left:5px">
+        </lightning-button>
+    </div>
+</template>
