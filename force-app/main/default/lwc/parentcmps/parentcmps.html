@@ -1,3 +1,46 @@
 <template>
+    <div class="parent-container">
+        <p><b>Hello I am Parent Component</b></p>
+        
+        <p>Total Messages Received: <b>{totalMessages}</b></p>
     
+        <lightning-input
+            label="Send message to Child"
+            value={parentInput}
+            onchange={handleParentInput}>
+        </lightning-input>
+        
+        <lightning-button
+            variant="brand"
+            label="Send to Child"
+            onclick={sendToChild}
+            style="margin-top:10px">
+        </lightning-button>
+
+        <lightning-button
+            variant="neutral"
+            label="Reset Everything"
+            onclick={resetEverything}
+            style="margin-top:10px; margin-left:5px">
+        </lightning-button>
+
+        <hr/>
+
+        <template if:true={messageList.length}>
+            <p><b>Message History from Child:</b></p>
+            <template for:each={messageList} for:item="msg">
+                <p key={msg.id}>
+                    #{msg.id} - {msg.text}
+                </p>
+            </template>
+        </template>
+
+        <hr/>
+
+        <c-childcmps 
+            child-receiver-var={parentMessage}
+            onchildevent={handleeventAction}
+            onchildreset={handleChildReset}>
+        </c-childcmps>
+    </div>
 </template>
